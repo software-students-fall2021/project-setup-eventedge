@@ -5,7 +5,7 @@
 ### Team Values:
 * When facing any roadblocks ask for help ASAP to meet deadlines
 * When there is a conflict we will vote among the 5 of us
-* If a group member is not delivering obligations, we will give them warnings and then notify the stakeholders
+  * If a group member is not delivering obligations, we will give them warnings and then notify the stakeholders
 * Respond to directed messages within a day
 
 ### Sprint Cadence
@@ -24,9 +24,9 @@
 ## A detailed description of the rules of contributing / PULL REQUEST guidelines
 * Always make a PR for a feature
 * Never merge PR before at least one review has been made
-* With each PR, please include a description of the changes:
-* Which task/spike does the PR refer to (issue number)
-* What changes have been made
+ * With each PR, please include a description of the changes:
+  * Which task/spike does the PR refer to (issue number)
+  * What changes have been made
 * Review other open PRs if they are not yet reviewed
 * Commit titles should be of the following format: `“Add feature”`, `“Change something”` and etc.
 * Make sure you format the files before opening a PR by running `npm run format`
