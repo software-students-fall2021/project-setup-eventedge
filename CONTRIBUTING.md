@@ -24,7 +24,7 @@
 ## A detailed description of the rules of contributing / PULL REQUEST guidelines
 * Always make a PR for a feature
 * Never merge PR before at least one review has been made
- * With each PR, please include a description of the changes:
+* With each PR, please include a description of the changes:
   * Which task/spike does the PR refer to (issue number)
   * What changes have been made
 * Review other open PRs if they are not yet reviewed
