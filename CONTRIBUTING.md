@@ -31,9 +31,9 @@
 * Commit titles should be of the following format: `“Add feature”`, `“Change something”` and etc.
 * Make sure you format the files before opening a PR by running `npm run format`
 
-## instructions for setting up the local development environment in order to work on this project
-* TBD
+## Instructions for setting up the local development environment
+* _TBD_
 
-## instructions for building and testing the project (update with that information once the project reaches that stage)
-*  TBD
+## Instructions for building and testing the project
+* _TBD_
 
