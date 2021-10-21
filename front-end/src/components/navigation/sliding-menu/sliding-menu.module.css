@@ -1,13 +1,13 @@
 .slidingMenu {
-	position: absolute;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: #ecf0f1;
-	z-index: 2000;
-	padding: 20px;
-	transform: translateX(-100%);
-	animation: slide-in 0.5s forwards;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ecf0f1;
+  z-index: 2000;
+  padding: 20px;
+  transform: translateX(-100%);
+  animation: slide-in 0.5s forwards;
   -webkit-animation: slide-in 0.5s forwards;
 }
 
@@ -15,11 +15,15 @@
   animation: slide-in 0.5s forwards;
   -webkit-animation: slide-in 0.5s forwards;
 }
-  
+
 @keyframes slide-in {
-  100% { transform: translateX(0%); }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 @-webkit-keyframes slide-in {
-  100% { -webkit-transform: translateX(0%); }
+  100% {
+    -webkit-transform: translateX(0%);
+  }
 }
