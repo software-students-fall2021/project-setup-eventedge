@@ -2,13 +2,14 @@
   width: 100%;
   height: 60px;
   background-color: #34495e;
-  /* position: fixed; */
+  position: fixed;
   margin: 0;
   display: flex;
   justify-content: space-between;
   padding: 10px;
   align-items: center;
   color: white;
+  z-index: 1000;
 }
 
 .navigationStrip > a {
@@ -19,4 +20,22 @@
 
 .navigationStrip > a:hover {
   text-decoration: underline;
+}
+
+.burgerButton {
+  margin-top: -5px;
+  overflow: hidden;
+  outline: none;
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 30px;
+  padding: 0px;
+  transition: 0.1s;
+}
+
+.burgerButton:hover {
+  color: gray;
+  transition: 0.1s;
 }
