@@ -7,7 +7,7 @@
         "eslint:recommended",
         "plugin:react/recommended",
         "standard",
-	"prettier"
+	    "prettier"
     ],
     "parserOptions": {
         "ecmaFeatures": {
