@@ -1,10 +1,12 @@
 import React from 'react';
-import './App.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {Navigation} from '../navigation';
+import './app.css';
 
-function App() {
+export const App = () => {
   return (
     <div className="App">
+    <Navigation />
       <Router>
         <Switch>
           <Route path="/" exact>
@@ -18,5 +20,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
