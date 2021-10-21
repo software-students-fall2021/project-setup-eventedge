@@ -15,7 +15,7 @@ export const Navigation = () => {
           ☰
         </button>
         <h1>EventEdge</h1>
-        <Link to="/">
+        <Link to="/login">
           <a>Login</a>
         </Link>
       </nav>
