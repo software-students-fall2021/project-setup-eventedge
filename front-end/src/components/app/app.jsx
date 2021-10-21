@@ -1,5 +1,10 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import {Navigation} from '../navigation';
 import {Footer} from '../footer';
 import {NotFound} from '../not-found';
