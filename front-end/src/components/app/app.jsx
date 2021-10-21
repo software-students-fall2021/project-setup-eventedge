@@ -1,7 +1,8 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import {Navigation} from '../navigation';
 import {Footer} from '../footer';
+import {NotFound} from '../not-found';
 import styles from './app.module.css';
 
 export const App = () => (
@@ -15,6 +16,10 @@ export const App = () => (
         <Route path="/other" exact>
           <h1>Other</h1>
         </Route>
+        <Route path="/404" exact>
+          <NotFound />
+        </Route>
+        <Redirect to="/404" />
       </Switch>
     </div>
     <Footer />
