@@ -6,8 +6,8 @@ import './app.css';
 export const App = () => {
   return (
     <div className="App">
-    <Navigation />
       <Router>
+        <Navigation />
         <Switch>
           <Route path="/" exact>
             <h1>Home</h1>
