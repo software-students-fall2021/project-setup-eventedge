@@ -10,6 +10,8 @@ import {Footer} from '../footer';
 import {NotFound} from '../not-found';
 import styles from './app.module.css';
 
+import {Modal} from '../modal';
+
 export const App = () => (
   <Router>
     <Navigation />
@@ -20,6 +22,7 @@ export const App = () => (
         </Route>
         <Route path="/other" exact>
           <h1>Other</h1>
+          <Modal title="Something">hello</Modal>
         </Route>
         <Route path="/404" exact>
           <NotFound />
