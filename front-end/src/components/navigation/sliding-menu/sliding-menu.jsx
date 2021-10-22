@@ -11,7 +11,7 @@ const LINKS = [
 export const SlidingMenu = React.memo(({close}) => {
   const mapLinks = LINKS.map(({name, href}) => (
     <Link key={name} to={href}>
-      <a className={styles.link}>{name}</a>
+      <a className={styles.link} onClick={close}>{name}</a>
     </Link>
   ));
 
