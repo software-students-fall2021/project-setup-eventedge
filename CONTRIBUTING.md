@@ -29,7 +29,7 @@
   * What changes have been made
 * Review other open PRs if they are not yet reviewed
 * Commit titles should be of the following format: `“Add feature”`, `“Change something”` and etc.
-* Make sure you format the files before opening a PR by running `npm run format`
+* Make sure you format the files before merging a PR by running `npm run format` and `npm run lint`
 
 ## Instructions for setting up the local development environment
 * _TBD_
