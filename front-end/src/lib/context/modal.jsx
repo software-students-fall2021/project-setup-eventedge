@@ -21,11 +21,5 @@ export const ModalContextProvider = ({children}) => {
 };
 
 export const useModalContext = () => {
-  const {visibleModals, hideModal, showModal} = useContext(ModalContext);
-
-  return {
-    visibleModals,
-    hideModal,
-    showModal,
-  };
+  return useContext(ModalContext);
 };
