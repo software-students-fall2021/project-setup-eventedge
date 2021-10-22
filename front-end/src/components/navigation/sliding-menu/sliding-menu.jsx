@@ -8,16 +8,16 @@ const LINKS = [
   {name: 'Events', href: '/events'},
 ];
 
-export const SlidingMenu = React.memo(({close}) => {
+export const SlidingMenu = React.memo(({onClose}) => {
   const mapLinks = LINKS.map(({name, href}) => (
     <Link key={name} to={href}>
-      <a className={styles.link} onClick={close}>{name}</a>
+      <a className={styles.link} onClick={onClose}>{name}</a>
     </Link>
   ));
 
   return (
     <div className={styles.slidingMenu}>
-      <button onClick={close} className={styles.closeButton}>
+      <button onClick={onClose} className={styles.closeButton}>
         ✕
       </button>
       {mapLinks}

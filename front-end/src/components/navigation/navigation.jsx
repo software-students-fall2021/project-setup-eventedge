@@ -6,12 +6,13 @@ import styles from './navigation.module.css';
 export const Navigation = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
-  const toggleIsMenuVisible = () => setIsMenuVisible((prev) => !prev);
+  const setIsMenuVisibleToTrue = () => setIsMenuVisible(true)
+  const setIsMenuVisibleToFalse = () => setIsMenuVisible(false)
 
   return (
     <>
       <nav className={styles.navigationStrip}>
-        <button className={styles.burgerButton} onClick={toggleIsMenuVisible}>
+        <button className={styles.burgerButton} onClick={setIsMenuVisibleToTrue}>
           ☰
         </button>
         <h1>EventEdge</h1>
@@ -19,7 +20,7 @@ export const Navigation = () => {
           <a>Login</a>
         </Link>
       </nav>
-      {isMenuVisible && <SlidingMenu close={toggleIsMenuVisible} />}
+      {isMenuVisible && <SlidingMenu onClose={setIsMenuVisibleToFalse} />}
     </>
   );
 };
