@@ -8,7 +8,7 @@ export const Event = () => {
 
       <div className={styles.container}>
         <div className={styles.box}>
-          <p>Name: Lorem Ipsum</p>
+          <p>Name: Loreeem Ipsum</p>
           <p>Date/Time: 2000/01/01</p>
         </div>
 
