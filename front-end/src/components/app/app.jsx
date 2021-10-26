@@ -13,6 +13,7 @@ import {NotFound} from '../not-found';
 import styles from './app.module.css';
 import {ModalContextProvider} from '../../lib/context/modal';
 import {ModalRegistry} from '../modal-registry';
+// import {Events} from '../events';
 
 export const App = () => (
   <ModalContextProvider>
