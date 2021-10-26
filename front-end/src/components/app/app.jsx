@@ -6,6 +6,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import {Navigation} from '../navigation';
+import {Register} from '../register';
 import {Footer} from '../footer';
 import {NotFound} from '../not-found';
 import styles from './app.module.css';
@@ -21,6 +22,9 @@ export const App = () => (
         <Switch>
           <Route path="/" exact>
             <h1>Home</h1>
+          </Route>
+          <Route path="/register" exact>
+            <Register />
           </Route>
           <Route path="/other" exact>
             <h1>Other</h1>
