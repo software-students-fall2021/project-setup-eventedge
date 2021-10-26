@@ -1,1 +1,1 @@
-export {ModalRegistry} from './modal-registry';
+export {ModalRegistry, REGISTERED_MODALS} from './modal-registry';

@@ -1,5 +1,5 @@
 .modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -11,6 +11,8 @@
 
 .modalContainer {
   padding: 10px;
+  overflow: scroll;
+  height: calc(100vh - 50px);
 }
 
 .modalHeader {
