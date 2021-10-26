@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './event.module.css';
 
-export const Event = () => {
+export const Events = () => {
   return (
     <React.Fragment>
       <button className={styles.pendingButton}>Pending Events</button>
