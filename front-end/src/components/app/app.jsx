@@ -11,6 +11,7 @@ import {NotFound} from '../not-found';
 import styles from './app.module.css';
 import {ModalContextProvider} from '../../lib/context/modal';
 import {ModalRegistry} from '../modal-registry';
+import {ModalsTest} from '../modals-test';
 
 export const App = () => (
   <ModalContextProvider>
@@ -24,6 +25,9 @@ export const App = () => (
           </Route>
           <Route path="/other" exact>
             <h1>Other</h1>
+          </Route>
+          <Route path="/modals-test" exact>
+            <ModalsTest />
           </Route>
           <Route path="/404" exact>
             <NotFound />
