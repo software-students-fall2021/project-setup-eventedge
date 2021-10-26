@@ -9,10 +9,10 @@ export const ModalsTest = () => {
   return (
     <>
       <h2>Modals test screen</h2>
-      {REGISTERED_MODALS.map(({id}) => (
+      {Object.keys(REGISTERED_MODALS).map((key) => (
         <>
-          <button key={id} onClick={() => showModal(id)}>
-            {id}
+          <button key={key} onClick={() => showModal(key, {id: 10})}>
+            {key}
           </button>
           <br />
         </>
