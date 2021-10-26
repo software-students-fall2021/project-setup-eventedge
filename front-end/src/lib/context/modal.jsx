@@ -7,11 +7,14 @@ export const ModalContextProvider = ({children}) => {
 
   const hideModal = (modalId) =>
     setVisibleModals((prevVisibleModals) =>
-      prevVisibleModals.filter((visibleModalId) => visibleModalId !== modalId)
+      prevVisibleModals.filter((visibleModal) => visibleModal.id !== modalId)
     );
 
-  const showModal = (modalId) =>
-    setVisibleModals((prevVisibleModals) => [...prevVisibleModals, modalId]);
+  const showModal = (modalId, props = {}) =>
+    setVisibleModals((prevVisibleModals) => [
+      ...prevVisibleModals,
+      {id: modalId, props},
+    ]);
 
   return (
     <ModalContext.Provider value={{visibleModals, hideModal, showModal}}>

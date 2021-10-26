@@ -7,23 +7,31 @@ import {MembersList} from '../members-list';
 // for testing purposes. delete later
 const TestComp = () => <div>test</div>;
 
-// {id: string; component: () => React.Component}
-export const REGISTERED_MODALS = [
-  {id: 'test', title: 'Test', component: () => <TestComp />},
-  {id: 'membersList', title: 'Members list', component: () => <MembersList />},
-  {id: 'sendMessage', title: 'Send message', component: () => <SendMessage />},
-];
+const generator = (Component) => (props) => <Component {...props} />;
+
+// {[id: string]: component: () => React.Component}
+export const REGISTERED_MODALS = {
+  membersList: {title: 'Members list', component: MembersList},
+  test: {title: 'Test', component: TestComp},
+  sendMessage: {title: 'Send message', component: SendMessage},
+};
 
 export const ModalRegistry = () => {
   const {hideModal, visibleModals} = useModalContext();
 
   const closeModal = (id) => () => hideModal(id);
 
-  return REGISTERED_MODALS.filter(({id}) => visibleModals.includes(id)).map(
-    ({id, component, title}) => (
-      <Modal onClose={closeModal(id)} key={id} title={title}>
-        {component()}
-      </Modal>
-    )
+  return (
+    <>
+      {visibleModals.map(({id, props}) => {
+        const modal = REGISTERED_MODALS[id];
+
+        return (
+          <Modal onClose={closeModal(id)} key={id} title={modal.title}>
+            {generator(modal.component)(props)}
+          </Modal>
+        );
+      })}
+    </>
   );
 };
