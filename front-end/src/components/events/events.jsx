@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './event.module.css';
+import styles from './events.module.css';
 
 export const Events = () => {
   return (
