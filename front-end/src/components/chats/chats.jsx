@@ -1,11 +1,15 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {useChatService} from '../../lib/services/chat-service';
+import {useModalContext} from '../../lib/context/modal';
 import styles from './chats.module.css';
 
 export const Chats = () => {
   const {isLoading, isError, data} = useChatService.useChats();
+  const {showModal} = useModalContext();
   const [searchFilterWord, setSearchFilterWord] = useState('');
+
+  const showCreateGroupChatModal = () => showModal('createGroupChat');
 
   const onSearchChange = (event) =>
     setSearchFilterWord(event.target.value.toLowerCase().trim());
@@ -32,7 +36,9 @@ export const Chats = () => {
   return (
     <>
       <div className={styles.header}>
-        <button className={styles.plus}>+</button>
+        <button className={styles.plus} onClick={showCreateGroupChatModal}>
+          +
+        </button>
         <input className={styles.center} onChange={onSearchChange} />
       </div>
 
