@@ -9,6 +9,11 @@ export const Navigation = () => {
   const setIsMenuVisibleToTrue = () => setIsMenuVisible(true);
   const setIsMenuVisibleToFalse = () => setIsMenuVisible(false);
 
+  const logOut = () => {
+    localStorage.removeItem('username');
+    window.location = '/';
+  };
+
   return (
     <>
       <nav className={styles.navigationStrip}>
@@ -20,7 +25,13 @@ export const Navigation = () => {
         </button>
         <h1>EventEdge</h1>
         <Link to="/login">
-          <a>Login</a>
+          {localStorage.getItem('username') ? (
+            <a className={styles.link} onClick={logOut}>
+              Log Out
+            </a>
+          ) : (
+            <a>Login</a>
+          )}
         </Link>
         <Link to="/register">
           <a>Register</a>
