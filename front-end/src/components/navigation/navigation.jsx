@@ -33,9 +33,6 @@ export const Navigation = () => {
             <a>Login</a>
           )}
         </Link>
-        <Link to="/register">
-          <a>Register</a>
-        </Link>
       </nav>
       {isMenuVisible && <SlidingMenu onClose={setIsMenuVisibleToFalse} />}
     </>

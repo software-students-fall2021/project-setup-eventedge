@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
+import styles from './register.module.css';
 // import {Input} from '../input';
 //do I have to control  inputs' values?
+
 export const Register = () => {
   const [registrationInfo, setRegistrationInfo] = useState({
-    fName: '',
-    lName: '',
-    email: '',
-    confirmedEmail: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
   });
-  function handleChange(event) {
+
+  const onValueChange = (event) => {
     const {value, name} = event.target;
 
     setRegistrationInfo((prevValue) => {
@@ -18,45 +20,49 @@ export const Register = () => {
       };
     });
   }
-  function handleClick(event) {
-    console.log(registrationInfo);
+
+  const onFormSubmit = (event) => {
     event.preventDefault();
+
+    const {username, password, confirmPassword} = registrationInfo;
+
+    if (!username || !password || !confirmPassword) {
+      return alert('Please fill all empty fields!')
+    }
+
+    if (password !== confirmPassword) {
+      return alert('Passwords do not match!')
+    }
+
+    console.log(registrationInfo);
   }
+
   return (
     <div>
       <h1>Register </h1>
       <form>
-        {/* <Input placeholder="Email"/>
-    <Input placeholder="Confirm Email"/>
-    <Input placeholder="First Name"/>
-    <Input placeholder="Last Name"/> */}
-
         <input
-          onChange={handleChange}
-          name="fName"
+          onChange={onValueChange}
+          name="username"
           type="text"
-          placeholder="First Name"
+          placeholder="Username"
+          className={styles.input}
         />
         <input
-          onChange={handleChange}
-          name="lName"
-          type="text"
-          placeholder="Last Name"
+          onChange={onValueChange}
+          name="password"
+          type="password"
+          placeholder="Password"
+          className={styles.input}
         />
         <input
-          onChange={handleChange}
-          name="email"
-          type="text"
-          placeholder="Email"
+          onChange={onValueChange}
+          name="confirmPassword"
+          type="password"
+          placeholder="Confirm password"
+          className={styles.input}
         />
-        <input
-          onChange={handleChange}
-          name="confirmedEmail"
-          type="text"
-          placeholder="Confirm Email"
-        />
-
-        <button onClick={handleClick}>s</button>
+        <button onClick={onFormSubmit} className={styles.registerButton}>Register</button>
       </form>
     </div>
   );
