@@ -6,6 +6,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import {Navigation} from '../navigation';
+import {Register} from '../register';
 import {Login} from '../login';
 import {Chats} from '../chats';
 import {Footer} from '../footer';
@@ -31,6 +32,12 @@ export const App = () => (
                 <h1>Welcome Page</h1>
               ) //Mohammed, replace this line with your Landing Page component.
             }
+          </Route>
+          <Route path="/register" exact>
+            <Register />
+          </Route>
+          <Route path="/events" exact>
+            <Events />
           </Route>
           <Route path="/login" exact>
             <Login />
