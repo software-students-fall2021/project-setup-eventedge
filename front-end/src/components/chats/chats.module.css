@@ -26,7 +26,6 @@
 
 .list {
   list-style-type: none;
-  /* position: absolute; */
   width: 100%;
   padding-inline-start: 0;
 }

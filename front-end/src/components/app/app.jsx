@@ -14,7 +14,8 @@ import {NotFound} from '../not-found';
 import styles from './app.module.css';
 import {ModalContextProvider} from '../../lib/context/modal';
 import {ModalRegistry} from '../modal-registry';
-// import {Events} from '../events';
+import {ModalsTest} from '../modals-test';
+import {Events} from '../events';
 
 export const App = () => (
   <ModalContextProvider>
@@ -41,10 +42,15 @@ export const App = () => (
           <Route path="/login" exact>
             <Login />
           </Route>
+          <Route path="/modals-test" exact>
+            <ModalsTest />
+          </Route>
+          <Route path="/events" exact>
+            <Events />
+          </Route>
           <Route path="/chats" exact>
             {localStorage.getItem('username') ? <Chats /> : <Redirect to="/" />}
           </Route>
-
           <Route path="/404" exact>
             <NotFound />
           </Route>
