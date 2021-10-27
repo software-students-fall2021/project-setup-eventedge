@@ -19,7 +19,7 @@ export const Register = () => {
         [name]: value,
       };
     });
-  }
+  };
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -27,15 +27,15 @@ export const Register = () => {
     const {username, password, confirmPassword} = registrationInfo;
 
     if (!username || !password || !confirmPassword) {
-      return alert('Please fill all empty fields!')
+      return alert('Please fill all empty fields!');
     }
 
     if (password !== confirmPassword) {
-      return alert('Passwords do not match!')
+      return alert('Passwords do not match!');
     }
 
     console.log(registrationInfo);
-  }
+  };
 
   return (
     <div>
@@ -62,7 +62,9 @@ export const Register = () => {
           placeholder="Confirm password"
           className={styles.input}
         />
-        <button onClick={onFormSubmit} className={styles.registerButton}>Register</button>
+        <button onClick={onFormSubmit} className={styles.registerButton}>
+          Register
+        </button>
       </form>
     </div>
   );

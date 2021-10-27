@@ -28,7 +28,7 @@ export const Login = () => {
       alert('Please fill all fields!');
     else {
       if (info.username === username && info.password === password) {
-        authService().login(info.username)
+        authService().login(info.username);
         window.location = '/chats';
       }
     }

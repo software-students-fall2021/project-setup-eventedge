@@ -1,17 +1,17 @@
-const USERNAME = 'username'
+const USERNAME = 'username';
 
 class AuthService {
   isUserLoggedIn() {
-    return !!localStorage.getItem(USERNAME)
+    return !!localStorage.getItem(USERNAME);
   }
 
   login(username) {
-    localStorage.setItem(USERNAME, username)
+    localStorage.setItem(USERNAME, username);
   }
 
   logout() {
-    localStorage.removeItem(USERNAME)
+    localStorage.removeItem(USERNAME);
   }
 }
 
-export const authService = () => new AuthService()
+export const authService = () => new AuthService();

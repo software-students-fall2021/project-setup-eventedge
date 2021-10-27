@@ -17,7 +17,7 @@ import {ModalRegistry} from '../modal-registry';
 import {ModalsTest} from '../modals-test';
 import {Events} from '../events';
 import {authService} from '../../lib/services/auth-service';
-import {PrivateComponent} from './private-component'
+import {PrivateComponent} from './private-component';
 
 export const App = () => (
   <ModalContextProvider>
