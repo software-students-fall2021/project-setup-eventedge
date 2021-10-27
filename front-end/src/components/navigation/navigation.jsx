@@ -10,9 +10,9 @@ export const Navigation = () => {
   const setIsMenuVisibleToFalse = () => setIsMenuVisible(false);
 
   const logOut = () => {
-    localStorage.removeItem('username')
-    window.location = '/'
-  }
+    localStorage.removeItem('username');
+    window.location = '/';
+  };
 
   return (
     <>
@@ -25,9 +25,13 @@ export const Navigation = () => {
         </button>
         <h1>EventEdge</h1>
         <Link to="/login">
-          {localStorage.getItem('username') ? <a className={styles.link} onClick={logOut}>Log Out</a> : 
-          <a>Login</a>
-          }
+          {localStorage.getItem('username') ? (
+            <a className={styles.link} onClick={logOut}>
+              Log Out
+            </a>
+          ) : (
+            <a>Login</a>
+          )}
         </Link>
       </nav>
       {isMenuVisible && <SlidingMenu onClose={setIsMenuVisibleToFalse} />}

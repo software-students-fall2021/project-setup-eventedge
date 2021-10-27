@@ -5,7 +5,7 @@ import styles from './sliding-menu.module.css';
 const LINKS = [
   {name: 'Home', href: '/'},
   {name: 'Chats', href: '/chats'},
-  {name: 'Events', href: '/events'}
+  {name: 'Events', href: '/events'},
 ];
 
 export const SlidingMenu = React.memo(({onClose}) => {
