@@ -1,18 +1,14 @@
 import React from 'react';
 import {useModalContext} from '../../lib/context/modal';
-import {Modal} from '../modal';
+import {Modal} from './modal';
 import {SendMessage} from '../send-message';
 import {MembersList} from '../members-list';
 
-// for testing purposes. delete later
-const TestComp = () => <div>test</div>;
-
 const generator = (Component) => (props) => <Component {...props} />;
 
-// {[id: string]: component: () => React.Component}
+// {[id: string]: component: React.Component; title: string}
 export const REGISTERED_MODALS = {
   membersList: {title: 'Members list', component: MembersList},
-  test: {title: 'Test', component: TestComp},
   sendMessage: {title: 'Send message', component: SendMessage},
 };
 

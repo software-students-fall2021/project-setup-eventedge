@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import styles from './login.module.css';
 import {Link} from 'react-router-dom';
+import {authService} from '../../lib/services/auth-service';
 
 export const Login = () => {
   const username = 'test';
@@ -27,7 +28,7 @@ export const Login = () => {
       alert('Please fill all fields!');
     else {
       if (info.username === username && info.password === password) {
-        localStorage.setItem('username', info.username);
+        authService().login(info.username);
         window.location = '/chats';
       }
     }
