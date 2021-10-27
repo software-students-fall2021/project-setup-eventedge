@@ -44,7 +44,6 @@ export const App = () => (
           <Route path="/chats" exact>
             {localStorage.getItem('username') ? <Chats /> : <Redirect to="/" />}
           </Route>
-
           <Route path="/404" exact>
             <NotFound />
           </Route>
