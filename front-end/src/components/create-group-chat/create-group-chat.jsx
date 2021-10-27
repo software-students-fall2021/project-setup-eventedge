@@ -9,11 +9,14 @@ export const CreateGroupChat = () => {
 
   const addUser = (user) => () =>
     setSelectedUsers((prevSelected) => [...prevSelected, user]);
-  
-  const removeUser = (user) => () =>
-    setSelectedUsers((prevSelected) => prevSelected.filter(({id}) => id !== user.id));
 
-  const isUserSelected = (user) => selectedUsers.findIndex(({id}) => id === user.id) !== -1
+  const removeUser = (user) => () =>
+    setSelectedUsers((prevSelected) =>
+      prevSelected.filter(({id}) => id !== user.id)
+    );
+
+  const isUserSelected = (user) =>
+    selectedUsers.findIndex(({id}) => id === user.id) !== -1;
 
   const mapUsers = isLoading ? (
     <p>Loading...</p>
@@ -28,7 +31,11 @@ export const CreateGroupChat = () => {
         .map((user) => (
           <li key={user.id}>
             {user.username}
-            <AddUserButton isUserSelected={isUserSelected(user)} addUser={addUser(user)} removeUser={removeUser(user)} />
+            <AddUserButton
+              isUserSelected={isUserSelected(user)}
+              addUser={addUser(user)}
+              removeUser={removeUser(user)}
+            />
           </li>
         ))}
     </ul>
