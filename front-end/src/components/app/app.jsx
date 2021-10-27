@@ -16,6 +16,8 @@ import {ModalContextProvider} from '../../lib/context/modal';
 import {ModalRegistry} from '../modal-registry';
 import {ModalsTest} from '../modals-test';
 import {Events} from '../events';
+import {authService} from '../../lib/services/auth-service';
+import {PrivateComponent} from './private-component'
 
 export const App = () => (
   <ModalContextProvider>
@@ -26,7 +28,7 @@ export const App = () => (
         <Switch>
           <Route path="/" exact>
             {
-              localStorage.getItem('username') ? (
+              authService().isUserLoggedIn() ? (
                 <Redirect to="/chats" />
               ) : (
                 <h1>Welcome Page</h1>
@@ -37,7 +39,9 @@ export const App = () => (
             <Register />
           </Route>
           <Route path="/events" exact>
-            <Events />
+            <PrivateComponent>
+              <Events />
+            </PrivateComponent>
           </Route>
           <Route path="/login" exact>
             <Login />
@@ -45,11 +49,10 @@ export const App = () => (
           <Route path="/modals-test" exact>
             <ModalsTest />
           </Route>
-          <Route path="/events" exact>
-            <Events />
-          </Route>
           <Route path="/chats" exact>
-            {localStorage.getItem('username') ? <Chats /> : <Redirect to="/" />}
+            <PrivateComponent>
+              <Chats />
+            </PrivateComponent>
           </Route>
           <Route path="/404" exact>
             <NotFound />
