@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {AddUserButton} from './add-user-button';
 import {useChatService} from '../../lib/services/chat-service';
 
 export const CreateGroupChat = () => {
@@ -6,8 +7,13 @@ export const CreateGroupChat = () => {
   const [searchFilterWord, setSearchFilterWord] = useState('');
   const {isLoading, isError, data} = useChatService.useChatMembers();
 
-  const selectUser = (user) => () =>
+  const addUser = (user) => () =>
     setSelectedUsers((prevSelected) => [...prevSelected, user]);
+  
+  const removeUser = (user) => () =>
+    setSelectedUsers((prevSelected) => prevSelected.filter(({id}) => id !== user.id));
+
+  const isUserSelected = (user) => selectedUsers.findIndex(({id}) => id === user.id) !== -1
 
   const mapUsers = isLoading ? (
     <p>Loading...</p>
@@ -19,10 +25,10 @@ export const CreateGroupChat = () => {
             !searchFilterWord ||
             username.toLowerCase().includes(searchFilterWord)
         )
-        .map(({id, username}) => (
-          <li key={id}>
-            {username}
-            <button onClick={selectUser({id, username})}>Add</button>
+        .map((user) => (
+          <li key={user.id}>
+            {user.username}
+            <AddUserButton isUserSelected={isUserSelected(user)} addUser={addUser(user)} removeUser={removeUser(user)} />
           </li>
         ))}
     </ul>
