@@ -1,0 +1,15 @@
+.button {
+  background-color: white;
+  padding: 5px;
+  border-radius: 2px;
+  border: none;
+  color: #34495e;
+  font-size: 12px;
+  font-weight: bold;
+  outline: none;
+}
+
+.remove {
+  color: white;
+  background-color: rgb(155, 0, 0);
+}

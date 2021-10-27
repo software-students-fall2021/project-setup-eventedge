@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
 import {AddUserButton} from './add-user-button';
+import {AddedUsersList} from './added-users-list';
 import {useChatService} from '../../lib/services/chat-service';
+import {Button} from '../button';
+import styles from './create-group-chat.module.css';
 
 export const CreateGroupChat = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [searchFilterWord, setSearchFilterWord] = useState('');
+  const [chatName, setChatName] = useState('');
   const {isLoading, isError, data} = useChatService.useChatMembers();
 
   const addUser = (user) => () =>
@@ -21,7 +25,7 @@ export const CreateGroupChat = () => {
   const mapUsers = isLoading ? (
     <p>Loading...</p>
   ) : (
-    <ul>
+    <ul className={styles.usersList}>
       {data
         ?.filter(
           ({username}) =>
@@ -44,17 +48,36 @@ export const CreateGroupChat = () => {
   const onSearchChange = (event) =>
     setSearchFilterWord(event.target.value.toLowerCase().trim());
 
-  console.log(selectedUsers);
+  const onChatNameChange = (event) => setChatName(event.target.value.trim());
+
+  const onCreateChatClick = (e) => {
+    e.preventDefault();
+
+    if (!selectedUsers.length) {
+      return alert('Please select at least one user!');
+    }
+
+    if (!chatName) {
+      return alert('Please enter chat name!');
+    }
+  };
 
   return (
     <>
-      <input type="text" placeholder="Group chat name" />
+      <Button onClick={onCreateChatClick}>Create chat</Button>
+      <input
+        type="text"
+        placeholder="Group chat name"
+        className={styles.input}
+        onChange={onChatNameChange}
+      />
       <input
         type="text"
         placeholder="Search for users..."
         onChange={onSearchChange}
+        className={styles.input}
       />
-      <button>Create chat</button>
+      <AddedUsersList usersList={selectedUsers} />
       {isError ? <p>An error occured</p> : mapUsers}
     </>
   );
