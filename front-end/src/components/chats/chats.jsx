@@ -1,57 +1,42 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
+import {useChatService} from '../../lib/services/chat-service';
 import styles from './chats.module.css';
-import data from './data';
 
 export const Chats = () => {
-  const [filtered, setFiltered] = useState([]);
+  const {isLoading, isError, data} = useChatService.useChats();
+  const [searchFilterWord, setSearchFilterWord] = useState('');
 
-  const [bool, setBool] = useState(false);
+  const onSearchChange = (event) =>
+    setSearchFilterWord(event.target.value.toLowerCase().trim());
 
-  const searchHandler = (event) => {
-    const searchVal = event.target.value.toLowerCase();
-    const newArr = data.filter(({id, name}) => {
-      const index = name.toLowerCase().indexOf(searchVal);
-      console.log(id);
-      if (index === 0) return true;
-      else return false;
-    });
-    if (searchVal.length > 0 && newArr.length === 0) {
-      setBool(true);
-    } else if (searchVal.length > 0 && newArr.length !== 0) {
-      setBool(true);
-    } else {
-      setBool(false);
-    }
-    setFiltered(newArr);
-  };
+  const mapChats = isLoading ? (
+    <p>Loading...</p>
+  ) : (
+    data
+      ?.filter(
+        ({chatName}) =>
+          !searchFilterWord || chatName.toLowerCase().includes(searchFilterWord)
+      )
+      .map(({id, chatName}) => (
+        <Link className={styles.chatLink} key={id} to={`/chat/${id}`}>
+          <li className={styles.listItem}>{chatName}</li>
+        </Link>
+      ))
+  );
+
+  if (isError) {
+    return <p>An error occured</p>;
+  }
 
   return (
-    <React.Fragment>
+    <>
       <div className={styles.header}>
         <button className={styles.plus}>+</button>
-        <input className={styles.center} onChange={searchHandler} />
+        <input className={styles.center} onChange={onSearchChange} />
       </div>
 
-      <ul className={styles.list}>
-        {bool
-          ? filtered.map((chatObj, index) => {
-              return (
-                <div key={index}>
-                  <li className={styles.listItem}>{chatObj.name}</li>
-                </div>
-              );
-            })
-          : data.map((chatObj, index) => {
-              return (
-                <div key={index}>
-                  <Link className={styles.chatLink}>
-                    <li className={styles.listItem}>{chatObj.name}</li>
-                  </Link>
-                </div>
-              );
-            })}
-      </ul>
-    </React.Fragment>
+      <ul className={styles.list}>{mapChats}</ul>
+    </>
   );
 };
