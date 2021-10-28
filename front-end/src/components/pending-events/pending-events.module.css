@@ -1,0 +1,19 @@
+.acceptButton {
+  width: 50%;
+  padding: 15px;
+  color: green;
+}
+
+.declineButton {
+  width: 50%;
+  padding: 15px;
+  color: red;
+}
+
+.container {
+  text-align: center;
+}
+
+.box {
+  border: black 1px solid;
+}
