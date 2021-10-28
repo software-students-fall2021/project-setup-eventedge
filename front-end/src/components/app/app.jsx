@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import {Navigation} from '../navigation';
 import {Register} from '../register';
+import {LandingPage} from '../landing-page';
 import {Login} from '../login';
 import {Chats} from '../chats';
 import {Footer} from '../footer';
@@ -18,6 +19,7 @@ import {ModalsTest} from '../modals-test';
 import {Events} from '../events';
 import {authService} from '../../lib/services/auth-service';
 import {PrivateComponent} from './private-component';
+
 
 export const App = () => (
   <ModalContextProvider>
@@ -31,8 +33,11 @@ export const App = () => (
               authService().isUserLoggedIn() ? (
                 <Redirect to="/chats" />
               ) : (
-                <h1>Welcome Page</h1>
-              ) //Mohammed, replace this line with your Landing Page component.
+                <>
+                <h1>Welcome!</h1>
+                <LandingPage />
+                </>
+              ) 
             }
           </Route>
           <Route path="/register" exact>
