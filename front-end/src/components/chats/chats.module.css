@@ -1,0 +1,42 @@
+.header {
+  display: flex;
+  margin-top: 2vh;
+}
+
+.center {
+  margin: auto;
+}
+
+.plus {
+  margin: auto;
+  border-radius: 50%;
+  border-style: solid;
+  height: 30px;
+  width: 30px;
+}
+
+.space {
+  margin: auto;
+  width: 2px;
+}
+
+.chatLink {
+  text-decoration: none;
+}
+
+.list {
+  list-style-type: none;
+  width: 100%;
+  padding-inline-start: 0;
+}
+
+.listItem {
+  border-top: solid black;
+  border-width: 1px;
+  padding: 25px 0 25px 0;
+  border-radius: 5px;
+}
+
+.listItem:hover {
+  background-color: gray;
+}

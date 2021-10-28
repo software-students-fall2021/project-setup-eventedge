@@ -1,0 +1,16 @@
+.messageTextArea {
+  padding: 10px;
+  font-size: 14px;
+  color: black;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 85vh;
+  max-height: 85vh;
+  border: none;
+  background-color: rgb(192, 192, 192);
+}
+
+.messageTextArea:focus {
+  background-color: white;
+  outline: none;
+}

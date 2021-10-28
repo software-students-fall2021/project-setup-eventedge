@@ -1,0 +1,11 @@
+.input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.registerButton {
+  display: block;
+  margin: 10px auto;
+}

@@ -6,11 +6,18 @@ import {
   Redirect,
 } from 'react-router-dom';
 import {Navigation} from '../navigation';
+import {Register} from '../register';
+import {Login} from '../login';
+import {Chats} from '../chats';
 import {Footer} from '../footer';
 import {NotFound} from '../not-found';
 import styles from './app.module.css';
 import {ModalContextProvider} from '../../lib/context/modal';
 import {ModalRegistry} from '../modal-registry';
+import {ModalsTest} from '../modals-test';
+import {Events} from '../events';
+import {authService} from '../../lib/services/auth-service';
+import {PrivateComponent} from './private-component';
 
 export const App = () => (
   <ModalContextProvider>
@@ -20,10 +27,32 @@ export const App = () => (
       <div className={styles.mainContainer}>
         <Switch>
           <Route path="/" exact>
-            <h1>Home</h1>
+            {
+              authService().isUserLoggedIn() ? (
+                <Redirect to="/chats" />
+              ) : (
+                <h1>Welcome Page</h1>
+              ) //Mohammed, replace this line with your Landing Page component.
+            }
           </Route>
-          <Route path="/other" exact>
-            <h1>Other</h1>
+          <Route path="/register" exact>
+            <Register />
+          </Route>
+          <Route path="/events" exact>
+            <PrivateComponent>
+              <Events />
+            </PrivateComponent>
+          </Route>
+          <Route path="/login" exact>
+            <Login />
+          </Route>
+          <Route path="/modals-test" exact>
+            <ModalsTest />
+          </Route>
+          <Route path="/chats" exact>
+            <PrivateComponent>
+              <Chats />
+            </PrivateComponent>
           </Route>
           <Route path="/404" exact>
             <NotFound />

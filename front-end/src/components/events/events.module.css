@@ -1,0 +1,12 @@
+.pendingButton {
+  width: 100%;
+  padding: 15px 32px;
+}
+
+.container {
+  text-align: center;
+}
+
+.box {
+  border: black 1px solid;
+}

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {SlidingMenu} from './sliding-menu';
 import styles from './navigation.module.css';
+import {authService} from '../../lib/services/auth-service';
 
 export const Navigation = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -20,7 +21,13 @@ export const Navigation = () => {
         </button>
         <h1>EventEdge</h1>
         <Link to="/login">
-          <a>Login</a>
+          {authService().isUserLoggedIn() ? (
+            <a className={styles.link} onClick={authService().logout}>
+              Log Out
+            </a>
+          ) : (
+            <a>Login</a>
+          )}
         </Link>
       </nav>
       {isMenuVisible && <SlidingMenu onClose={setIsMenuVisibleToFalse} />}
