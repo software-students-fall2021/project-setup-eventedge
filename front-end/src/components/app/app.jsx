@@ -8,6 +8,7 @@ import {
 import {Navigation} from '../navigation';
 import {Register} from '../register';
 import {Login} from '../login';
+import {Chat} from '../chat';
 import {Chats} from '../chats';
 import {Footer} from '../footer';
 import {NotFound} from '../not-found';
@@ -48,6 +49,11 @@ export const App = () => (
           </Route>
           <Route path="/modals-test" exact>
             <ModalsTest />
+          </Route>
+          <Route path="/chat/:chatId" exact>
+            <PrivateComponent>
+              <Chat />
+            </PrivateComponent>
           </Route>
           <Route path="/chats" exact>
             <PrivateComponent>
