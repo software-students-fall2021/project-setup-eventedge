@@ -1,9 +1,13 @@
 import React from 'react';
 import {useEventService} from '../../lib/services/event-service';
 import styles from './events.module.css';
+import {useModalContext} from '../../lib/context/modal';
 
 export const Events = () => {
+  const {showModal} = useModalContext();
   const {isLoading, isError, data} = useEventService.useMyEvents();
+
+  const showPendingEventsModal = () => showModal('pendingEvents');
 
   const mapEvents = isLoading ? (
     <p>Loading...</p>
@@ -17,14 +21,13 @@ export const Events = () => {
   );
 
   return (
-    <React.Fragment>
-      <button className={styles.pendingButton}>Pending Events</button>
-
+    <>
+      <button className={styles.pendingButton} onClick={showPendingEventsModal}>Pending Events</button>
       {isError ? (
         <p>An error occured</p>
       ) : (
         <div className={styles.container}>{mapEvents}</div>
       )}
-    </React.Fragment>
+    </>
   );
 };

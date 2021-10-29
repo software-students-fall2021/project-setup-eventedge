@@ -11,8 +11,10 @@
 }
 
 .chatContainer {
-  width: 100%;
+  width: calc(100% + 20px);
   margin-bottom: -10px;
+  margin-left: -10px;
+  margin-right: -10px;
 }
 
 .chatHeader {
@@ -26,6 +28,7 @@
 }
 
 .messageList {
+  padding: 0px 5px;
   width: 100%;
   height: calc(100vh - 200px);
   overflow-y: scroll;

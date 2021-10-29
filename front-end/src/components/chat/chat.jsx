@@ -3,6 +3,7 @@ import styles from './chat.module.css';
 import {useParams} from 'react-router-dom';
 import {useChatService} from '../../lib/services/chat-service';
 import {useModalContext} from '../../lib/context/modal';
+import {Link} from 'react-router-dom';
 
 export const Chat = () => {
   const {chatId} = useParams();
@@ -33,7 +34,9 @@ export const Chat = () => {
     <div className={styles.chatContainer}>
       <div className={styles.chatHeader}>
         <button>Create Event</button>
-        <button>Events</button>
+        <Link to="/events">
+          <button>Events</button>
+        </Link>
         <button onClick={showMembersModal}>Members</button>
       </div>
       <div className={styles.messageList}>{mapChatMessages}</div>
