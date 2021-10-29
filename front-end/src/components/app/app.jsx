@@ -33,10 +33,7 @@ export const App = () => (
               authService().isUserLoggedIn() ? (
                 <Redirect to="/chats" />
               ) : (
-                <>
-                <h1>Welcome!</h1>
                 <LandingPage />
-                </>
               ) 
             }
           </Route>
