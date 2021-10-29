@@ -21,7 +21,6 @@ import {Events} from '../events';
 import {authService} from '../../lib/services/auth-service';
 import {PrivateComponent} from './private-component';
 
-
 export const App = () => (
   <ModalContextProvider>
     <Router>
@@ -30,13 +29,11 @@ export const App = () => (
       <div className={styles.mainContainer}>
         <Switch>
           <Route path="/" exact>
-            {
-              authService().isUserLoggedIn() ? (
-                <Redirect to="/chats" />
-              ) : (
-                <LandingPage />
-              ) 
-            }
+            {authService().isUserLoggedIn() ? (
+              <Redirect to="/chats" />
+            ) : (
+              <LandingPage />
+            )}
           </Route>
           <Route path="/register" exact>
             <Register />
