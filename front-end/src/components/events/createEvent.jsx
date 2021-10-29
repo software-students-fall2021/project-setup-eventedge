@@ -12,10 +12,20 @@ export const CreateEvent = () => {
                     placeholder="Event name"
                     name="eventName"
                 />
-                <h1> Event Time </h1>
-                <label htmlFor="dog-names">Choose a dog name:</label>
-                <select name="dog-names" id="dog-names">Haha</select>
-            </form> 
+                <hr></hr>
+
+                <h1> Event Time: </h1>
+                <input name="mdy" type="date"></input>
+                <input name="eventTime" type="time"></input>  
+                <hr></hr>  
+                <h1>Location: </h1>
+                <input name="locationSearch" type="search" placeholder="Search for location"></input>
+                <hr></hr>
+                <h1>Description</h1>
+                <textarea name="eventDescription"></textarea>
+            </form>
+            <hr></hr>
+            <button className={styles.createButton}>Create Event</button>
         </div>
     )
 }
