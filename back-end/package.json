@@ -10,7 +10,7 @@
   },
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "express": "^4.17.1"
   },
