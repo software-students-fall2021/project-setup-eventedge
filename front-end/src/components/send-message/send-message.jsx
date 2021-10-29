@@ -1,5 +1,6 @@
 import React from 'react';
 import {useModalContext} from '../../lib/context/modal';
+import {Button} from '../button';
 import styles from './send-message.module.css';
 
 export const SendMessage = () => {
@@ -7,12 +8,7 @@ export const SendMessage = () => {
 
   return (
     <>
-      <button
-        onClick={() => hideModal('sendMessage')}
-        className={styles.sendMessageButton}
-      >
-        Send message
-      </button>
+      <Button onClick={() => hideModal('sendMessage')}>Send message</Button>
       <textarea
         className={styles.messageTextArea}
         placeholder="Your message..."

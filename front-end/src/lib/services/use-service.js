@@ -11,6 +11,7 @@ export const useService = (method) => {
       setIsLoading(false);
       setData(data);
     } catch (e) {
+      console.log(e, 'Error');
       setIsError(true);
     } finally {
       setIsLoading(false);
