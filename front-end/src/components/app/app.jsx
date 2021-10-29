@@ -17,7 +17,7 @@ import {ModalContextProvider} from '../../lib/context/modal';
 import {ModalRegistry} from '../modal-registry';
 import {ModalsTest} from '../modals-test';
 import {Events} from '../events';
-import {CreateEvent} from '../events'
+import {CreateEvent} from '../events';
 import {authService} from '../../lib/services/auth-service';
 import {PrivateComponent} from './private-component';
 
@@ -46,7 +46,7 @@ export const App = () => (
             </PrivateComponent>
           </Route>
           <Route path="/createEvent" exact>
-              <CreateEvent />
+            <CreateEvent />
           </Route>
           <Route path="/login" exact>
             <Login />

@@ -1,2 +1,2 @@
 export {Events} from './events';
-export {CreateEvent} from './createEvent'
+export {CreateEvent} from './createEvent';

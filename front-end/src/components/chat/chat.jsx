@@ -15,7 +15,6 @@ export const Chat = () => {
   const showSendMessageModal = () => showModal('sendMessage');
   const showCreateEventModal = () => showModal('createEvent');
 
-
   const mapChatMessages = isLoading ? (
     <p>Loading...</p>
   ) : (

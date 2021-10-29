@@ -5,7 +5,7 @@ import {SendMessage} from '../send-message';
 import {MembersList} from '../members-list';
 import {CreateGroupChat} from '../create-group-chat';
 import {PendingEvents} from '../pending-events';
-import {CreateEvent} from '../events'
+import {CreateEvent} from '../events';
 
 const generator = (Component) => (props) => <Component {...props} />;
 

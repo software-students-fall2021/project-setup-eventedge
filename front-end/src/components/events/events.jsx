@@ -22,7 +22,9 @@ export const Events = () => {
 
   return (
     <>
-      <button className={styles.pendingButton} onClick={showPendingEventsModal}>Pending Events</button>
+      <button className={styles.pendingButton} onClick={showPendingEventsModal}>
+        Pending Events
+      </button>
       {isError ? (
         <p>An error occured</p>
       ) : (
