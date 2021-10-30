@@ -1,11 +1,10 @@
-// import express from 'express';
-const express = require('express')
+const express = require('express');
+const authRoutes = require('./routes/auth');
 const http = require('http')
 const socketIo = require("socket.io");
+
 const app = express();
 
-// import {router as authRoutes} from './routes/auth.js'
-const authRoutes = require('./routes/auth')
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json());
@@ -57,5 +56,4 @@ app.get('/', (_req, res) => {
   res.send('Hello world!');
 });
 
-// export {app};
 module.exports = server
