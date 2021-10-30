@@ -7,7 +7,7 @@ const register = (req, res) => {
     res.send('login')
 }
 
-exports.login = login
-exports.register = register
-
-// export {login, register}
+module.exports = {
+    login,
+    register,
+}
