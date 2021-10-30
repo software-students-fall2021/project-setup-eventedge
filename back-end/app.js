@@ -3,8 +3,7 @@ const authRoutes = require('./routes/auth');
 
 const app = express();
 
-
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -18,10 +17,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/auth', authRoutes)
+app.use('/auth', authRoutes);
 
 app.get('/', (_req, res) => {
   res.send('Hello world!');
 });
 
-module.exports = app
+module.exports = app;
