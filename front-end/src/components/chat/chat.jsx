@@ -13,6 +13,7 @@ export const Chat = () => {
   const showMembersModal = () => showModal('membersList');
 
   const showSendMessageModal = () => showModal('sendMessage');
+  const showCreateEventModal = () => showModal('createEvent');
 
   const mapChatMessages = isLoading ? (
     <p>Loading...</p>
@@ -33,7 +34,7 @@ export const Chat = () => {
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatHeader}>
-        <button>Create Event</button>
+        <button onClick={showCreateEventModal}>Create Event</button>
         <Link to="/events">
           <button>Events</button>
         </Link>
