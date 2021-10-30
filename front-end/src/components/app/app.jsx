@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import {Navigation} from '../navigation';
 import {Register} from '../register';
+import {LandingPage} from '../landing-page';
 import {Login} from '../login';
 import {Chat} from '../chat';
 import {Chats} from '../chats';
@@ -28,13 +29,11 @@ export const App = () => (
       <div className={styles.mainContainer}>
         <Switch>
           <Route path="/" exact>
-            {
-              authService().isUserLoggedIn() ? (
-                <Redirect to="/chats" />
-              ) : (
-                <h1>Welcome Page</h1>
-              ) //Mohammed, replace this line with your Landing Page component.
-            }
+            {authService().isUserLoggedIn() ? (
+              <Redirect to="/chats" />
+            ) : (
+              <LandingPage />
+            )}
           </Route>
           <Route path="/register" exact>
             <Register />
