@@ -5,8 +5,7 @@ const socketIo = require("socket.io");
 
 const app = express();
 
-
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -20,7 +19,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/auth', authRoutes)
+app.use('/auth', authRoutes);
 
 const server = http.createServer(app);
 
