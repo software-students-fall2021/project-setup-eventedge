@@ -83,4 +83,4 @@ const CHATS = [
 
 module.exports = {
   CHATS,
-}
+};

@@ -7,4 +7,4 @@ router.get('/', chatsControllers.getChats);
 router.get('/:id/members', chatsControllers.getChatMembers);
 router.post('/', chatsControllers.createChat);
 
-module.exports = router
+module.exports = router;

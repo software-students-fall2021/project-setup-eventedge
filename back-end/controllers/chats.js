@@ -3,7 +3,8 @@ const {CHATS: fakeChatData} = require('../mock-data/chat');
 const {USERS: fakeChatMembers} = require('../mock-data/user');
 const generateRandomInt = require('../utils/generate-random-int');
 
-const getChats = async (_, res) => request()
+const getChats = async (_, res) =>
+  request()
     .get('/chats.json')
     .then((data) => {
       res.send(data);
@@ -14,28 +15,30 @@ const getChats = async (_, res) => request()
       res.send(fakeChatData);
     });
 
-const getChatMembers = async (_, res) => request()
+const getChatMembers = async (_, res) =>
+  request()
     .get('/members.json')
     .then((data) => {
       res.send(data);
     })
     .catch((e) => {
-      console.error(e)
-      res.send(fakeChatMembers)
-    })
+      console.error(e);
+      res.send(fakeChatMembers);
+    });
 
-const createChat = async (req, res) => request()
+const createChat = async (req, res) =>
+  request()
     .post('/chats.json')
     .then((data) => {
       res.send(data);
     })
     .catch((e) => {
-      console.error(e)
-      res.send({id: generateRandomInt(0, 100), chatName: req.body.chatName})
-    })
+      console.error(e);
+      res.send({id: generateRandomInt(0, 100), chatName: req.body.chatName});
+    });
 
 module.exports = {
   getChats,
   getChatMembers,
   createChat,
-}
+};
