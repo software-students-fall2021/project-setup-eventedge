@@ -3,8 +3,8 @@ const eventControllers = require('../controllers/events');
 
 const router = express.Router();
 
-router.post('/events/pending/accept', authControllers.acceptPending);
+router.post('/events/pending/accept', eventControllers.acceptPending);
 
-router.post('/events/pending/decline', authControllers.declinePending);
+router.post('/events/pending/decline', eventControllers.declinePending);
 
 module.exports = router;
