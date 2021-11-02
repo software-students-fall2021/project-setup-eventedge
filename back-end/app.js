@@ -1,26 +1,17 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const chatsRoutes = require('./routes/chats');
 require('dotenv').config();
 
 const app = express();
 
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
-
 // middlewares
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
-
-  next();
-});
+app.use(cors());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 // routes
 app.use('/auth', authRoutes);

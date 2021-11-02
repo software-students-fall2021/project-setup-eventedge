@@ -23,6 +23,7 @@ const getChatMembers = async (_, res) =>
     })
     .catch((e) => {
       console.error(e);
+      // mockaroo limit reached
       res.send(fakeChatMembers);
     });
 
@@ -30,11 +31,12 @@ const createChat = async (req, res) =>
   request()
     .post('/chats.json')
     .then((data) => {
-      res.send(data);
+      res.status(200).json(data);
     })
     .catch((e) => {
       console.error(e);
-      res.send({id: generateRandomInt(0, 100), chatName: req.body.chatName});
+      // mockaroo limit reached
+      res.status(200).json({id: generateRandomInt(0, 100), chatName: req.body.chatName});
     });
 
 module.exports = {
