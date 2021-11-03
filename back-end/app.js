@@ -3,13 +3,8 @@ const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-<<<<<<< HEAD
-const http = require('http');
-const socketIo = require('socket.io');
-=======
 const chatsRoutes = require('./routes/chats');
 require('dotenv').config();
->>>>>>> 98bb75a68cc6e736eb844dba5998d9faa38cf67a
 
 const app = express();
 
