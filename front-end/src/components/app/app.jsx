@@ -9,6 +9,7 @@ import {Navigation} from '../navigation';
 import {Register} from '../register';
 import {LandingPage} from '../landing-page';
 import {Login} from '../login';
+import {Chat} from '../chat';
 import {Chats} from '../chats';
 import {Footer} from '../footer';
 import {NotFound} from '../not-found';
@@ -20,7 +21,6 @@ import {Events} from '../events';
 import {authService} from '../../lib/services/auth-service';
 import {PrivateComponent} from './private-component';
 
-
 export const App = () => (
   <ModalContextProvider>
     <Router>
@@ -29,13 +29,11 @@ export const App = () => (
       <div className={styles.mainContainer}>
         <Switch>
           <Route path="/" exact>
-            {
-              authService().isUserLoggedIn() ? (
-                <Redirect to="/chats" />
-              ) : (
-                <LandingPage />
-              ) 
-            }
+            {authService().isUserLoggedIn() ? (
+              <Redirect to="/chats" />
+            ) : (
+              <LandingPage />
+            )}
           </Route>
           <Route path="/register" exact>
             <Register />
@@ -50,6 +48,11 @@ export const App = () => (
           </Route>
           <Route path="/modals-test" exact>
             <ModalsTest />
+          </Route>
+          <Route path="/chat/:chatId" exact>
+            <PrivateComponent>
+              <Chat />
+            </PrivateComponent>
           </Route>
           <Route path="/chats" exact>
             <PrivateComponent>

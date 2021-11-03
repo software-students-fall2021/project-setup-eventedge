@@ -1,10 +1,10 @@
-import React  from 'react';
+import React from 'react';
 import styles from './landing-page.module.css';
 import {Link} from 'react-router-dom';
 import landingGif from './assets/calendar.gif';
 
 export const LandingPage = () => {
-  return(
+  return (
     <>
     <div className = {styles.container}>
     
@@ -19,7 +19,7 @@ export const LandingPage = () => {
       </h4>
 
       <Link to="/login">
-          <button className={styles.button}> Login</button>
+        <button className={styles.button}> Login</button>
       </Link>
 
       <Link to="/register">
