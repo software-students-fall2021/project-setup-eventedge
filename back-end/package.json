@@ -4,7 +4,7 @@
   "description": "back-end for EventEdge",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha \"./{,!(node_modules)/**/}*.test.js\" -recursive",
     "coverage": "nyc npm run test",
     "start": "node ./server.js",
     "dev": "nodemon ./server.js",
@@ -16,20 +16,22 @@
   "type": "commonjs",
   "dependencies": {
     "axios": "^0.24.0",
-    "chai": "^4.3.4",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "joi": "^17.4.2",
     "mocha": "^9.1.3",
     "nyc": "^15.1.0",
+    "sinon": "^11.1.2",
     "socket.io": "^4.3.1"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.14",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "supertest": "^6.1.6"
   }
 }
