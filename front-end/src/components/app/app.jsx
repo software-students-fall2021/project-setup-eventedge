@@ -20,8 +20,13 @@ import {ModalsTest} from '../modals-test';
 import {Events} from '../events';
 import {authService} from '../../lib/services/auth-service';
 import {PrivateComponent} from './private-component';
+import socketIOClient from 'socket.io-client';
 
-export const App = () => (
+export const App = () => {
+  let socket = socketIOClient('http://localhost:8000', {
+    transport: ['websocket', 'polling', 'flashsocket'],
+    });
+    return (
   <ModalContextProvider>
     <Router>
       <ModalRegistry />
@@ -51,12 +56,12 @@ export const App = () => (
           </Route>
           <Route path="/chat/:chatId" exact>
             <PrivateComponent>
-              <Chat />
+              <Chat socket={socket}/>
             </PrivateComponent>
           </Route>
           <Route path="/chats" exact>
             <PrivateComponent>
-              <Chats />
+              <Chats socket={socket}/>
             </PrivateComponent>
           </Route>
           <Route path="/404" exact>
@@ -68,4 +73,5 @@ export const App = () => (
       <Footer />
     </Router>
   </ModalContextProvider>
-);
+    )
+};

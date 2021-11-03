@@ -12,6 +12,10 @@ class AuthService {
   logout() {
     localStorage.removeItem(USERNAME);
   }
+
+  getUsername(){
+    return localStorage.getItem(USERNAME)
+  }
 }
 
 export const authService = () => new AuthService();

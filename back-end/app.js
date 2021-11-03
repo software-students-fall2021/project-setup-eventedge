@@ -33,23 +33,42 @@ const io = socketIo(server, {
 
 let interval;
 
-io.on("connection", socket => {
-    console.log("New client connected");
-  if (interval) {
-    clearInterval(interval);
-  }
-  interval = setInterval(() => getApiAndEmit(socket), 1000);
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-    clearInterval(interval);
-  });
-})
+let msgs = {}
 
-const getApiAndEmit = socket => {
-    const response = new Date();
-    // Emitting a new message. Will be consumed by the client
-    socket.emit("FromAPI", response);
-  };
+io.on("connection", socket => {
+    let i = 1
+    console.log("New client connected", i);
+    i++
+    
+    socket.on("joinRoom", ( {username, chatId} ) => {
+      console.log(username, chatId);
+      socket.join(chatId)
+      // const join = username + " read"
+      // socket.broadcast.to(chatId).emit('joinMessage',join)
+  })
+
+  socket.on('retrieveMsgs', ({chatId}) => {
+    io.to(chatId).emit("retrieveMsgs", msgs[chatId])
+  })
+
+  socket.on('sendMsg', ({msgObj, chatId}) => {
+    console.log('sendMsg');
+    console.log(msgObj, chatId);
+    if (msgs.hasOwnProperty(chatId)){
+      const length = msgs[chatId].length
+      msgObj.id = length
+      msgs[chatId].push(msgObj)
+    } else{
+      msgs[chatId] = [msgObj]
+    }
+    io.to(chatId).emit("sendMsg", msgObj)
+  } )
+
+
+    socket.on("disconnect", () => {
+      console.log("Client disconnected");
+    });
+})
 
 app.get('/', (_req, res) => {
   res.send('Hello world!');

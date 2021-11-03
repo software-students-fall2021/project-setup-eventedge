@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom';
 import {authService} from '../../lib/services/auth-service';
 
 export const Login = () => {
-  const username = 'test';
-  const password = '123';
+  // const username = 'test';
+  // const password = '123';
 
   const [info, setInfo] = useState({
     username: '',
@@ -27,10 +27,12 @@ export const Login = () => {
     if (info.username === '' || info.password === '')
       alert('Please fill all fields!');
     else {
-      if (info.username === username && info.password === password) {
-        authService().login(info.username);
-        window.location = '/chats';
-      }
+      authService().login(info.username);
+      window.location = '/chats';
+      // if (info.username === username && info.password === password) {
+      //   authService().login(info.username);
+      //   window.location = '/chats';
+      // }
     }
   };
 
