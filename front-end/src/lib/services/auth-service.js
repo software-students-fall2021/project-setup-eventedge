@@ -13,8 +13,8 @@ class AuthService {
     localStorage.removeItem(USERNAME);
   }
 
-  getUsername(){
-    return localStorage.getItem(USERNAME)
+  getUsername() {
+    return localStorage.getItem(USERNAME);
   }
 }
 

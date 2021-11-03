@@ -5,7 +5,7 @@ import {useParams} from 'react-router-dom';
 import {useModalContext} from '../../lib/context/modal';
 import {Link} from 'react-router-dom';
 // import socketIOClient from 'socket.io-client';
-import {authService} from '../../lib/services/auth-service'
+import {authService} from '../../lib/services/auth-service';
 
 export const Chat = (props) => {
   const {chatId} = useParams();
@@ -14,47 +14,46 @@ export const Chat = (props) => {
 
   const showMembersModal = () => showModal('membersList', {id: chatId});
 
-  const showSendMessageModal = () => showModal('sendMessage', {socket: props.socket, chatId: chatId});
+  const showSendMessageModal = () =>
+    showModal('sendMessage', {socket: props.socket, chatId: chatId});
   const showCreateEventModal = () => showModal('createEvent');
 
   // const [response, setResponse] = useState('');
-  
-  const username = authService().getUsername()
+
+  const username = authService().getUsername();
   // console.log(chatId);
-  const [testData, setTestData] = useState([])
+  const [testData, setTestData] = useState([]);
 
   const testDataHandler = (msgObj) => {
+    setTestData((prevArr) => {
+      return [...prevArr, msgObj];
+    });
+  };
 
-    setTestData((prevArr)=> {
-      return [...prevArr, msgObj]
-    })
-  }
-
-  useEffect(()=>{
+  useEffect(() => {
     console.log('testData', testData);
     // if (testData[0] === null){}
-  }, [testData])
-  
+  }, [testData]);
+
   useEffect(() => {
-    props.socket.emit('joinRoom', ({username, chatId}));
+    props.socket.emit('joinRoom', {username, chatId});
 
-    props.socket.emit('retrieveMsgs', ({chatId}))
+    props.socket.emit('retrieveMsgs', {chatId});
 
-    props.socket.on('retrieveMsgs', msgs => {
+    props.socket.on('retrieveMsgs', (msgs) => {
       console.log('rM', msgs);
       if (msgs !== null) {
-        setTestData(msgs)
+        setTestData(msgs);
+      } else {
+        setTestData([]);
       }
-      else{
-        setTestData([])
-      }
-    })
-    
-    props.socket.on('sendMsg', msgObj => {
+    });
+
+    props.socket.on('sendMsg', (msgObj) => {
       console.log('30', msgObj);
       // console.log(data);
-      testDataHandler(msgObj)
-    })
+      testDataHandler(msgObj);
+    });
   }, []);
 
   // const mapChatMessages = isLoading ? (
@@ -73,27 +72,28 @@ export const Chat = (props) => {
   //           <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
   //         </p>
   //       </div>)
-      
+
   //     return text
   //   })
   // );
-  const mapChatMessages =
-    testData.map((obj) => {
-      const text = obj.username === username ? (
+  const mapChatMessages = testData.map((obj) => {
+    const text =
+      obj.username === username ? (
         <div key={obj.id}>
           <p className={styles.self}>
             <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
           </p>
-        </div>)
-      :
-        (<div key={obj.id}>
+        </div>
+      ) : (
+        <div key={obj.id}>
           <p>
             <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
           </p>
-        </div>)
-      
-      return text
-    })
+        </div>
+      );
+
+    return text;
+  });
 
   // if (isError) {
   //   return <p>An error occured</p>;

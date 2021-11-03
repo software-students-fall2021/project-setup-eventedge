@@ -6,7 +6,10 @@ import styles from './chats.module.css';
 
 export const Chats = () => {
   // const {isLoading, isError, data} = useChatService.useChats();
-  const data = [{id: 1, chatName: 'NYU'}, {id: 2, chatName: 'Tech'}]
+  const data = [
+    {id: 1, chatName: 'NYU'},
+    {id: 2, chatName: 'Tech'},
+  ];
   const {showModal} = useModalContext();
   const [searchFilterWord, setSearchFilterWord] = useState('');
 
@@ -15,9 +18,9 @@ export const Chats = () => {
   const onSearchChange = (event) =>
     setSearchFilterWord(event.target.value.toLowerCase().trim());
 
-  useEffect(()=>{
+  useEffect(() => {
     // props.socket.disconnect()
-  }, [])
+  }, []);
 
   // const mapChats = isLoading ? (
   //   <p>Loading...</p>
@@ -34,16 +37,16 @@ export const Chats = () => {
   //     ))
   // );
 
-  const mapChats = 
-    data?.filter(
-        ({chatName}) =>
-          !searchFilterWord || chatName.toLowerCase().includes(searchFilterWord)
-      )
-      .map(({id, chatName}) => (
-        <Link className={styles.chatLink} key={id} to={`/chat/${id}`}>
-          <li className={styles.listItem}>{chatName}</li>
-        </Link>
-      ))
+  const mapChats = data
+    ?.filter(
+      ({chatName}) =>
+        !searchFilterWord || chatName.toLowerCase().includes(searchFilterWord)
+    )
+    .map(({id, chatName}) => (
+      <Link className={styles.chatLink} key={id} to={`/chat/${id}`}>
+        <li className={styles.listItem}>{chatName}</li>
+      </Link>
+    ));
 
   // if (isError) {
   //   return <p>An error occured</p>;
