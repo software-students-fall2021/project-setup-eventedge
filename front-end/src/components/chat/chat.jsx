@@ -12,7 +12,7 @@ export const Chat = (props) => {
   // const {isLoading, isError, data} = useChatService.useChatMessages(chatId);
   const {showModal} = useModalContext();
 
-  const showMembersModal = () => showModal('membersList');
+  const showMembersModal = () => showModal('membersList', {id: chatId});
 
   const showSendMessageModal = () => showModal('sendMessage', {socket: props.socket, chatId: chatId});
   const showCreateEventModal = () => showModal('createEvent');
