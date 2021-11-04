@@ -32,7 +32,19 @@
 * Make sure you format the files before merging a PR by running `npm run format` and `npm run lint`
 
 ## Instructions for setting up the local development environment
-* _TBD_
+* Installing Homebrew
+  * If you have not yet installed Brew, you will need to do that by referring to [https://brew.sh/](https://brew.sh/).
+* Installing Git
+  * To install Git, type in your terminal: brew install git
+* Downloading and Installing npm and Node.js
+  * To correctly install and download npm and Node.js, refer to this [npm documentation page](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/).
+* Install Node dependencies
+  * To correctly install all node dependencies needed to run our project, type in your local terminal: npm install
+* Downloading and Installing npm and Node.js
+  * To correctly install and download npm and Node.js, refer to this [npm documentation page](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/).
+* Once the local environment is set up, you can start running the project. To run our front end, refer to our front end [README](https://github.com/software-students-fall2021/project-setup-eventedge/edit/master/front-end/README.md).
+
+
 
 ## Instructions for building and testing the project
 * _TBD_
