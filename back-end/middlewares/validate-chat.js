@@ -12,7 +12,6 @@ const validationOptions = {
 };
 
 const validateCreateChat = (req, res, next) => {
-  console.log(req);
   const {error, value} = createChatSchema.validate(req.body, validationOptions);
 
   if (error) {
