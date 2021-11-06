@@ -4,7 +4,7 @@ import {useGetService} from './use-service';
 export function eventService() {
   return {
     getMyEvents() {
-      return request().get('/events.json');
+      return request().get('/events');
     },
   };
 }
