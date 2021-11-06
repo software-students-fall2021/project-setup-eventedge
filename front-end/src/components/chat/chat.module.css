@@ -2,6 +2,10 @@
   text-align: right;
 }
 
+.text{
+  word-wrap: break-word;
+}
+
 .input {
   display: block;
   width: 100%;
@@ -37,4 +41,3 @@
   height: calc(100vh - 200px);
   overflow-y: scroll;
 }
-

@@ -1,109 +1,76 @@
 import React, {useEffect, useState} from 'react';
 import styles from './chat.module.css';
 import {useParams} from 'react-router-dom';
-// import {useChatService} from '../../lib/services/chat-service';
 import {useModalContext} from '../../lib/context/modal';
 import {Link} from 'react-router-dom';
-// import socketIOClient from 'socket.io-client';
-import {authService} from '../../lib/services/auth-service'
+import socketIOClient from 'socket.io-client';
+import {authService} from '../../lib/services/auth-service';
 
-export const Chat = (props) => {
+export const Chat = () => {
+  const socket = socketIOClient('http://localhost:8000', {
+    transport: ['websocket', 'polling', 'flashsocket'],
+  });
+
   const {chatId} = useParams();
-  // const {isLoading, isError, data} = useChatService.useChatMessages(chatId);
   const {showModal} = useModalContext();
 
   const showMembersModal = () => showModal('membersList', {id: chatId});
 
-  const showSendMessageModal = () => showModal('sendMessage', {socket: props.socket, chatId: chatId});
+  const showSendMessageModal = () =>
+    showModal('sendMessage', {socket: socket, chatId: chatId});
   const showCreateEventModal = () => showModal('createEvent');
 
-  // const [response, setResponse] = useState('');
-  
-  const username = authService().getUsername()
-  // console.log(chatId);
-  const [testData, setTestData] = useState([])
+  const username = authService().getUsername();
 
-  const testDataHandler = (msgObj) => {
+  const [messages, setMessages] = useState([]);
 
-    setTestData((prevArr)=> {
-      return [...prevArr, msgObj]
-    })
-  }
+  const messagesHandler = (msgObj) => {
+    setMessages((prevArr) => {
+      return [...prevArr, msgObj];
+    });
+  };
 
-  useEffect(()=>{
-    console.log('testData', testData);
-    // if (testData[0] === null){}
-  }, [testData])
-  
   useEffect(() => {
-    props.socket.emit('joinRoom', ({username, chatId}));
+    socket.emit('joinRoom', {username, chatId});
 
-    props.socket.emit('retrieveMsgs', ({chatId}))
+    socket.emit('retrieveMsgs', {chatId});
 
-    props.socket.on('retrieveMsgs', msgs => {
-      console.log('rM', msgs);
+    socket.on('retrieveMsgs', (msgs) => {
       if (msgs !== null) {
-        setTestData(msgs)
+        setMessages(msgs);
+      } else {
+        setMessages([]);
       }
-      else{
-        setTestData([])
-      }
-    })
-    
-    props.socket.on('sendMsg', msgObj => {
-      console.log('30', msgObj);
-      // console.log(data);
-      testDataHandler(msgObj)
-    })
+    });
+
+    socket.on('sendMsg', (msgObj) => {
+      messagesHandler(msgObj);
+    });
   }, []);
 
-  // const mapChatMessages = isLoading ? (
-  //   <p>Loading...</p>
-  // ) : (
-  //   testData.map((obj) => {
-  //     const text = obj.username === username ? (
-  //       <div key={obj.id}>
-  //         <p className={styles.self}>
-  //           <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
-  //         </p>
-  //       </div>)
-  //     :
-  //       (<div key={obj.id}>
-  //         <p>
-  //           <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
-  //         </p>
-  //       </div>)
-      
-  //     return text
-  //   })
-  // );
-  const mapChatMessages =
-    testData.map((obj) => {
-      const text = obj.username === username ? (
+  const mapChatMessages = messages.map((obj) => {
+    const text =
+      obj.username === username ? (
         <div key={obj.id}>
-          <p className={styles.self}>
+          <p className={styles.self + ' ' + styles.text}>
             <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
           </p>
-        </div>)
-      :
-        (<div key={obj.id}>
-          <p>
+        </div>
+      ) : (
+        <div key={obj.id}>
+          <p className={styles.text}>
             <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
           </p>
-        </div>)
-      
-      return text
-    })
+        </div>
+      );
 
-  // if (isError) {
-  //   return <p>An error occured</p>;
-  // }
+    return text;
+  });
 
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatHeader}>
         <button onClick={showCreateEventModal}>Create Event</button>
-        {/* <p>Here: {response}</p> */}
         <Link to="/events">
           <button>Events</button>
         </Link>
