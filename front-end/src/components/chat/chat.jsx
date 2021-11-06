@@ -48,24 +48,21 @@ export const Chat = () => {
     });
   }, []);
 
-  const mapChatMessages = messages.map((obj) => {
-    const text =
-      obj.username === username ? (
-        <div key={obj.id}>
-          <p className={styles.self + ' ' + styles.text}>
-            <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
-          </p>
-        </div>
-      ) : (
-        <div key={obj.id}>
-          <p className={styles.text}>
-            <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
-          </p>
-        </div>
-      );
-
-    return text;
-  });
+  const mapChatMessages = messages.map((obj) =>
+    obj.username === username ? (
+      <div key={obj.id}>
+        <p className={styles.self + ' ' + styles.text}>
+          <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
+        </p>
+      </div>
+    ) : (
+      <div key={obj.id}>
+        <p className={styles.text}>
+          <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
+        </p>
+      </div>
+    )
+  );
 
   return (
     <div className={styles.chatContainer}>
