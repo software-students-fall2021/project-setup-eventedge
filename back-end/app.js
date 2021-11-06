@@ -4,6 +4,7 @@ const socketIo = require('socket.io');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const chatsRoutes = require('./routes/chats');
+const eventsRoutes = require('./routes/events');
 require('dotenv').config();
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 // routes
 app.use('/auth', authRoutes);
 app.use('/chats', chatsRoutes);
+app.use('/events', eventsRoutes);
 
 const server = http.createServer(app);
 
