@@ -36,7 +36,9 @@ const createChat = async (req, res) =>
     .catch((e) => {
       console.error(e);
       // mockaroo limit reached
-      res.status(200).json({id: generateRandomInt(0, 100), chatName: req.body.chatName});
+      res
+        .status(200)
+        .json({id: generateRandomInt(0, 100), chatName: req.body.chatName});
     });
 
 module.exports = {

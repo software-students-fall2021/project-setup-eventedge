@@ -6,6 +6,10 @@ const router = express.Router();
 
 router.get('/', chatsControllers.getChats);
 router.get('/:id/members', chatsControllers.getChatMembers);
-router.post('/', chatValidators.validateCreateChat, chatsControllers.createChat);
+router.post(
+  '/',
+  chatValidators.validateCreateChat,
+  chatsControllers.createChat
+);
 
 module.exports = router;
