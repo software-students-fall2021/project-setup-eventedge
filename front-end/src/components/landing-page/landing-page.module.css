@@ -1,0 +1,17 @@
+.input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.button {
+  display: block;
+  margin: 10px auto;
+}
+
+.container {
+  background-color: #2c3e50;
+  color: white;
+  text-align: center;
+}

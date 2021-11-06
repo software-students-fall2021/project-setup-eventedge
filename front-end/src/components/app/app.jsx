@@ -7,7 +7,9 @@ import {
 } from 'react-router-dom';
 import {Navigation} from '../navigation';
 import {Register} from '../register';
+import {LandingPage} from '../landing-page';
 import {Login} from '../login';
+import {Chat} from '../chat';
 import {Chats} from '../chats';
 import {Footer} from '../footer';
 import {NotFound} from '../not-found';
@@ -27,13 +29,11 @@ export const App = () => (
       <div className={styles.mainContainer}>
         <Switch>
           <Route path="/" exact>
-            {
-              authService().isUserLoggedIn() ? (
-                <Redirect to="/chats" />
-              ) : (
-                <h1>Welcome Page</h1>
-              ) //Mohammed, replace this line with your Landing Page component.
-            }
+            {authService().isUserLoggedIn() ? (
+              <Redirect to="/chats" />
+            ) : (
+              <LandingPage />
+            )}
           </Route>
           <Route path="/register" exact>
             <Register />
@@ -48,6 +48,11 @@ export const App = () => (
           </Route>
           <Route path="/modals-test" exact>
             <ModalsTest />
+          </Route>
+          <Route path="/chat/:chatId" exact>
+            <PrivateComponent>
+              <Chat />
+            </PrivateComponent>
           </Route>
           <Route path="/chats" exact>
             <PrivateComponent>

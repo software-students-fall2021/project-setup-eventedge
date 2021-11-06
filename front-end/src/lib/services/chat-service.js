@@ -10,7 +10,7 @@ export function chatService() {
       return request().get(`/chats/${id}.json`);
     },
     getChatMembers() {
-      return request.get('/members.json');
+      return request().get('/members.json');
     },
   };
 }
