@@ -1,20 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styles from './login.module.css';
 import {Link} from 'react-router-dom';
 import {authService} from '../../lib/services/auth-service';
 
 export const Login = () => {
-  // const username = 'test';
-  // const password = '123';
-
   const [info, setInfo] = useState({
     username: '',
     password: '',
   });
 
   const infoHandler = (event) => {
-    console.log(event.target.value);
-    console.log(event.target.name);
     setInfo((prev) => {
       return {
         ...prev,
@@ -29,20 +24,12 @@ export const Login = () => {
     else {
       authService().login(info.username);
       window.location = '/chats';
-      // if (info.username === username && info.password === password) {
-      //   authService().login(info.username);
-      //   window.location = '/chats';
-      // }
     }
   };
 
   const enter = (event) => {
     if (event.key === 'Enter') loginHandler();
   };
-
-  useEffect(() => {
-    console.log(info);
-  }, [info]);
 
   return (
     <React.Fragment>

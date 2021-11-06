@@ -26,20 +26,14 @@ const io = socketIo(server, {
   },
 });
 
-let interval;
-
 let msgs = {};
 
 io.on('connection', (socket) => {
-  let i = 1;
-  console.log('New client connected', i);
-  i++;
+  console.log('New client connected');
 
   socket.on('joinRoom', ({username, chatId}) => {
-    console.log(username, chatId);
+    console.log(username + ' joined');
     socket.join(chatId);
-    // const join = username + " read"
-    // socket.broadcast.to(chatId).emit('joinMessage',join)
   });
 
   socket.on('retrieveMsgs', ({chatId}) => {
@@ -47,8 +41,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMsg', ({msgObj, chatId}) => {
-    console.log('sendMsg');
-    console.log(msgObj, chatId);
     if (msgs.hasOwnProperty(chatId)) {
       const length = msgs[chatId].length;
       msgObj.id = length;
