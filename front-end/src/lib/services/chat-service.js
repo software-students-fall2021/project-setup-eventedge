@@ -20,7 +20,8 @@ export function chatService() {
 
 export const useChatService = {
   useChats: () => useGetService(chatService().getChats),
-  useChatMessages: (id) => useGetService(() => chatService().getChatMessages(id)),
+  useChatMessages: (id) =>
+    useGetService(() => chatService().getChatMessages(id)),
   useChatMembers: (id) => useGetService(() => chatService().getChatMembers(id)),
   useCreateChat: () => usePostService(chatService().createChat),
 };
