@@ -9,7 +9,7 @@ export const CreateGroupChat = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [searchFilterWord, setSearchFilterWord] = useState('');
   const [chatName, setChatName] = useState('');
-  const {isLoading, isError, data} = useChatService.useChatMembers();
+  const {isLoading, isError, data} = useChatService.useChatMembers(0);
 
   const addUser = (user) => () =>
     setSelectedUsers((prevSelected) => [...prevSelected, user]);

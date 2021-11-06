@@ -28,7 +28,7 @@ export const usePostService = (promise) => {
   return {post, isLoading, isError, data};
 };
 
-export const useService = (method) => {
+export const useGetService = (method) => {
   const {isLoading, isError, data, setIsLoading, setIsError, setData} =
     usePromiseStates(true, false, null);
 

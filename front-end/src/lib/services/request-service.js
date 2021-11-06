@@ -5,8 +5,7 @@ class RequestService {
   constructor() {
     this.client = axios.create({
       baseURL: API_BASE_URL,
-      // remove after we are done with mocked API
-      headers: {'X-API-Key': process.env.REACT_APP_MOCKAROO_API_KEY},
+      // we can add auth headers here and what not
     });
   }
 

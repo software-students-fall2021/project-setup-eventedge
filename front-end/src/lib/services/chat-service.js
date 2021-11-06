@@ -1,22 +1,26 @@
 import {request} from './request-service';
-import {useService} from './use-service';
+import {useGetService, usePostService} from './use-service';
 
 export function chatService() {
   return {
     getChats() {
-      return request().get('/chats.json');
+      return request().get('/chats');
     },
     getChatMessages(id) {
-      return request().get(`/chats/${id}.json`);
+      return request().get(`/chats/${id}`);
     },
-    getChatMembers() {
-      return request().get('/members.json');
+    getChatMembers(id) {
+      return request().get(`/chats/${id}/members`);
+    },
+    createChat({chatName, usersList}) {
+      return request().withBody({chatName, usersList}).post('/chats');
     },
   };
 }
 
 export const useChatService = {
-  useChats: () => useService(chatService().getChats),
-  useChatMessages: (id) => useService(() => chatService().getChatMessages(id)),
-  useChatMembers: () => useService(chatService().getChatMembers),
+  useChats: () => useGetService(chatService().getChats),
+  useChatMessages: (id) => useGetService(() => chatService().getChatMessages(id)),
+  useChatMembers: (id) => useGetService(() => chatService().getChatMembers(id)),
+  useCreateChat: () => usePostService(chatService().createChat),
 };
