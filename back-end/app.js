@@ -5,6 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const eventsRoutes = require('./routes/events');
 const chatsRoutes = require('./routes/chats');
+const usersRoutes = require('./routes/users');
 require('dotenv').config();
 
 const app = express();
@@ -19,6 +20,7 @@ app.use('/auth', authRoutes);
 app.use('/events', eventsRoutes);
 app.use('/chats', chatsRoutes);
 app.use('/events', eventsRoutes);
+app.use('/users', usersRoutes);
 
 const server = http.createServer(app);
 
@@ -44,9 +46,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMsg', ({msgObj, chatId}) => {
-    if (msgs.hasOwnProperty(chatId)) {
-      const length = msgs[chatId].length;
-      msgObj.id = length;
+    if (msgs[chatId]) {
+      msgObj.id = msgs[chatId].length;
       msgs[chatId].push(msgObj);
     } else {
       msgs[chatId] = [msgObj];
