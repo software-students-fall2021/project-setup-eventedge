@@ -1,10 +1,12 @@
-const router = express.Router();
 const express = require('express');
+const eventsValidators = require('../middlewares/validate-event');
 const eventsControllers = require('../controllers/events');
+
+const router = express.Router();
 
 router.post('/pending/accept', eventsControllers.acceptPending);
 router.post('/pending/decline', eventsControllers.declinePending);
-router.get('/pending', eventsControllers.getEventsPending);
-router.post('/create', eventsControllers.createEvent);
+router.get('/pending', eventsControllers.getPendingEvents);
+router.post('/create', eventsValidators.validateCreateChat, eventsControllers.createEvent);
 
 module.exports = router;

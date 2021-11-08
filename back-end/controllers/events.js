@@ -45,29 +45,33 @@ const declinePending = (req, res) =>
       });
     });
 
-const getEventsPending = async (_, res) => {
-  res.send(fakeEventsData);
-};
+const getPendingEvents = async (_, res) =>
+  request()
+    .get('/events.json')
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((e) => {
+      console.error(e);
+      res.send(fakeEventsData)
+    });
 
 const createEvent = async (req, res) => {
-  //data from form
-  const eventName = req.body.eventName;
-  const mdy = req.body.mdy;
-  const eventTime = req.body.eventTime;
-  const locationSearch = req.body.locationSearch;
-  const eventDescription = req.body.eventDescription;
+  // data from form
+  const {eventName, eventDate, eventTime, location, eventDescription} = req.body;
+
   res.status(200).json({
-    eventName: eventName,
-    mdy: mdy,
-    eventTime: eventTime,
-    locationSearch: locationSearch,
-    eventDescription: eventDescription,
+    eventName,
+    eventDate,
+    eventTime,
+    location,
+    eventDescription,
   });
 };
 
 module.exports = {
   acceptPending,
   declinePending,
-  getEventsPending,
+  getPendingEvents,
   createEvent,
 };
