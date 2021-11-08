@@ -6,6 +6,7 @@ import styles from './chats.module.css';
 
 export const Chats = () => {
   const {isLoading, isError, data} = useChatService.useChats();
+
   const {showModal} = useModalContext();
   const [searchFilterWord, setSearchFilterWord] = useState('');
 

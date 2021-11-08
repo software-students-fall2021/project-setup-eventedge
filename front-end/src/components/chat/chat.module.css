@@ -1,3 +1,11 @@
+.self {
+  text-align: right;
+}
+
+.text {
+  word-wrap: break-word;
+}
+
 .input {
   display: block;
   width: 100%;
