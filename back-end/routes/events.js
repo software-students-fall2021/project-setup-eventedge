@@ -7,6 +7,10 @@ const router = express.Router();
 router.post('/pending/accept', eventsControllers.acceptPending);
 router.post('/pending/decline', eventsControllers.declinePending);
 router.get('/pending', eventsControllers.getPendingEvents);
-router.post('/create', eventsValidators.validateCreateChat, eventsControllers.createEvent);
+router.post(
+  '/create',
+  eventsValidators.validateCreateChat,
+  eventsControllers.createEvent
+);
 
 module.exports = router;

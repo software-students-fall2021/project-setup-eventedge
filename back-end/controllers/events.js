@@ -53,12 +53,13 @@ const getPendingEvents = async (_, res) =>
     })
     .catch((e) => {
       console.error(e);
-      res.send(fakeEventsData)
+      res.send(fakeEventsData);
     });
 
 const createEvent = async (req, res) => {
   // data from form
-  const {eventName, eventDate, eventTime, location, eventDescription} = req.body;
+  const {eventName, eventDate, eventTime, location, eventDescription} =
+    req.body;
 
   res.status(200).json({
     eventName,
