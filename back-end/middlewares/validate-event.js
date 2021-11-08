@@ -30,4 +30,4 @@ const validateCreateEvent = (req, res, next) => {
   }
 };
 
-module.exports = {validateCreateChat: validateCreateEvent};
+module.exports = {validateCreateEvent};

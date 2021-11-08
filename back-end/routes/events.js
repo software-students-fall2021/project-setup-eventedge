@@ -9,7 +9,7 @@ router.post('/pending/decline', eventsControllers.declinePending);
 router.get('/pending', eventsControllers.getPendingEvents);
 router.post(
   '/create',
-  eventsValidators.validateCreateChat,
+  eventsValidators.validateCreateEvent,
   eventsControllers.createEvent
 );
 
