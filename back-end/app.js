@@ -43,9 +43,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMsg', ({msgObj, chatId}) => {
-    if (msgs.hasOwnProperty(chatId)) {
-      const length = msgs[chatId].length;
-      msgObj.id = length;
+    if (msgs[chatId]) {
+      msgObj.id = msgs[chatId].length;
       msgs[chatId].push(msgObj);
     } else {
       msgs[chatId] = [msgObj];
