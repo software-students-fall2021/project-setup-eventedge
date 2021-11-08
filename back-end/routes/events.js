@@ -1,9 +1,16 @@
 const express = require('express');
-const eventControllers = require('../controllers/events');
+const eventsValidators = require('../middlewares/validate-event');
+const eventsControllers = require('../controllers/events');
 
 const router = express.Router();
 
-router.post('/pending/accept', eventControllers.acceptPending);
-router.post('/pending/decline', eventControllers.declinePending);
+router.post('/pending/accept', eventsControllers.acceptPending);
+router.post('/pending/decline', eventsControllers.declinePending);
+router.get('/pending', eventsControllers.getPendingEvents);
+router.post(
+  '/create',
+  eventsValidators.validateCreateEvent,
+  eventsControllers.createEvent
+);
 
 module.exports = router;

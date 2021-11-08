@@ -3,8 +3,8 @@ const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-const chatsRoutes = require('./routes/chats');
 const eventsRoutes = require('./routes/events');
+const chatsRoutes = require('./routes/chats');
 const usersRoutes = require('./routes/users');
 require('dotenv').config();
 
@@ -17,6 +17,7 @@ app.use(express.json());
 
 // routes
 app.use('/auth', authRoutes);
+app.use('/events', eventsRoutes);
 app.use('/chats', chatsRoutes);
 app.use('/events', eventsRoutes);
 app.use('/users', usersRoutes);

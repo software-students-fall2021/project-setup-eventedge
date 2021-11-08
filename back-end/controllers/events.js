@@ -1,6 +1,7 @@
 const {request} = require('./axios');
 const generateRandomInt = require('../utils/generate-random-int');
 const DateGenerator = require('random-date-generator');
+const {EVENTS: fakeEventsData} = require('../mock-data/events');
 
 const acceptPending = (_, res) =>
   request()
@@ -44,7 +45,34 @@ const declinePending = (req, res) =>
       });
     });
 
+const getPendingEvents = async (_, res) =>
+  request()
+    .get('/events.json')
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((e) => {
+      console.error(e);
+      res.send(fakeEventsData);
+    });
+
+const createEvent = async (req, res) => {
+  // data from form
+  const {eventName, eventDate, eventTime, location, eventDescription} =
+    req.body;
+
+  res.status(200).json({
+    eventName,
+    eventDate,
+    eventTime,
+    location,
+    eventDescription,
+  });
+};
+
 module.exports = {
   acceptPending,
   declinePending,
+  getPendingEvents,
+  createEvent,
 };
