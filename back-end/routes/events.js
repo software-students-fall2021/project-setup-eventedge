@@ -4,6 +4,7 @@ const eventsControllers = require('../controllers/events');
 
 const router = express.Router();
 
+router.get('/', eventsControllers.getAllEvents);
 router.post('/pending/accept', eventsControllers.acceptPending);
 router.post('/pending/decline', eventsControllers.declinePending);
 router.get('/pending', eventsControllers.getPendingEvents);
