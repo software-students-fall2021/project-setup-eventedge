@@ -1,0 +1,12 @@
+{
+  "all": true,
+  "cache": false,
+  "check-coverage": true,
+  "lines": 10,
+  "include": [
+    "**/*.js"
+  ],
+  "exclude": [
+    "**/*.test.js"
+  ]
+}
