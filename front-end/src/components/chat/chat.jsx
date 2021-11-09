@@ -5,9 +5,10 @@ import {useModalContext} from '../../lib/context/modal';
 import {Link} from 'react-router-dom';
 import socketIOClient from 'socket.io-client';
 import {authService} from '../../lib/services/auth-service';
+import {API_BASE_URL} from '../../lib/constants';
 
 export const Chat = () => {
-  const socket = socketIOClient('http://localhost:8000', {
+  const socket = socketIOClient(API_BASE_URL, {
     transport: ['websocket', 'polling', 'flashsocket'],
   });
 
@@ -20,7 +21,7 @@ export const Chat = () => {
     showModal('sendMessage', {socket: socket, chatId: chatId});
   const showCreateEventModal = () => showModal('createEvent');
 
-  const username = authService().getUsername();
+  const loggedInUsername = authService().getUsername();
 
   const [messages, setMessages] = useState([]);
 
@@ -31,11 +32,12 @@ export const Chat = () => {
   };
 
   useEffect(() => {
-    socket.emit('joinRoom', {username, chatId});
+    socket.emit('joinRoom', {username: loggedInUsername, chatId});
 
     socket.emit('retrieveMsgs', {chatId});
 
     socket.on('retrieveMsgs', (msgs) => {
+      console.log(msgs);
       if (msgs !== null) {
         setMessages(msgs);
       } else {
@@ -48,21 +50,18 @@ export const Chat = () => {
     });
   }, []);
 
-  const mapChatMessages = messages.map((obj) =>
-    obj.username === username ? (
-      <div key={obj.id}>
-        <p className={styles.self + ' ' + styles.text}>
-          <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
-        </p>
-      </div>
-    ) : (
-      <div key={obj.id}>
-        <p className={styles.text}>
-          <strong>{obj.username}</strong> : {obj.message} ({obj.date}){' '}
-        </p>
-      </div>
-    )
-  );
+  const mapChatMessages = messages.map(({username, message, date}, index) => (
+    <p
+      key={index}
+      className={
+        username === loggedInUsername
+          ? `${styles.self} ${styles.text}`
+          : styles.text
+      }
+    >
+      <strong>{username}</strong> : {message} ({date}){' '}
+    </p>
+  ));
 
   return (
     <div className={styles.chatContainer}>
