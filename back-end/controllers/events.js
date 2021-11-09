@@ -56,6 +56,17 @@ const getPendingEvents = async (_, res) =>
       res.send(fakeEventsData);
     });
 
+const getAllEvents = async (_, res) =>
+  request()
+    .get('/events.json')
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((e) => {
+      console.error(e);
+      res.send(fakeEventsData);
+    });
+
 const createEvent = async (req, res) => {
   // data from form
   const {eventName, eventDate, eventTime, location, eventDescription} =
@@ -75,4 +86,5 @@ module.exports = {
   declinePending,
   getPendingEvents,
   createEvent,
+  getAllEvents,
 };
