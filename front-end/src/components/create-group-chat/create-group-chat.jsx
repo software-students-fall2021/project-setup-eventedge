@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {AddUserButton} from './add-user-button';
 import {AddedUsersList} from './added-users-list';
-import {useChatService} from '../../lib/services/chat-service';
+import {useUsersService} from '../../lib/services/users-service';
 import {Button} from '../button';
 import styles from './create-group-chat.module.css';
 
@@ -9,7 +9,7 @@ export const CreateGroupChat = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [searchFilterWord, setSearchFilterWord] = useState('');
   const [chatName, setChatName] = useState('');
-  const {isLoading, isError, data} = useChatService.useChatMembers(0);
+  const {isLoading, isError, data} = useUsersService.useAllUsers();
 
   const addUser = (user) => () =>
     setSelectedUsers((prevSelected) => [...prevSelected, user]);

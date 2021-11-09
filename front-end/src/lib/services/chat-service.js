@@ -6,9 +6,6 @@ export function chatService() {
     getChats() {
       return request().get('/chats');
     },
-    getChatMessages(id) {
-      return request().get(`/chats/${id}`);
-    },
     getChatMembers(id) {
       return request().get(`/chats/${id}/members`);
     },
@@ -20,8 +17,6 @@ export function chatService() {
 
 export const useChatService = {
   useChats: () => useGetService(chatService().getChats),
-  useChatMessages: (id) =>
-    useGetService(() => chatService().getChatMessages(id)),
   useChatMembers: (id) => useGetService(() => chatService().getChatMembers(id)),
   useCreateChat: () => usePostService(chatService().createChat),
 };
