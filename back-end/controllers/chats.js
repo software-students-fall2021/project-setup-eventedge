@@ -31,7 +31,7 @@ const createChat = async (req, res) =>
   request()
     .post('/chats.json')
     .then((data) => {
-      res.status(200).json(data);
+      res.status(200).json({...data, id: generateRandomInt(0, 100)});
     })
     .catch((e) => {
       console.error(e);
