@@ -19,32 +19,51 @@ export const CreateEvent = ({dismissModal}) => {
     await post({name, time, date, location, description}).then(() => {
       dismissModal();
     });
-  }
+  };
 
   return (
     <>
       <form>
         <h1>Event Name:</h1>
-        <input placeholder="Event name" name="eventName" onChange={e => setName(e.target.value)} />
+        <input
+          placeholder="Event name"
+          name="eventName"
+          onChange={(e) => setName(e.target.value)}
+        />
         <hr></hr>
         <h1>Event Time:</h1>
-        <input name="mdy" type="date" onChange={e => setDate(e.target.value)} />
-        <input name="eventTime" type="time" onChange={e => setTime(e.target.value)} />
+        <input
+          name="mdy"
+          type="date"
+          onChange={(e) => setDate(e.target.value)}
+        />
+        <input
+          name="eventTime"
+          type="time"
+          onChange={(e) => setTime(e.target.value)}
+        />
         <hr></hr>
         <h1>Location:</h1>
         <input
           name="locationSearch"
           type="search"
           placeholder="Search for location"
-          onChange={e => setLocation(e.target.value)}
+          onChange={(e) => setLocation(e.target.value)}
         ></input>
         <hr></hr>
         <h1>Description</h1>
-        <textarea name="eventDescription" onChange={e => setDescription(e.target.value)}></textarea>
+        <textarea
+          name="eventDescription"
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
       </form>
       <hr></hr>
       {isError && <p>An error occured</p>}
-      {isLoading ? <p>Loading...</p>: <Button onClick={createEvent}>Create event</Button>}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <Button onClick={createEvent}>Create event</Button>
+      )}
     </>
   );
-}
+};

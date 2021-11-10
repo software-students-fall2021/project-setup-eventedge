@@ -18,8 +18,10 @@ export function eventService() {
         .post(`/events/pending/${accept ? ACCEPT : DECLINE}`);
     },
     createEvent({name, date, time, location, description}) {
-      return request().withBody({name, date, time, location, description}).post('/events/create');
-    }
+      return request()
+        .withBody({name, date, time, location, description})
+        .post('/events/create');
+    },
   };
 }
 
