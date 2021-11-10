@@ -127,3 +127,7 @@ typings/
 ## Jekyll artifacts	
 **/.jekyll-cache	
 **/_site/
+
+**/.vs
+.vs
+
