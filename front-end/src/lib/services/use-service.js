@@ -20,6 +20,7 @@ export const usePostService = (promise) => {
       setIsLoading(false);
     } catch (e) {
       setIsError(true);
+      throw e;
     } finally {
       setIsLoading(false);
     }

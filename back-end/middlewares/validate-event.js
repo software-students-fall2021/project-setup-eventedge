@@ -1,13 +1,11 @@
 const Joi = require('joi');
 
 const createEventSchema = Joi.object({
-  eventName: Joi.string().min(5).max(40).required(),
-  eventDate: Joi.date().iso().required(),
-  eventTime: Joi.string()
-    .regex(/^([0-9]{2})\:([0-9]{2})$/)
-    .required(),
+  name: Joi.string().min(5).max(40).required(),
+  date: Joi.string().required(),
+  time: Joi.string().required(),
   location: Joi.string().min(5).max(40).required(),
-  eventDescription: Joi.string().min(20).max(300).required(),
+  description: Joi.string().min(20).max(300).required(),
 });
 
 const validationOptions = {
