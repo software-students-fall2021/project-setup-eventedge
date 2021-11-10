@@ -21,6 +21,46 @@ describe('chat route', () => {
     sinon.restore();
   });
 
+    describe('POST /events/pending/accept', () => {
+        it('should fetch Mockaroo', async () => {
+            stubAxios(() => Promise.resolve({ data: EVENTS }));
+
+            const response = await request(app).post('/events/pending/accept');
+
+            expect(response.status).to.equal(200);
+            expect(response.body).to.deep.equal(EVENTS);
+        });
+
+        it('should return data from mock data if Mockaroo is unavailable', async () => {
+            stubAxios(() => Promise.reject('test error'));
+
+            const response = await request(app).post('/events/pending/accept');
+
+            expect(response.status).to.equal(200);
+            expect(response.body).to.deep.equal(FALLBACK_EVENTS);
+        });
+    });
+
+    describe('POST /events/pending/decline', () => {
+        it('should fetch Mockaroo', async () => {
+            stubAxios(() => Promise.resolve({ data: EVENTS }));
+
+            const response = await request(app).post('/events/pending/decline');
+
+            expect(response.status).to.equal(200);
+            expect(response.body).to.deep.equal(EVENTS);
+        });
+
+        it('should return data from mock data if Mockaroo is unavailable', async () => {
+            stubAxios(() => Promise.reject('test error'));
+
+            const response = await request(app).post('/events/pending/decline');
+
+            expect(response.status).to.equal(200);
+            expect(response.body).to.deep.equal(FALLBACK_EVENTS);
+        });
+    });
+
   describe('GET /events', () => {
     it('should fetch Mockaroo', async () => {
       stubAxios(() => Promise.resolve({data: EVENTS}));
