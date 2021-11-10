@@ -1,10 +1,12 @@
 const express = require('express');
 const http = require('http');
-const socketIo = require('socket.io');
+// const socketIo = require('socket.io');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-const chatsRoutes = require('./routes/chats');
 const eventsRoutes = require('./routes/events');
+const chatsRoutes = require('./routes/chats');
+const usersRoutes = require('./routes/users');
+const createSocket = require('./routes/socket')
 require('dotenv').config();
 
 const app = express();
@@ -16,56 +18,14 @@ app.use(express.json());
 
 // routes
 app.use('/auth', authRoutes);
+app.use('/events', eventsRoutes);
 app.use('/chats', chatsRoutes);
 app.use('/events', eventsRoutes);
+app.use('/users', usersRoutes);
 
 const server = http.createServer(app);
 
-const io = socketIo(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-  },
-});
-
-let interval;
-
-let msgs = {}
-
-io.on("connection", socket => {
-    let i = 1
-    console.log("New client connected", i);
-    i++
-    
-    socket.on("joinRoom", ( {username, chatId} ) => {
-      console.log(username, chatId);
-      socket.join(chatId)
-      // const join = username + " read"
-      // socket.broadcast.to(chatId).emit('joinMessage',join)
-  })
-
-  socket.on('retrieveMsgs', ({chatId}) => {
-    io.to(chatId).emit("retrieveMsgs", msgs[chatId])
-  })
-
-  socket.on('sendMsg', ({msgObj, chatId}) => {
-    console.log('sendMsg');
-    console.log(msgObj, chatId);
-    if (msgs.hasOwnProperty(chatId)){
-      const length = msgs[chatId].length
-      msgObj.id = length
-      msgs[chatId].push(msgObj)
-    } else{
-      msgs[chatId] = [msgObj]
-    }
-    io.to(chatId).emit("sendMsg", msgObj)
-  } )
-
-
-    socket.on("disconnect", () => {
-      console.log("Client disconnected");
-    });
-})
+createSocket(server)
 
 app.get('/', (_req, res) => {
   res.send('Hello world!');
