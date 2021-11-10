@@ -12,7 +12,8 @@ const stubAxios = (requestReturn) =>
 describe('chat route', () => {
   let app;
 
-  beforeEach(() => {
+    beforeEach(() => {
+    console.log("string 123")
     app = express();
     app.use('/events', eventsRoutes);
   });
