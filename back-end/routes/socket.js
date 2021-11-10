@@ -25,11 +25,8 @@ const createSocket = (server) => {
         });
     
         socket.on('disconnect', () => {
-        console.log('Client disconnected');
+            console.log('Client disconnected');
         });
-        socket.on('test', () => {
-            socketControllers.test(socket)
-        })
     });
 
     return io

@@ -19,13 +19,8 @@ const sendMsg = (msgObj, chatId, io) => {
     io.to(chatId).emit('sendMsg', msgObj);
 }
 
-const test = (socket) => {
-    socket.emit("hello world", "hello")
-}
-
 module.exports = {
     joinRoom,
     retrieveMsgs,
     sendMsg,
-    test
 }
