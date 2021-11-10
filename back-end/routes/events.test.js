@@ -5,7 +5,7 @@ const eventsRoutes = require('./events');
 const sinon = require('sinon');
 const axios = require('axios');
 const {EVENTS: FALLBACK_EVENTS, EVENTS} = require('../mock-data/events');
-
+ 
 const stubAxios = (requestReturn) =>
   sinon.stub(axios, 'create').returns({request: requestReturn});
 
