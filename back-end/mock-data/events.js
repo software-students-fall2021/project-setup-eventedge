@@ -13,7 +13,7 @@ const EVENTS = [
     id: 2,
     chatId: 2,
     name: 'Soccer game',
-    datej: '2008-7-04',
+    date: '2008-7-04',
     time: '09:53:32',
     location: 'NY',
     description: 'This is a soccer game',
