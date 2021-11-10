@@ -1,8 +1,8 @@
 import {request} from './request-service';
 import {useGetService, usePostService} from './use-service';
 
-const ACCEPT = 'accept'
-const DECLINE = 'decline'
+const ACCEPT = 'accept';
+const DECLINE = 'decline';
 
 export function eventService() {
   return {
@@ -13,8 +13,10 @@ export function eventService() {
       return request().get('/events/pending');
     },
     acceptEvent({id, accept}) {
-      return request().withBody({id}).post(`/events/pending/${accept ? ACCEPT : DECLINE}`)
-    }
+      return request()
+        .withBody({id})
+        .post(`/events/pending/${accept ? ACCEPT : DECLINE}`);
+    },
   };
 }
 
