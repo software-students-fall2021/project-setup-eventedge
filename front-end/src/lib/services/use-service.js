@@ -45,5 +45,5 @@ export const useGetService = (method) => {
     }
   }, []);
 
-  return {isLoading, isError, data};
+  return {isLoading, isError, data, setData};
 };

@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
-import {useModalContext} from '../../lib/context/modal';
 import {Button} from '../button';
 import styles from './send-message.module.css';
 import {authService} from '../../lib/services/auth-service';
 import {getClockTime} from '../../lib/utils/get-clock-time';
 
-export const SendMessage = ({socket, chatId}) => {
-  const {hideModal} = useModalContext();
+export const SendMessage = ({socket, chatId, dismissModal}) => {
   const [msg, setMsg] = useState('');
 
   const username = authService().getUsername();
@@ -15,8 +13,7 @@ export const SendMessage = ({socket, chatId}) => {
   };
 
   const sendMsgHandler = () => {
-    hideModal('sendMessage');
-
+    dismissModal();
     const msgObj = {
       username: username,
       message: msg,
