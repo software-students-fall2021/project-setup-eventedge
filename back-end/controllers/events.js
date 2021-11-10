@@ -63,8 +63,7 @@ const getAllEvents = async (_, res) =>
 
 const createEvent = async (req, res) => {
   // data from form
-  const {name, date, time, location, description} =
-    req.body;
+  const {name, date, time, location, description} = req.body;
 
   res.status(200).json({
     name,
