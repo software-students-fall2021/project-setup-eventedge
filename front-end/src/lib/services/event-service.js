@@ -17,6 +17,9 @@ export function eventService() {
         .withBody({id})
         .post(`/events/pending/${accept ? ACCEPT : DECLINE}`);
     },
+    createEvent({name, date, time, location, description}) {
+      return request().withBody({name, date, time, location, description}).post('/events/create');
+    }
   };
 }
 
@@ -24,4 +27,5 @@ export const useEventService = {
   useMyEvents: () => useGetService(eventService().getMyEvents),
   useMyPendingEvents: () => useGetService(eventService().getMyPendingEvents),
   useAcceptEvent: () => usePostService(eventService().acceptEvent),
+  useCreateEvent: () => usePostService(eventService().createEvent),
 };

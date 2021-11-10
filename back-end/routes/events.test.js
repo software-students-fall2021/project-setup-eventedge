@@ -9,12 +9,12 @@ const {EVENTS: FALLBACK_EVENTS} = require('../mock-data/events');
 const EVENTS = [
   {
     id: 10,
-    chatID: 10,
-    eventName: 'Test Event',
-    mdy: '1999-01-01',
-    eventTime: '10:00:00',
+    chatId: 10,
+    name: 'Test Event',
+    date: '1999-01-01',
+    time: '10:00:00',
     location: 'Moscow',
-    eventDescription: 'Testing',
+    description: 'Testing',
   },
 ];
 
