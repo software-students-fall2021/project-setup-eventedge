@@ -1,5 +1,4 @@
 const Chat = require('../models/Chat');
-let msgs = {};
 
 const joinRoom = (username, chatId, socket) => {
   console.log(username + ' joined');
