@@ -1,26 +1,39 @@
+const Chat = require('../models/Chat')
 let msgs = {};
 
 const joinRoom = (username, chatId, socket) => {
-    console.log(username + ' joined');
-    socket.join(chatId);
-}
+  console.log(username + ' joined');
+  socket.join(chatId);
+};
 
 const retrieveMsgs = (chatId, io) => {
-    io.to(chatId).emit('retrieveMsgs', msgs[chatId]);
-}
+  Chat.findOne({_id: chatId}, (err, foundChat) => {
+    if (err) console.log(err);
+    else{
+      if (foundChat) {
+        io.to(chatId).emit('retrieveMsgs', foundChat.messages);    
+      } else{
+        console.log("chat not found");
+      }
+    }
+  })
+};
 
 const sendMsg = (msgObj, chatId, io) => {
-    if (msgs[chatId]) {
-        msgObj.id = msgs[chatId].length;
-        msgs[chatId].push(msgObj);
-    } else {
-        msgs[chatId] = [msgObj];
+  io.to(chatId).emit('sendMsg', msgObj);
+  Chat.findOne({_id: chatId}, (err, foundChat) => {
+    if (err) console.log(err);
+    else{
+      if (foundChat){
+        foundChat.messages.push(msgObj)
+        foundChat.save()
+      }
     }
-    io.to(chatId).emit('sendMsg', msgObj);
-}
+  })
+};
 
 module.exports = {
-    joinRoom,
-    retrieveMsgs,
-    sendMsg,
-}
+  joinRoom,
+  retrieveMsgs,
+  sendMsg,
+};

@@ -1,23 +1,18 @@
 const express = require('express');
 const http = require('http');
-const mongoose = require('mongoose')
-// const socketIo = require('socket.io');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const eventsRoutes = require('./routes/events');
 const chatsRoutes = require('./routes/chats');
 const usersRoutes = require('./routes/users');
-const createSocket = require('./routes/socket')
+const createSocket = require('./routes/socket');
 require('dotenv').config();
 
-try{
-  mongoose.connect(process.env.URI)
-  console.log('db connected');
-}catch(error){
-  console.log(error)
-}
-
-
+(async () => {
+  await mongoose.connect(process.env.URI);
+  console.log('db connected!');
+})();
 
 const app = express();
 
@@ -35,7 +30,7 @@ app.use('/users', usersRoutes);
 
 const server = http.createServer(app);
 
-createSocket(server)
+createSocket(server);
 
 app.get('/', (_req, res) => {
   res.send('Hello world!');
