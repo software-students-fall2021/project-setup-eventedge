@@ -30,7 +30,10 @@ export const ModalRegistry = () => {
 
         return (
           <Modal onClose={closeModal(id)} key={id} title={modal.title}>
-            {generator(modal.component)(props)}
+            {generator(modal.component)({
+              ...props,
+              dismissModal: closeModal(id),
+            })}
           </Modal>
         );
       })}

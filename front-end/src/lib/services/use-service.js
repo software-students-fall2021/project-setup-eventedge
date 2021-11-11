@@ -20,6 +20,7 @@ export const usePostService = (promise) => {
       setIsLoading(false);
     } catch (e) {
       setIsError(true);
+      throw e;
     } finally {
       setIsLoading(false);
     }
@@ -45,5 +46,5 @@ export const useGetService = (method) => {
     }
   }, []);
 
-  return {isLoading, isError, data};
+  return {isLoading, isError, data, setData};
 };
