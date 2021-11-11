@@ -1,18 +1,14 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const eventsRoutes = require('./routes/events');
 const chatsRoutes = require('./routes/chats');
 const usersRoutes = require('./routes/users');
 const createSocket = require('./routes/socket');
-require('dotenv').config();
 
-(async () => {
-  await mongoose.connect(process.env.URI);
-  console.log('db connected!');
-})();
+require('./db');
 
 const app = express();
 
