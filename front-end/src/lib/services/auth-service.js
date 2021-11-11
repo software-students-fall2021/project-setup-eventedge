@@ -1,6 +1,5 @@
-import { request } from "./request-service";
-import { usePostService } from "./use-service";
-
+import {request} from './request-service';
+import {usePostService} from './use-service';
 
 const USERNAME = 'username';
 
@@ -10,8 +9,7 @@ class AuthService {
   }
 
   login(username) {
-    return request().withBody({username}).post('/auth/login')
-    
+    return request().withBody({username}).post('/auth/login');
   }
 
   logout() {
@@ -25,5 +23,5 @@ class AuthService {
 
 export const authService = () => new AuthService();
 export const useLoginService = {
-  useLogin: () => usePostService(authService().login)
-}
+  useLogin: () => usePostService(authService().login),
+};
