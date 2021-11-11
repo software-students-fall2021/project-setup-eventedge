@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import styles from './login.module.css';
 import {Link} from 'react-router-dom';
-import {authService} from '../../lib/services/auth-service';
+import {useLoginService} from '../../lib/services/auth-service';
 
 export const Login = () => {
+  const {post, isLoading, isError, data} = useLoginService()
+
   const [info, setInfo] = useState({
     username: '',
     password: '',

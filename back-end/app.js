@@ -1,5 +1,6 @@
 const express = require('express');
 const http = require('http');
+const mongoose = require('mongoose')
 // const socketIo = require('socket.io');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
@@ -8,6 +9,15 @@ const chatsRoutes = require('./routes/chats');
 const usersRoutes = require('./routes/users');
 const createSocket = require('./routes/socket')
 require('dotenv').config();
+
+try{
+  mongoose.connect(process.env.URI)
+  console.log('db connected');
+}catch(error){
+  console.log(error)
+}
+
+
 
 const app = express();
 

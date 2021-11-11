@@ -10,9 +10,8 @@ class AuthService {
   }
 
   login(username) {
-    const {isLoading, isError, data} = usePostService(() => request().withBody({username}).post('/auth/login'))
-    if (!isError) localStorage.setItem(USERNAME, username);
-    else return "login failed"
+    return request().withBody({username}).post('/auth/login')
+    
   }
 
   logout() {
@@ -25,3 +24,6 @@ class AuthService {
 }
 
 export const authService = () => new AuthService();
+export const useLoginService = {
+  useLogin: () => usePostService(authService().login)
+}
