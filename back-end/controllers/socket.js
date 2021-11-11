@@ -6,7 +6,7 @@ const joinRoom = (username, chatId, socket) => {
 };
 
 const retrieveMsgs = (chatId, io) => {
-  Chat.findOne({_id: chatId}, (err, foundChat) => {
+  Chat.findById(chatId, (err, foundChat) => {
     if (err) console.log(err);
     else {
       if (foundChat) {
@@ -20,7 +20,7 @@ const retrieveMsgs = (chatId, io) => {
 
 const sendMsg = (msgObj, chatId, io) => {
   io.to(chatId).emit('sendMsg', msgObj);
-  Chat.findOne({_id: chatId}, (err, foundChat) => {
+  Chat.findById(chatId, (err, foundChat) => {
     if (err) console.log(err);
     else {
       if (foundChat) {
