@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
+const passport = require('passport');
+const {jwtStrategy} = require('./passport-config');
 const authRoutes = require('./routes/auth');
 const eventsRoutes = require('./routes/events');
 const chatsRoutes = require('./routes/chats');
@@ -13,6 +15,8 @@ require('./db');
 const app = express();
 
 // middlewares
+app.use(passport.initialize());
+passport.use(jwtStrategy);
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
