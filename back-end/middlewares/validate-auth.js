@@ -1,7 +1,11 @@
 const Joi = require('joi');
 
 const loginAndRegisterSchema = Joi.object({
-  username: Joi.string().min(3).max(50).required(),
+  username: Joi.string()
+    .min(3)
+    .max(50)
+    .regex(/^[a-zA-Z0-9]+$/)
+    .required(),
   password: Joi.string().min(3).max(50).required(),
 });
 
