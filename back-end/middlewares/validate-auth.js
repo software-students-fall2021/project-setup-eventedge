@@ -12,7 +12,10 @@ const validationOptions = {
 };
 
 const validateAuth = (req, res, next) => {
-  const {error, value} = loginAndRegisterSchema.validate(req.body, validationOptions);
+  const {error, value} = loginAndRegisterSchema.validate(
+    req.body,
+    validationOptions
+  );
 
   if (error) {
     return res.status(400).json({error: error.details});
