@@ -12,7 +12,6 @@ const login = async (req, res) => {
       res.status(401).json({success: false, message: 'Password is incorrect!'});
     }
   } catch (e) {
-    console.log(e);
     res.status(401).json({success: false, message: 'User not found!'});
   }
 };
