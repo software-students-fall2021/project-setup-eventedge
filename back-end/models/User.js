@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const jwt = require("jsonwebtoken");
+const {jwtOptions} = require('../configs/jwt-options');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
 
@@ -29,6 +31,10 @@ userSchema.pre('save', async function(next) {
 
 userSchema.methods.validatePassword = async function(password) {
   return bcrypt.compare(password, this.password);
+}
+
+userSchema.methods.generateJWT = function() {
+  return jwt.sign({id: this.id}, jwtOptions.secretOrKey, {expiresIn: '2 days'});
 }
 
 module.exports = mongoose.model('User', userSchema);

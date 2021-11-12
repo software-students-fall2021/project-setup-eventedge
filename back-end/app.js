@@ -3,7 +3,7 @@ const express = require('express');
 const http = require('http');
 const cors = require('cors');
 const passport = require('passport');
-const {jwtStrategy} = require('./passport-config');
+const {jwtStrategy} = require('./configs/jwt-strategy');
 const authRoutes = require('./routes/auth');
 const eventsRoutes = require('./routes/events');
 const chatsRoutes = require('./routes/chats');
@@ -31,9 +31,5 @@ app.use('/users', usersRoutes);
 const server = http.createServer(app);
 
 createSocket(server);
-
-app.get('/', (_req, res) => {
-  res.send('Hello world!');
-});
 
 module.exports = server;
