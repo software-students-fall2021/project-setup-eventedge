@@ -1,27 +1,54 @@
 import {request} from './request-service';
 import {usePostService} from './use-service';
+import {parseJwt} from '../utils/parse-jwt';
 
-const USERNAME = 'username';
+const EVENTEDGE_AUTH = 'EVENTEDGE_AUTH';
 
 class AuthService {
-  isUserLoggedIn() {
-    return !!localStorage.getItem(USERNAME);
+  getAuthData() {
+    const data = localStorage.getItem(EVENTEDGE_AUTH);
+
+    return data ? JSON.parse(data) : null;
   }
 
-  login(username) {
-    return request().withBody({username}).post('/auth/login');
+  isTokenExpired() {
+    try {
+      const parsedToken = parseJwt(this.getAuthData()?.token);
+  
+      return Date.now().valueOf() / 1000 > parsedToken.exp;
+    } catch (e) {
+      return true;
+    }
+  }
+
+  isUserLoggedIn() {
+    return !!this.getAuthData();
+  }
+
+  async login(loginData) {
+    const {username, token} = await request().withBody(loginData).post('/auth/login');
+
+    localStorage.setItem(EVENTEDGE_AUTH, JSON.stringify({username, token}));
+  }
+
+  async register(registerData) {
+    const {username, token} = await request().withBody(registerData).post('/auth/register');
+
+    localStorage.setItem(EVENTEDGE_AUTH, JSON.stringify({username, token}));
   }
 
   logout() {
-    localStorage.removeItem(USERNAME);
+    localStorage.removeItem(EVENTEDGE_AUTH);
   }
 
   getUsername() {
-    return localStorage.getItem(USERNAME);
+    return this.getAuthData()?.username;
   }
 }
 
 export const authService = () => new AuthService();
-export const useLoginService = {
+
+export const useAuthService = {
   useLogin: () => usePostService(authService().login),
+  useRegister: () => usePostService(authService().register),
 };
