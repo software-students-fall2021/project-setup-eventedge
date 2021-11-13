@@ -3,7 +3,8 @@ const { Events } = require('../models/Event')
 const { Users } = require('../models/User')
 const mongoose = require('mongoose')
 const {EVENTS: fakeEventsData} = require('../mock-data/events');
-const generateRandomInt = require('../utils/generate-random-int')
+const generateRandomInt = require('../utils/generate-random-int');
+const { usersService } = require('../../front-end/src/lib/services/users-service');
 
 const acceptPending = (req, res) =>
   request()
@@ -45,6 +46,20 @@ const declinePending = (req, res) =>
 
 const getPendingEvents = async (_, res) => {
   const pendingEvents = []
+  Users.findOne({username: localStorage.getItem('username')}, function(err, foundUser) {
+    if (err) console.log(err);
+    else {
+      foundUser.events.forEach(eventId => {
+        Events.findOne({_id: eventId}, function(err, foundEvent) {
+          if (err) console.log(err);
+          else {
+            if (foundEvent.isPending) pendingEvents.push(foundEvent)
+          }
+        })
+      });
+      res.send(pendingEvents)
+    }
+  })
   }
 
 const getAllEvents = async (_, res) => {
