@@ -10,6 +10,11 @@ export const Navigation = () => {
   const setIsMenuVisibleToTrue = () => setIsMenuVisible(true);
   const setIsMenuVisibleToFalse = () => setIsMenuVisible(false);
 
+  const onLogout = () => {
+    authService().logout();
+    window.location = '/login';
+  }
+
   return (
     <>
       <nav className={styles.navigationStrip}>
@@ -22,7 +27,7 @@ export const Navigation = () => {
         <h1>EventEdge</h1>
         <Link to="/login">
           {authService().isUserLoggedIn() ? (
-            <a className={styles.link} onClick={authService().logout}>
+            <a className={styles.link} onClick={onLogout}>
               Log Out
             </a>
           ) : (

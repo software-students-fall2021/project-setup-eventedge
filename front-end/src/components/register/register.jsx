@@ -1,30 +1,19 @@
 import React, {useState} from 'react';
 import styles from './register.module.css';
-// import {Input} from '../input';
-//do I have to control  inputs' values?
+import {useAuthService} from '../../lib/services/auth-service';
 
 export const Register = () => {
-  const [registrationInfo, setRegistrationInfo] = useState({
-    username: '',
-    password: '',
-    confirmPassword: '',
-  });
+  const {isLoading, isError, post} = useAuthService.useRegister();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const onValueChange = (event) => {
-    const {value, name} = event.target;
+  const onUsernameChange = (e) => setUsername(e.target.value);
+  const onPasswordChange = (e) => setPassword(e.target.value);
+  const onConfirmPasswordChange = (e) => setConfirmPassword(e.target.value);
 
-    setRegistrationInfo((prevValue) => {
-      return {
-        ...prevValue,
-        [name]: value,
-      };
-    });
-  };
-
-  const onFormSubmit = (event) => {
+  const onFormSubmit = async (event) => {
     event.preventDefault();
-
-    const {username, password, confirmPassword} = registrationInfo;
 
     if (!username || !password || !confirmPassword) {
       return alert('Please fill all empty fields!');
@@ -34,7 +23,8 @@ export const Register = () => {
       return alert('Passwords do not match!');
     }
 
-    console.log(registrationInfo);
+    await post({username, password});
+    window.location = '/chats';
   };
 
   return (
@@ -42,29 +32,32 @@ export const Register = () => {
       <h1>Register </h1>
       <form>
         <input
-          onChange={onValueChange}
+          onChange={onUsernameChange}
           name="username"
           type="text"
           placeholder="Username"
           className={styles.input}
         />
         <input
-          onChange={onValueChange}
+          onChange={onPasswordChange}
           name="password"
           type="password"
           placeholder="Password"
           className={styles.input}
         />
         <input
-          onChange={onValueChange}
+          onChange={onConfirmPasswordChange}
           name="confirmPassword"
           type="password"
           placeholder="Confirm password"
           className={styles.input}
         />
-        <button onClick={onFormSubmit} className={styles.registerButton}>
-          Register
-        </button>
+        {isError && <p>User with such name exists</p>}
+        {isLoading ? <p>Loading...</p> :
+          <button onClick={onFormSubmit} className={styles.registerButton}>
+            Register
+          </button>
+        }
       </form>
     </div>
   );
