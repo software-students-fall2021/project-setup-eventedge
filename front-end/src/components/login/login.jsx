@@ -45,7 +45,11 @@ export const Login = () => {
         onKeyPress={onEnterPress}
       />
       {isError && <p>Incorrect username or password</p>}
-      {isLoading ? <p>Loading...</p> : <button onClick={onSubmit}>Login</button>}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <button onClick={onSubmit}>Login</button>
+      )}
       <h6>Not a member?</h6>
       <Link to="/register">
         <button>Register</button>

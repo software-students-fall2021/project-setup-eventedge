@@ -53,11 +53,13 @@ export const Register = () => {
           className={styles.input}
         />
         {isError && <p>User with such name exists</p>}
-        {isLoading ? <p>Loading...</p> :
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
           <button onClick={onFormSubmit} className={styles.registerButton}>
             Register
           </button>
-        }
+        )}
       </form>
     </div>
   );

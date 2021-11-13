@@ -14,7 +14,7 @@ class AuthService {
   isTokenExpired() {
     try {
       const parsedToken = parseJwt(this.getAuthData()?.token);
-  
+
       return Date.now().valueOf() / 1000 > parsedToken.exp;
     } catch (e) {
       return true;
@@ -26,13 +26,17 @@ class AuthService {
   }
 
   async login(loginData) {
-    const {username, token} = await request().withBody(loginData).post('/auth/login');
+    const {username, token} = await request()
+      .withBody(loginData)
+      .post('/auth/login');
 
     localStorage.setItem(EVENTEDGE_AUTH, JSON.stringify({username, token}));
   }
 
   async register(registerData) {
-    const {username, token} = await request().withBody(registerData).post('/auth/register');
+    const {username, token} = await request()
+      .withBody(registerData)
+      .post('/auth/register');
 
     localStorage.setItem(EVENTEDGE_AUTH, JSON.stringify({username, token}));
   }

@@ -13,7 +13,7 @@ export const Navigation = () => {
   const onLogout = () => {
     authService().logout();
     window.location = '/login';
-  }
+  };
 
   return (
     <>
