@@ -11,8 +11,8 @@ export const AuthContextProvider = ({children}) => {
   useEffect(() => {
     const authData = authService().getAuthData();
 
-    if (authData && !authService().isTokenExpired()) {
-      setLoggedInUser(authData);
+    if (authData) {
+      authService().isTokenExpired() ? logout() : setLoggedInUser(authData);
     }
   }, []);
 
