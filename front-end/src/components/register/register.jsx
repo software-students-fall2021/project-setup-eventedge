@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
 import styles from './register.module.css';
 import {useAuthContext} from '../../lib/context/auth';
-import {useHistory} from 'react-router';
 
 export const Register = () => {
-  const history = useHistory();
-
   const {register} = useAuthContext();
   const [isLoading, setLoading] = useState(false);
   const [isError, setError] = useState(false);
@@ -33,8 +30,6 @@ export const Register = () => {
       setLoading(true);
 
       await register({username, password});
-
-      history.push('/chats');
     } catch (e) {
       setError(true)
     } finally {

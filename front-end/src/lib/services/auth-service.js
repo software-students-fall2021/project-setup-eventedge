@@ -1,5 +1,4 @@
 import {request} from './request-service';
-import {usePostService} from './use-service';
 import {parseJwt} from '../utils/parse-jwt';
 
 const EVENTEDGE_AUTH = 'EVENTEDGE_AUTH';
@@ -47,8 +46,3 @@ class AuthService {
 }
 
 export const authService = () => new AuthService();
-
-export const useAuthService = {
-  useLogin: () => usePostService(authService().login),
-  useRegister: () => usePostService(authService().register),
-};

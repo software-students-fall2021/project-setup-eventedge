@@ -11,11 +11,6 @@ export const Navigation = () => {
   const setIsMenuVisibleToTrue = () => setIsMenuVisible(true);
   const setIsMenuVisibleToFalse = () => setIsMenuVisible(false);
 
-  const onLogout = () => {
-    logout();
-    window.location = '/login';
-  };
-
   return (
     <>
       <nav className={styles.navigationStrip}>
@@ -28,7 +23,7 @@ export const Navigation = () => {
         <h1>EventEdge</h1>
         <Link to="/login">
           {isUserLoggedIn ? (
-            <a className={styles.link} onClick={onLogout}>
+            <a className={styles.link} onClick={logout}>
               Log Out
             </a>
           ) : (

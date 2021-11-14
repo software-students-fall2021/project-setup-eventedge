@@ -20,8 +20,7 @@ import {ModalRegistry} from '../modal-registry';
 import {ModalsTest} from '../modals-test';
 import {Events} from '../events';
 import {PrivateComponent} from './private-component';
-
-const f = false;
+import {PublicOnlyComponent} from './public-only-component';
 
 export const App = () => (
   <AuthContextProvider>
@@ -32,14 +31,12 @@ export const App = () => (
       <div className={styles.mainContainer}>
         <Switch>
           <Route path="/" exact>
-            {f ? (
-              <Redirect to="/chats" />
-            ) : (
+            <PublicOnlyComponent>
               <LandingPage />
-            )}
+            </PublicOnlyComponent>
           </Route>
           <Route path="/register" exact>
-            <Register />
+            <PublicOnlyComponent><Register /></PublicOnlyComponent>
           </Route>
           <Route path="/events" exact>
             <PrivateComponent>
@@ -47,7 +44,7 @@ export const App = () => (
             </PrivateComponent>
           </Route>
           <Route path="/login" exact>
-            <Login />
+            <PublicOnlyComponent><Login /></PublicOnlyComponent>
           </Route>
           <Route path="/modals-test" exact>
             <ModalsTest />
