@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
 import styles from './login.module.css';
 import {Link} from 'react-router-dom';
-import {useAuthService} from '../../lib/services/auth-service';
+import {useAuthContext} from '../../lib/context/auth';
 
 export const Login = () => {
-  const {isLoading, isError, post} = useAuthService.useLogin();
+  const {login} = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -16,8 +19,15 @@ export const Login = () => {
       return alert('Please fill all fields!');
     }
 
-    await post({username, password});
-    window.location = '/chats';
+    try {
+      setIsLoading(true);
+
+      await login({username, password});
+    } catch (e) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onEnterPress = (event) => {

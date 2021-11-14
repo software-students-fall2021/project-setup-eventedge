@@ -21,16 +21,14 @@ class AuthService {
     }
   }
 
-  isUserLoggedIn() {
-    return !!this.getAuthData();
-  }
-
   async login(loginData) {
     const {username, token} = await request()
       .withBody(loginData)
       .post('/auth/login');
 
     localStorage.setItem(EVENTEDGE_AUTH, JSON.stringify({username, token}));
+
+    return {username, token};
   }
 
   async register(registerData) {
@@ -39,14 +37,12 @@ class AuthService {
       .post('/auth/register');
 
     localStorage.setItem(EVENTEDGE_AUTH, JSON.stringify({username, token}));
+
+    return {username, token};
   }
 
   logout() {
     localStorage.removeItem(EVENTEDGE_AUTH);
-  }
-
-  getUsername() {
-    return this.getAuthData()?.username;
   }
 }
 

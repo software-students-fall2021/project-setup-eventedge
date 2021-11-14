@@ -2,16 +2,17 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {SlidingMenu} from './sliding-menu';
 import styles from './navigation.module.css';
-import {authService} from '../../lib/services/auth-service';
+import {useAuthContext} from '../../lib/context/auth';
 
 export const Navigation = () => {
+  const {isUserLoggedIn, logout} = useAuthContext();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   const setIsMenuVisibleToTrue = () => setIsMenuVisible(true);
   const setIsMenuVisibleToFalse = () => setIsMenuVisible(false);
 
   const onLogout = () => {
-    authService().logout();
+    logout();
     window.location = '/login';
   };
 
@@ -26,7 +27,7 @@ export const Navigation = () => {
         </button>
         <h1>EventEdge</h1>
         <Link to="/login">
-          {authService().isUserLoggedIn() ? (
+          {isUserLoggedIn ? (
             <a className={styles.link} onClick={onLogout}>
               Log Out
             </a>

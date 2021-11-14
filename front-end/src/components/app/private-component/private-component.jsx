@@ -1,6 +1,9 @@
 import React from 'react';
-import {authService} from '../../../lib/services/auth-service';
+import {useAuthContext} from '../../../lib/context/auth';
 import {Redirect} from 'react-router';
 
-export const PrivateComponent = ({children}) =>
-  authService().isUserLoggedIn() ? children : <Redirect to="/login" />;
+export const PrivateComponent = ({children}) => {
+  const {isUserLoggedIn} = useAuthContext();
+
+  return isUserLoggedIn ? children : <Redirect to="/login" />;
+}

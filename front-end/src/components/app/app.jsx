@@ -15,59 +15,61 @@ import {Footer} from '../footer';
 import {NotFound} from '../not-found';
 import styles from './app.module.css';
 import {ModalContextProvider} from '../../lib/context/modal';
+import {AuthContextProvider} from '../../lib/context/auth';
 import {ModalRegistry} from '../modal-registry';
 import {ModalsTest} from '../modals-test';
 import {Events} from '../events';
-import {authService} from '../../lib/services/auth-service';
 import {PrivateComponent} from './private-component';
 
-export const App = () => {
-  return (
-    <ModalContextProvider>
-      <Router>
-        <ModalRegistry />
-        <Navigation />
-        <div className={styles.mainContainer}>
-          <Switch>
-            <Route path="/" exact>
-              {authService().isUserLoggedIn() ? (
-                <Redirect to="/chats" />
-              ) : (
-                <LandingPage />
-              )}
-            </Route>
-            <Route path="/register" exact>
-              <Register />
-            </Route>
-            <Route path="/events" exact>
-              <PrivateComponent>
-                <Events />
-              </PrivateComponent>
-            </Route>
-            <Route path="/login" exact>
-              <Login />
-            </Route>
-            <Route path="/modals-test" exact>
-              <ModalsTest />
-            </Route>
-            <Route path="/chat/:chatId" exact>
-              <PrivateComponent>
-                <Chat />
-              </PrivateComponent>
-            </Route>
-            <Route path="/chats" exact>
-              <PrivateComponent>
-                <Chats />
-              </PrivateComponent>
-            </Route>
-            <Route path="/404" exact>
-              <NotFound />
-            </Route>
-            <Redirect to="/404" />
-          </Switch>
-        </div>
-        <Footer />
-      </Router>
-    </ModalContextProvider>
-  );
-};
+const f = false;
+
+export const App = () => (
+  <AuthContextProvider>
+  <ModalContextProvider>
+    <Router>
+      <ModalRegistry />
+      <Navigation />
+      <div className={styles.mainContainer}>
+        <Switch>
+          <Route path="/" exact>
+            {f ? (
+              <Redirect to="/chats" />
+            ) : (
+              <LandingPage />
+            )}
+          </Route>
+          <Route path="/register" exact>
+            <Register />
+          </Route>
+          <Route path="/events" exact>
+            <PrivateComponent>
+              <Events />
+            </PrivateComponent>
+          </Route>
+          <Route path="/login" exact>
+            <Login />
+          </Route>
+          <Route path="/modals-test" exact>
+            <ModalsTest />
+          </Route>
+          <Route path="/chat/:chatId" exact>
+            <PrivateComponent>
+              <Chat />
+            </PrivateComponent>
+          </Route>
+          <Route path="/chats" exact>
+            <PrivateComponent>
+              <Chats />
+            </PrivateComponent>
+          </Route>
+          <Route path="/404" exact>
+            <NotFound />
+          </Route>
+          <Redirect to="/404" />
+        </Switch>
+      </div>
+      <Footer />
+    </Router>
+  </ModalContextProvider>
+  </AuthContextProvider>
+);

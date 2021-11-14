@@ -1,9 +1,15 @@
 import React, {useState} from 'react';
 import styles from './register.module.css';
-import {useAuthService} from '../../lib/services/auth-service';
+import {useAuthContext} from '../../lib/context/auth';
+import {useHistory} from 'react-router';
 
 export const Register = () => {
-  const {isLoading, isError, post} = useAuthService.useRegister();
+  const history = useHistory();
+
+  const {register} = useAuthContext();
+  const [isLoading, setLoading] = useState(false);
+  const [isError, setError] = useState(false);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -23,8 +29,17 @@ export const Register = () => {
       return alert('Passwords do not match!');
     }
 
-    await post({username, password});
-    window.location = '/chats';
+    try {
+      setLoading(true);
+
+      await register({username, password});
+
+      history.push('/chats');
+    } catch (e) {
+      setError(true)
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
