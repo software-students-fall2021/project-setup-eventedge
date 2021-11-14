@@ -6,4 +6,4 @@ export const PublicOnlyComponent = ({children}) => {
   const {isUserLoggedIn} = useAuthContext();
 
   return isUserLoggedIn ? <Redirect to="/chats" /> : children;
-}
+};

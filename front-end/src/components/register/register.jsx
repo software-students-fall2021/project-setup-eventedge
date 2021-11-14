@@ -31,7 +31,7 @@ export const Register = () => {
 
       await register({username, password});
     } catch (e) {
-      setError(true)
+      setError(true);
     } finally {
       setLoading(false);
     }

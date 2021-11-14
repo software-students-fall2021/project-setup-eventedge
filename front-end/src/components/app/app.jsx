@@ -24,49 +24,53 @@ import {PublicOnlyComponent} from './public-only-component';
 
 export const App = () => (
   <AuthContextProvider>
-  <ModalContextProvider>
-    <Router>
-      <ModalRegistry />
-      <Navigation />
-      <div className={styles.mainContainer}>
-        <Switch>
-          <Route path="/" exact>
-            <PublicOnlyComponent>
-              <LandingPage />
-            </PublicOnlyComponent>
-          </Route>
-          <Route path="/register" exact>
-            <PublicOnlyComponent><Register /></PublicOnlyComponent>
-          </Route>
-          <Route path="/events" exact>
-            <PrivateComponent>
-              <Events />
-            </PrivateComponent>
-          </Route>
-          <Route path="/login" exact>
-            <PublicOnlyComponent><Login /></PublicOnlyComponent>
-          </Route>
-          <Route path="/modals-test" exact>
-            <ModalsTest />
-          </Route>
-          <Route path="/chat/:chatId" exact>
-            <PrivateComponent>
-              <Chat />
-            </PrivateComponent>
-          </Route>
-          <Route path="/chats" exact>
-            <PrivateComponent>
-              <Chats />
-            </PrivateComponent>
-          </Route>
-          <Route path="/404" exact>
-            <NotFound />
-          </Route>
-          <Redirect to="/404" />
-        </Switch>
-      </div>
-      <Footer />
-    </Router>
-  </ModalContextProvider>
+    <ModalContextProvider>
+      <Router>
+        <ModalRegistry />
+        <Navigation />
+        <div className={styles.mainContainer}>
+          <Switch>
+            <Route path="/" exact>
+              <PublicOnlyComponent>
+                <LandingPage />
+              </PublicOnlyComponent>
+            </Route>
+            <Route path="/register" exact>
+              <PublicOnlyComponent>
+                <Register />
+              </PublicOnlyComponent>
+            </Route>
+            <Route path="/events" exact>
+              <PrivateComponent>
+                <Events />
+              </PrivateComponent>
+            </Route>
+            <Route path="/login" exact>
+              <PublicOnlyComponent>
+                <Login />
+              </PublicOnlyComponent>
+            </Route>
+            <Route path="/modals-test" exact>
+              <ModalsTest />
+            </Route>
+            <Route path="/chat/:chatId" exact>
+              <PrivateComponent>
+                <Chat />
+              </PrivateComponent>
+            </Route>
+            <Route path="/chats" exact>
+              <PrivateComponent>
+                <Chats />
+              </PrivateComponent>
+            </Route>
+            <Route path="/404" exact>
+              <NotFound />
+            </Route>
+            <Redirect to="/404" />
+          </Switch>
+        </div>
+        <Footer />
+      </Router>
+    </ModalContextProvider>
   </AuthContextProvider>
 );

@@ -6,4 +6,4 @@ export const PrivateComponent = ({children}) => {
   const {isUserLoggedIn} = useAuthContext();
 
   return isUserLoggedIn ? children : <Redirect to="/login" />;
-}
+};
