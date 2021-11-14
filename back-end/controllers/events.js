@@ -1,76 +1,79 @@
-const {request} = require('./axios');
+//const {request} = require('./axios');
 const { Events } = require('../models/Event')
 const { Users } = require('../models/User')
-const mongoose = require('mongoose')
-const {EVENTS: fakeEventsData} = require('../mock-data/events');
-const generateRandomInt = require('../utils/generate-random-int');
-const { usersService } = require('../../front-end/src/lib/services/users-service');
+//const {EVENTS: fakeEventsData} = require('../mock-data/events');
+//const generateRandomInt = require('../utils/generate-random-int');
+//const { usersService } = require('../../front-end/src/lib/services/users-service');
 
-const acceptPending = (req, res) =>
-  request()
-    .post('/events.json')
-    .then((data) => {
-      res
-        .status(200)
-        .json({message: 'accepted', event: {...data, id: req.body.id}});
-    })
-    .catch((e) => {
-      console.error(e);
-      res.status(200).json({
-        message: 'accepted',
-        event: {
-          ...fakeEventsData[0],
-          id: req.body.id,
-        },
-      });
-    });
+const acceptPending = (req, res) => { //assuming events array in user schema contains both pending and accepted
+  Users.findOne({username: req.body.username}, (err, foundUser) => {
+    if (err) console.log(err);
+    else {
+      for (let i = 0; i < foundUser.events.length; i++) {
+        if (foundUser.events[i] == req.body.eventId) {
+          Events.findOne({id: req.body.eventId}, (err, foundEvent) => {
+            if (err) console.log(err);
+            else {
+              foundEvent.isPending = false
+              foundEvent.save()
+            }
+          })
+        }
+      }
+    }
+  })
 
-const declinePending = (req, res) =>
-  request()
-    .post('/events.json')
-    .then((data) => {
-      res
-        .status(200)
-        .json({message: 'declined', event: {...data, id: req.body.id}});
-    })
-    .catch((e) => {
-      console.error(e);
-      res.status(200).json({
-        message: 'declined',
-        event: {
-          ...fakeEventsData[0],
-          id: req.body.id,
-        },
-      });
-    });
+}
+  
+const declinePending = (req, res) => { //assuming events array in user schema contains both pending and accepted
+  Users.findOne({username: req.body.username}, (err, foundUser) => {
+    if (err) res.send(err);
+    else {
+      for (let i = 0; i < foundUser.events.length; i++) {
+        if (foundUser.events[i] == req.body.eventId) {
+          foundUser.events.splice(i, 1)
+          foundUser.save()
+          break
+        } 
+      }
+      res.status(200).json(foundUser)
+    }
+  })
+}
 
-const getPendingEvents = async (_, res) => {
-  const pendingEvents = []
-  Users.findOne({username: localStorage.getItem('username')}, function(err, foundUser) {
+const getPendingEvents = async (req, res) => { //assuming events array in user schema contains both pending and accepted
+  let pendingEvents = []
+  Users.findOne({username: req.session.username}, (err, foundUser) => {
     if (err) console.log(err);
     else {
       foundUser.events.forEach(eventId => {
-        Events.findOne({_id: eventId}, function(err, foundEvent) {
+        Events.findOne({id: eventId}, (err, foundEvent) => {
           if (err) console.log(err);
           else {
             if (foundEvent.isPending) pendingEvents.push(foundEvent)
           }
         })
       });
-      res.send(pendingEvents)
+      res.status(200).json(pendingEvents)
     }
   })
   }
 
-const getAllEvents = async (_, res) => {
-    const ID = generateRandomInt(0, 100)
-    Events.findOne({chatId: ID}, function(err, foundEvents) {
-      if (err) res.send(err);
+const getAllUserEvents = async (req, res) => {
+    Users.findOne({username: req.session.username}, (err, foundUser) => {
+      if (err) console.log(err);
       else {
-        res.send(foundEvents)
+        res.status(200).json(foundUser.events)
       }
     })
   }
+
+const getAllEventsInChat = async (req, res) => {
+    Events.find({chatId: req.params.id}, (err, foundEvents) => { //chatId passed into param?
+      if (err) console.log(err);
+      else res.status(200).json(foundEvents)
+    })
+}
 
 const createEvent = async (req, res) => {
   // data from form
@@ -90,5 +93,6 @@ module.exports = {
   declinePending,
   getPendingEvents,
   createEvent,
-  getAllEvents,
+  getAllUserEvents,
+  getAllEventsInChat
 };
