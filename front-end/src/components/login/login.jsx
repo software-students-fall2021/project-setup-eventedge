@@ -1,64 +1,69 @@
 import React, {useState} from 'react';
 import styles from './login.module.css';
 import {Link} from 'react-router-dom';
-import {authService} from '../../lib/services/auth-service';
+import {useAuthContext} from '../../lib/context/auth';
 
 export const Login = () => {
-  const [info, setInfo] = useState({
-    username: '',
-    password: '',
-  });
+  const {login} = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  const infoHandler = (event) => {
-    setInfo((prev) => {
-      return {
-        ...prev,
-        [event.target.name]: event.target.value,
-      };
-    });
-  };
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const loginHandler = () => {
-    if (info.username === '' || info.password === '')
-      alert('Please fill all fields!');
-    else {
-      authService().login(info.username);
-      window.location = '/chats';
+  const onUsernameChange = (e) => setUsername(e.target.value);
+  const onPasswordChange = (e) => setPassword(e.target.value);
+
+  const onSubmit = async () => {
+    if (!username || !password) {
+      return alert('Please fill all fields!');
+    }
+
+    try {
+      setIsLoading(true);
+
+      await login({username, password});
+    } catch (e) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const enter = (event) => {
-    if (event.key === 'Enter') loginHandler();
+  const onEnterPress = (event) => {
+    if (event.key === 'Enter') {
+      onSubmit();
+    }
   };
 
   return (
-    <React.Fragment>
-      <div className={styles.form}>
-        <h1>Login</h1>
-        <input
-          className={styles.input}
-          placeholder="Username"
-          onChange={infoHandler}
-          name="username"
-        />
-        <br />
-        <br />
-        <input
-          className={styles.input}
-          placeholder="Password"
-          onChange={infoHandler}
-          name="password"
-          onKeyPress={enter}
-        />
-        <br />
-        <br />
-        <button onClick={loginHandler}>Login</button>
-
-        <h6>Not a member?</h6>
-        <Link to="/register">
-          <button>Register</button>
-        </Link>
-      </div>
-    </React.Fragment>
+    <div className={styles.form}>
+      <h1>Login</h1>
+      <input
+        type="text"
+        className={styles.input}
+        placeholder="Username"
+        onChange={onUsernameChange}
+        name="username"
+      />
+      <input
+        type="password"
+        className={styles.input}
+        placeholder="Password"
+        onChange={onPasswordChange}
+        name="password"
+        onKeyPress={onEnterPress}
+      />
+      {isError && <p>Incorrect username or password</p>}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <button onClick={onSubmit}>Login</button>
+      )}
+      <h6>Not a member?</h6>
+      <Link to="/register">
+        <button>Register</button>
+      </Link>
+    </div>
   );
 };
