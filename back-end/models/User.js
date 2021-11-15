@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema(
     },
     password: {type: String, required: true},
     chats: {type: Array, default: []},
-    events: {type: Array, default: []},
+    pendingEvents: {type: Array, default: []},
+    acceptedEvents: {type: Array, default: []},
   },
   {timestamps: true}
 );

@@ -7,7 +7,6 @@ const eventSchema = new mongoose.Schema({
   location: String,
   eventDescription: String,
   chatId: String,
-  isPending: Boolean,
 });
 
 module.exports = mongoose.model('Event', eventSchema);
