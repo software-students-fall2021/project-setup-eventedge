@@ -2,6 +2,7 @@ const {createServer} = require('http');
 const Client = require('socket.io-client');
 const {expect} = require('chai');
 const createSocket = require('./socket');
+const mongoMock = require('../utils/test/mongodb-mock');
 
 const makeServer = () => {
   const httpServer = createServer();
@@ -17,15 +18,22 @@ describe('Socket test', () => {
   let server;
   let sockets;
 
-  beforeEach(() => {
+  before(async () => {
+    await mongoMock.connectToDatabase();
+  })
+
+  beforeEach(async () => {
     sockets = [];
     server = makeServer();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     server.close();
     sockets.forEach((e) => e.disconnect());
+    await mongoMock.clearDatabase();
   });
+
+  after(async () => await mongoMock.closeDatabase());
 
   const makeSocket = (id = 0) => {
     const socket = Client.connect('http://localhost:8000', {
@@ -58,13 +66,14 @@ describe('Socket test', () => {
   });
 
   it('should send and receive message', () => {
+    const chatId = '5bb9e79df82c0151fc0cd5c8';
     const socketOneId = 1;
     const socketTwoId = 2;
     const socketOne = makeSocket(socketOneId);
     const socketTwo = makeSocket(socketTwoId);
 
-    socketOne.emit('joinRoom', {username: socketOneId, chatId: 1});
-    socketTwo.emit('joinRoom', {username: socketTwoId, chatId: 1});
+    socketOne.emit('joinRoom', {username: socketOneId, chatId});
+    socketTwo.emit('joinRoom', {username: socketTwoId, chatId});
 
     const testMessage = {
       username: socketOneId,
@@ -74,11 +83,11 @@ describe('Socket test', () => {
 
     return Promise.all([
       new Promise((resolve, _reject) => {
-        socketOne.emit('sendMsg', {msgObj: testMessage, chatId: 1});
+        socketOne.emit('sendMsg', {msgObj: testMessage, chatId});
         resolve();
       }),
       new Promise((resolve, _reject) => {
-        socketTwo.emit('retrieveMsgs', {chatId: 1});
+        socketTwo.emit('retrieveMsgs', {chatId});
         socketTwo.on('retrieveMsgs', (msgs) => {
           expect(msgs[0]).to.deep.equal(testMessage);
           resolve();
