@@ -3,6 +3,7 @@ const Client = require('socket.io-client');
 const {expect} = require('chai');
 const createSocket = require('./socket');
 const mongoMock = require('../utils/test/mongodb-mock');
+const Chat = require('../models/Chat');
 
 const makeServer = () => {
   const httpServer = createServer();
@@ -20,9 +21,9 @@ describe('Socket test', () => {
 
   before(async () => {
     await mongoMock.connectToDatabase();
-  })
+  });
 
-  beforeEach(async () => {
+  beforeEach(() => {
     sockets = [];
     server = makeServer();
   });
@@ -55,44 +56,66 @@ describe('Socket test', () => {
     return socket;
   };
 
-  it('should receive null when user joins room initially', () => {
-    const socket = makeSocket();
+  it('should receive initial messages in the database', async () => {
+    const username = '5ca4bbc7a2dd94ee5816238c';
+    const testMessage = {
+      username,
+      message: 'fdssdf',
+      date: '11/11/2021 06:27 PM',
+    };
 
-    socket.emit('joinRoom', {username: 'test', chatId: 1});
-    socket.emit('retrieveMsgs', {chatId: 1});
-    socket.on('retrieveMsgs', (msgs) => {
-      expect(msgs).to.equal(null);
+    const {id} = await Chat.create({
+      name: 'test',
+      latestEvent: '',
+      users: [username],
+      messages: [testMessage],
+    });
+
+    const socket = makeSocket(username);
+
+    return new Promise((resolve, _reject) => {
+      socket.emit('joinRoom', {username, chatId: id});
+      socket.emit('retrieveMsgs', {chatId: id});
+      socket.on('retrieveMsgs', (msgs) => {
+        expect(msgs).to.deep.equal([testMessage]);
+        resolve();
+      });
     });
   });
 
-  it('should send and receive message', () => {
-    const chatId = '5bb9e79df82c0151fc0cd5c8';
-    const socketOneId = 1;
-    const socketTwoId = 2;
-    const socketOne = makeSocket(socketOneId);
-    const socketTwo = makeSocket(socketTwoId);
-
-    socketOne.emit('joinRoom', {username: socketOneId, chatId});
-    socketTwo.emit('joinRoom', {username: socketTwoId, chatId});
-
+  it('should receive previously sent messages by other user', async () => {
+    const socketOneId = '5ca4bbc7a2dd94ee5816238c';
+    const socketTwoId = '5ca4bbc7a2dd94ee5816238d';
     const testMessage = {
       username: socketOneId,
       message: socketOneId,
-      date: '1',
+      date: '11/11/2021 06:27 PM',
     };
 
-    return Promise.all([
-      new Promise((resolve, _reject) => {
-        socketOne.emit('sendMsg', {msgObj: testMessage, chatId});
+    const {id} = await Chat.create({
+      name: 'test',
+      latestEvent: '',
+      users: [socketOneId, socketTwoId],
+      messages: [],
+    });
+
+    const socketOne = makeSocket(socketOneId);
+    const socketTwo = makeSocket(socketTwoId);
+
+    await new Promise((resolve, _reject) => {
+      socketOne.emit('joinRoom', {username: socketOneId, chatId: id});
+      socketOne.emit('sendMsg', {msgObj: testMessage, chatId: id});
+      // need to set minimal timeout because writes to memory db take some time
+      setTimeout(resolve, 20);
+    });
+
+    await new Promise((resolve, _reject) => {
+      socketTwo.emit('joinRoom', {username: socketTwoId, chatId: id});
+      socketTwo.emit('retrieveMsgs', {chatId: id});
+      socketTwo.on('retrieveMsgs', (messages) => {
+        expect(messages).to.deep.equal([testMessage]);
         resolve();
-      }),
-      new Promise((resolve, _reject) => {
-        socketTwo.emit('retrieveMsgs', {chatId});
-        socketTwo.on('retrieveMsgs', (msgs) => {
-          expect(msgs[0]).to.deep.equal(testMessage);
-          resolve();
-        });
-      }),
-    ]);
+      });
+    });
   });
 });
