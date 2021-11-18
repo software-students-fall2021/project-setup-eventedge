@@ -1,45 +1,32 @@
-const {request} = require('./axios');
-const {CHATS: fakeChatData} = require('../mock-data/chat');
-const {USERS: fakeChatMembers} = require('../mock-data/user');
-const generateRandomInt = require('../utils/generate-random-int');
+const User = require('../models/User');
+const Chat = require('../models/Chat');
 
-const getChats = async (_, res) =>
-  request()
-    .get('/chats.json')
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((e) => {
-      console.error(e);
-      // mockaroo limit reached
-      res.send(fakeChatData);
-    });
+const getChats = async (req, res) => {
+  try {
+    const user = await User.findById(req.body.user.id);
+    const chats = await Chat.find({_id: {$in: user.chats}});
+    res.status(200).json(chats);
+  } catch (e) {
+    console.error(e);
+  }
+};
 
-const getChatMembers = async (_, res) =>
-  request()
-    .get('/members.json')
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((e) => {
-      console.error(e);
-      // mockaroo limit reached
-      res.send(fakeChatMembers);
-    });
+const getChatMembers = async (req, res) => {
+  try {
+    const users = await User.find({_id: {$in: Chat.user}});
+    res.status(200).json({data: users.map((user) => user.username)});
+  } catch (e) {
+    console.error(e);
+  }
+};
 
-const createChat = async (req, res) =>
-  request()
-    .post('/chats.json')
-    .then((data) => {
-      res.status(200).json({...data, id: generateRandomInt(0, 100)});
-    })
-    .catch((e) => {
-      console.error(e);
-      // mockaroo limit reached
-      res
-        .status(200)
-        .json({id: generateRandomInt(0, 100), chatName: req.body.chatName});
-    });
+const createChat = async (req, res) => {
+  const {chatName, users} = req.body;
+  res.status(200).json({
+    chatName,
+    users,
+  });
+};
 
 module.exports = {
   getChats,
