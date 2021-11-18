@@ -37,17 +37,23 @@ const declinePending = async (req, res) => {
 
 const getPendingEvents = async (req, res) => {
   //assuming events array in user schema contains both pending and accepted
-  User.findOne({username: req.body.user.id}, (err, foundUser) => {
-    if (err) console.log(err);
-    else res.status(200).json(foundUser.pendingEvents);
-  });
+  try {
+    const user = await User.findById(req.body.user.id);
+    const events = await Event.find({ '_id': { $in: user.pendingEvents } });
+    res.status(200).json(events);
+  } catch (e) {
+    console.error(e)
+  }
 };
 
 const getAllEvents = async (req, res) => {
-  User.findOne({username: req.body.user.id}, (err, foundUser) => {
-    if (err) console.log(err);
-    else res.status(200).json(foundUser.acceptedEvents);
-  });
+  try {
+    const user = await User.findById(req.body.user.id);
+    const events = await Event.find({ '_id': { $in: user.acceptedEvents } });
+    res.status(200).json(events);
+  } catch (e) {
+    console.error(e)
+  }
 };
 
 
