@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
-  eventName: {type: String, required: [true, "can't be blank"]},
-  eventDate: {type: Date, required: true},
-  eventTime: {type: String, required: true},
-  location: {type: String, required: true},
-  eventDescription: {type: String, required: true},
-  chatId: {type: String, required: true},
+  name: {type: String, required: [true, "can't be blank"]},
+  date: {type: Date, required: [true, "can't be blank"]},
+  time: {type: String, required: [true, "can't be blank"]},
+  location: {type: String, required: [true, "can't be blank"]},
+  description: {type: String, required: [true, "can't be blank"]},
+  chatId: {type: String, required: [true, "can't be blank"]},
 });
 
 module.exports = mongoose.model('Event', eventSchema);
