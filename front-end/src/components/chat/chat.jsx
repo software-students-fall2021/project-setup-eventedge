@@ -19,7 +19,7 @@ export const Chat = () => {
 
   const showSendMessageModal = () =>
     showModal('sendMessage', {socket: socket, chatId: chatId});
-  const showCreateEventModal = () => showModal('createEvent');
+  const showCreateEventModal = () => showModal('createEvent', {chatId: chatId});
 
   const loggedInUsername = authService().getUsername();
 
