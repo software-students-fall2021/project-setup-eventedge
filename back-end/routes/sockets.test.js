@@ -64,11 +64,18 @@ describe('Socket test', () => {
       date: '11/11/2021 06:27 PM',
     };
 
+    const username2 = '5ca4bbc7a2dd94ee5816238c'
+    const testMessage2 = {
+      username2,
+      message: 'hello',
+      date: '11/12/2021 06:15 PM'
+    }
+
     const {id} = await Chat.create({
       name: 'test',
       latestEvent: '',
-      users: [username],
-      messages: [testMessage],
+      users: [username, username2],
+      messages: [testMessage, testMessage2],
     });
 
     const socket = makeSocket(username);
@@ -77,7 +84,7 @@ describe('Socket test', () => {
       socket.emit('joinRoom', {username, chatId: id});
       socket.emit('retrieveMsgs', {chatId: id});
       socket.on('retrieveMsgs', (msgs) => {
-        expect(msgs).to.deep.equal([testMessage]);
+        expect(msgs).to.deep.equal([testMessage, testMessage2]);
         resolve();
       });
     });
