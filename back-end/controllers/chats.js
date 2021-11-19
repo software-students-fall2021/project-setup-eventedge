@@ -13,8 +13,9 @@ const getChats = async (req, res) => {
 
 const getChatMembers = async (req, res) => {
   try {
-    const users = await User.find({_id: {$in: Chat.user}});
-    res.status(200).json({data: users.map((user) => user.username)});
+    const chat = await Chat.findById(req.params.id);
+    const members = await User.find({_id: {$in: chat.users}});
+    res.status(200).json(members);
   } catch (e) {
     console.error(e);
   }
