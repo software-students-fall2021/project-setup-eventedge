@@ -1,6 +1,7 @@
 const express = require('express');
 const request = require('supertest');
 const {expect} = require('chai');
+const mongoMock = require('../utils/test/mongodb-mock');
 const eventsRoutes = require('./events');
 const sinon = require('sinon');
 const axios = require('axios');
@@ -20,11 +21,12 @@ const EVENTS = [
 
 const eventId = 10;
 
-const stubAxios = (requestReturn) =>
-  sinon.stub(axios, 'create').returns({request: requestReturn});
-
-describe('chat route', () => {
+describe('events route', () => {
   let app;
+
+  before(async () => {
+    await mongoMock.connectToDatabase();
+  });
 
   beforeEach(() => {
     app = express();
@@ -34,12 +36,14 @@ describe('chat route', () => {
   });
 
   afterEach(() => {
-    sinon.restore();
+    await mongoMock.clearDatabase();
   });
 
+  after(async () => await mongoMock.closeDatabase());
+
   describe('POST /events/pending/accept', () => {
-    it('should fetch Mockaroo', async () => {
-      stubAxios(() => Promise.resolve({data: FALLBACK_EVENTS[0]}));
+  
+    it('should remove event from pending array and add to accepted', async () => {
 
       const response = await request(app)
         .post('/events/pending/accept')

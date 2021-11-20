@@ -13,7 +13,7 @@ const acceptPending = (req, res) => {
         }
       }
       foundUser.save();
-      res.status(200).json(foundUser);
+      res.status(200).json({'accepted': foundUser.acceptedEvents, 'pending': foundUser.pendingEvents});
     }
   });
 };
@@ -30,7 +30,7 @@ const declinePending = async (req, res) => {
           break;
         }
       }
-      res.status(200).json(foundUser);
+      res.status(200).json({'accepted': foundUser.acceptedEvents, 'pending': foundUser.pendingEvents});
     }
   });
 };
