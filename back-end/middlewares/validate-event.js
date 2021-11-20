@@ -6,6 +6,7 @@ const createEventSchema = Joi.object({
   time: Joi.string().required(),
   location: Joi.string().min(5).max(40).required(),
   description: Joi.string().min(20).max(300).required(),
+  chatId: Joi.string().required(),
 });
 
 const validationOptions = {

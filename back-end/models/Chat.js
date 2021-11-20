@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const chatSchema = new mongoose.Schema({
-  latestEvent: String,
-  users: Array,
-  messages: Array,
+  name: {type: String, required: true},
+  users: {type: Array, default: []},
+  messages: {type: Array, default: []},
 });
 
 module.exports = mongoose.model('Chat', chatSchema);

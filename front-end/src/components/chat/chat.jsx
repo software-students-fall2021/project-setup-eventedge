@@ -4,10 +4,11 @@ import {useParams} from 'react-router-dom';
 import {useModalContext} from '../../lib/context/modal';
 import {Link} from 'react-router-dom';
 import socketIOClient from 'socket.io-client';
-import {authService} from '../../lib/services/auth-service';
 import {API_BASE_URL} from '../../lib/constants';
+import {useAuthContext} from '../../lib/context/auth';
 
 export const Chat = () => {
+  const {loggedInUsername} = useAuthContext();
   const socket = socketIOClient(API_BASE_URL, {
     transport: ['websocket', 'polling', 'flashsocket'],
   });
@@ -20,8 +21,6 @@ export const Chat = () => {
   const showSendMessageModal = () =>
     showModal('sendMessage', {socket: socket, chatId: chatId});
   const showCreateEventModal = () => showModal('createEvent');
-
-  const loggedInUsername = authService().getUsername();
 
   const [messages, setMessages] = useState([]);
 
