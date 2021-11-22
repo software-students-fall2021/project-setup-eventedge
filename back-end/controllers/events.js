@@ -4,15 +4,16 @@ const Chat = require('../models/Chat');
 
 const createEvent = async (req, res) => {
   try {
+    
     const {name, date, time, location, description, chatId} = req.body;
 
     const event = await Event.insertOne(
       {
-        eventName: name, 
-        eventDate: date,
-        eventTime: time,
+        name: name, 
+        date: date,
+        time: time,
         location: location,
-        eventDescription: description,
+        description: description,
         chatId: chatId
       }
     )
