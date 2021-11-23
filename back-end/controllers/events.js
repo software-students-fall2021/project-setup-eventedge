@@ -67,6 +67,10 @@ const getAllEvents = async (_, res) =>
 const createEvent = async (req, res) => {
   const {chatId} = req.body;
 
+  if (!req.user.chats.includes(chatId)) {
+    return res.status(401).json({error: 'Unauthorized'});
+  }
+
   const event = await Event.create(req.body);
   const chat = await Chat.findById(chatId);
 
@@ -75,7 +79,7 @@ const createEvent = async (req, res) => {
     {$push: {pendingEvents: event.id}}
   );
 
-  res.status(200).json({...req.body});
+  return res.status(200).json({...req.body});
 };
 
 module.exports = {
