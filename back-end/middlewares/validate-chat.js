@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const createChatSchema = Joi.object({
   chatName: Joi.string().min(5).max(40).required(),
-  usersList: Joi.array().items(Joi.string()).min(1).required(),
+  usersList: Joi.array().items(Joi.string()).required(),
 });
 
 const validationOptions = {

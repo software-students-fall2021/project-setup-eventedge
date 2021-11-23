@@ -13,7 +13,7 @@ router.get(
 );
 router.post(
   '/',
-  chatsValidators.validateCreateChat,
+  [passportAuthenticate(), chatsValidators.validateCreateChat],
   chatsControllers.createChat
 );
 
