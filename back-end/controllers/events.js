@@ -67,14 +67,13 @@ const getAllEvents = async (_, res) =>
 const createEvent = async (req, res) => {
   const {chatId} = req.body;
 
-  const event = await Event.insertOne(req.body);
+  const event = await Event.create(req.body);
   const chat = await Chat.findById(chatId);
-  const members = await User.find({_id: {$in: chat.users}});
 
-  for (let i = 0; i < members.length; i++) {
-    members[i].pendingEvents.push(event.id);
-    members[i].save();
-  }
+  await User.updateMany(
+    {_id: {$in: chat.users}},
+    {$push: {pendingEvents: event.id}}
+  );
 
   res.status(200).json({...req.body});
 };
