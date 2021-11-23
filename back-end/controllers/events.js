@@ -1,5 +1,8 @@
 const {request} = require('./axios');
 const {EVENTS: fakeEventsData} = require('../mock-data/events');
+const Event = require('../models/Event');
+const User = require('../models/User');
+const Chat = require('../models/Chat');
 
 const acceptPending = (req, res) =>
   request()
@@ -62,16 +65,21 @@ const getAllEvents = async (_, res) =>
     });
 
 const createEvent = async (req, res) => {
-  // data from form
-  const {name, date, time, location, description} = req.body;
+  const {chatId} = req.body;
 
-  res.status(200).json({
-    name,
-    date,
-    time,
-    location,
-    description,
-  });
+  if (!req.user.chats.includes(chatId)) {
+    return res.status(401).json({error: 'Unauthorized'});
+  }
+
+  const event = await Event.create(req.body);
+  const chat = await Chat.findById(chatId);
+
+  await User.updateMany(
+    {_id: {$in: chat.users}},
+    {$push: {pendingEvents: event.id}}
+  );
+
+  return res.status(200).json({...req.body});
 };
 
 module.exports = {
