@@ -4,16 +4,28 @@ const getUniqueIds = require('../utils/get-unique-ids');
 
 const getChats = async (req, res) => {
   const user = await User.findById(req.user.id);
-  const chats = await Chat.find({_id: {$in: user.chats}});
+  const chats = await Chat.find(
+    {_id: {$in: user.chats}},
+    {_id: 0, name: 1, id: '$_id'},
+    {sort: '-createdAt'}
+  );
 
   res.status(200).json(chats);
 };
 
 const getChatMembers = async (req, res) => {
   const chat = await Chat.findById(req.params.id);
-  const members = await User.find({_id: {$in: chat.users}});
 
-  res.status(200).json(members);
+  if (!chat.users.includes(req.user.id)) {
+    return res.status(401).json({error: 'Unauthorized'});
+  }
+
+  const members = await User.find(
+    {_id: {$in: chat.users}},
+    {_id: 0, username: 1, id: '$_id'}
+  );
+
+  return res.status(200).json(members);
 };
 
 const createChat = async (req, res) => {
@@ -31,7 +43,7 @@ const createChat = async (req, res) => {
   await User.updateMany({_id: {$in: usersList}}, {$push: {chats: chat.id}});
 
   return res.status(200).json({
-    chatId: chat.id,
+    id: chat.id,
     chatName,
     users: usersList,
   });

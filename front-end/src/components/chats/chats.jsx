@@ -10,7 +10,7 @@ export const Chats = () => {
   const {showModal} = useModalContext();
   const [searchFilterWord, setSearchFilterWord] = useState('');
 
-  const areChatsEmpty = data.length === 0;
+  const areChatsEmpty = data?.length === 0;
 
   const showCreateGroupChatModal = () => showModal('createGroupChat');
 
@@ -22,12 +22,12 @@ export const Chats = () => {
   ) : (
     data
       ?.filter(
-        ({chatName}) =>
-          !searchFilterWord || chatName.toLowerCase().includes(searchFilterWord)
+        ({name}) =>
+          !searchFilterWord || name.toLowerCase().includes(searchFilterWord)
       )
-      .map(({id, chatName}) => (
+      .map(({id, name}) => (
         <Link className={styles.chatLink} key={id} to={`/chat/${id}`}>
-          <li className={styles.listItem}>{chatName}</li>
+          <li className={styles.listItem}>{name}</li>
         </Link>
       ))
   );
