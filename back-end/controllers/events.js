@@ -2,46 +2,55 @@ const Event = require('../models/Event');
 const User = require('../models/User');
 const Chat = require('../models/Chat');
 
-const acceptPending = (req, res) => {
-  //assuming events array in user schema contains both pending and accepted
-  User.findOne({username: req.body.username}, (err, foundUser) => {
-    if (err) console.log(err);
-    else {
-      for (let i = 0; i < foundUser.pendingEvents.length; i++) {
-        if (foundUser.pendingEvents[i] == req.body.eventId) {
-          acceptedEvents.push(req.body.eventId)
-          pendingEvents.splice(i, 1)
-          break
-        }
-      }
-      foundUser.save();
-      res.status(200).json(foundUser);
+const acceptPending = async (req, res) => {
+  const {user} = req;
+  const eventId = req.body.eventId;
+
+  if (!user.pendingEvents.includes(eventId)) {
+    return res.status(401).json({error: 'Unauthorized'});
+  }
+
+  const event = await Event.findOne(
+    {_id: eventId},
+    {_id: 0, id: '$_id', date: 1, name: 1}
+  );
+
+  await User.updateOne(
+    {_id: user.id},
+    {
+      $push: {acceptedEvents: eventId},
+      $pull: {pendingEvents: eventId},
     }
-  });
+  );
+
+  return res.status(200).json(event);
 };
 
 const declinePending = async (req, res) => {
-  //assuming events array in user schema contains both pending and accepted
-  User.findOne({username: req.body.username}, (err, foundUser) => {
-    if (err) res.send(err);
-    else {
-      for (let i = 0; i < foundUser.events.length; i++) {
-        if (foundUser.events[i] == req.body.eventId) {
-          foundUser.pendingEvents.splice(i, 1);
-          foundUser.save();
-          break;
-        }
-      }
-      res.status(200).json(foundUser);
-    }
-  });
+  const {user} = req;
+  const eventId = req.body.eventId;
+
+  if (!user.pendingEvents.includes(eventId)) {
+    return res.status(401).json({error: 'Unauthorized'});
+  }
+
+  const event = await Event.findOne(
+    {_id: eventId},
+    {_id: 0, id: '$_id', date: 1, name: 1}
+  );
+
+  await User.updateOne({_id: user.id}, {$pull: {pendingEvents: eventId}});
+
+  return res.status(200).json(event);
 };
 
 const getPendingEvents = async (req, res) => {
-  //assuming events array in user schema contains both pending and accepted
   try {
-    const user = await User.findById(req.user.id);
-    const events = await Event.find({_id: {$in: user.pendingEvents}});
+    const events = await Event.find(
+      {_id: {$in: req.user.pendingEvents}},
+      {_id: 0, id: '$_id', date: 1, name: 1}
+    );
+
     res.status(200).json(events);
   } catch (e) {
     console.error(e);
@@ -50,14 +59,16 @@ const getPendingEvents = async (req, res) => {
 
 const getAllEvents = async (req, res) => {
   try {
-    const user = await User.findById(req.body.user.id);
-    const events = await Event.find({ '_id': { $in: user.acceptedEvents } });
+    const events = await Event.find(
+      {_id: {$in: req.user.acceptedEvents}},
+      {_id: 0, id: '$_id', date: 1, name: 1}
+    );
+
     res.status(200).json(events);
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 };
-
 
 const createEvent = async (req, res) => {
   const {chatId} = req.body;
@@ -82,5 +93,5 @@ module.exports = {
   declinePending,
   getPendingEvents,
   createEvent,
-  getAllEvents
+  getAllEvents,
 };
