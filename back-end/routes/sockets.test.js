@@ -64,12 +64,12 @@ describe('Socket test', () => {
       date: '11/11/2021 06:27 PM',
     };
 
-    const username2 = '5ca4bbc7a2dd94ee5816238c'
+    const username2 = '5ca4bbc7a2dd94ee5816238c';
     const testMessage2 = {
       username2,
       message: 'hello',
-      date: '11/12/2021 06:15 PM'
-    }
+      date: '11/12/2021 06:15 PM',
+    };
 
     const {id} = await Chat.create({
       name: 'test',

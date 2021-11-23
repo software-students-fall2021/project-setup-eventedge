@@ -10,3 +10,16 @@
 .box {
   border: black 1px solid;
 }
+
+.goToChatButton {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 3px;
+  background-color: #34495e;
+  outline: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  margin: 10px;
+}
