@@ -46,3 +46,11 @@ class AuthService {
 }
 
 export const authService = () => new AuthService();
+
+// need to include this auth header in every protected request
+// in order for the request to be authenticated
+export const getAuthHeader = () => {
+  const bearerToken = authService().getAuthData()?.token;
+
+  return {Authorization: `Bearer ${bearerToken}`};
+};

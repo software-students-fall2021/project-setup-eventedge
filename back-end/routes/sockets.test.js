@@ -2,6 +2,8 @@ const {createServer} = require('http');
 const Client = require('socket.io-client');
 const {expect} = require('chai');
 const createSocket = require('./socket');
+const mongoMock = require('../utils/test/mongodb-mock');
+const Chat = require('../models/Chat');
 
 const makeServer = () => {
   const httpServer = createServer();
@@ -17,15 +19,22 @@ describe('Socket test', () => {
   let server;
   let sockets;
 
+  before(async () => {
+    await mongoMock.connectToDatabase();
+  });
+
   beforeEach(() => {
     sockets = [];
     server = makeServer();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     server.close();
     sockets.forEach((e) => e.disconnect());
+    await mongoMock.clearDatabase();
   });
+
+  after(async () => await mongoMock.closeDatabase());
 
   const makeSocket = (id = 0) => {
     const socket = Client.connect('http://localhost:8000', {
@@ -47,43 +56,73 @@ describe('Socket test', () => {
     return socket;
   };
 
-  it('should receive null when user joins room initially', () => {
-    const socket = makeSocket();
+  it('should receive initial messages in the database', async () => {
+    const username = '5ca4bbc7a2dd94ee5816238c';
+    const testMessage = {
+      username,
+      message: 'fdssdf',
+      date: '11/11/2021 06:27 PM',
+    };
 
-    socket.emit('joinRoom', {username: 'test', chatId: 1});
-    socket.emit('retrieveMsgs', {chatId: 1});
-    socket.on('retrieveMsgs', (msgs) => {
-      expect(msgs).to.equal(null);
+    const username2 = '5ca4bbc7a2dd94ee5816238c';
+    const testMessage2 = {
+      username2,
+      message: 'hello',
+      date: '11/12/2021 06:15 PM',
+    };
+
+    const {id} = await Chat.create({
+      name: 'test',
+      latestEvent: '',
+      users: [username, username2],
+      messages: [testMessage, testMessage2],
+    });
+
+    const socket = makeSocket(username);
+
+    return new Promise((resolve, _reject) => {
+      socket.emit('joinRoom', {username, chatId: id});
+      socket.emit('retrieveMsgs', {chatId: id});
+      socket.on('retrieveMsgs', (msgs) => {
+        expect(msgs).to.deep.equal([testMessage, testMessage2]);
+        resolve();
+      });
     });
   });
 
-  it('should send and receive message', () => {
-    const socketOneId = 1;
-    const socketTwoId = 2;
-    const socketOne = makeSocket(socketOneId);
-    const socketTwo = makeSocket(socketTwoId);
-
-    socketOne.emit('joinRoom', {username: socketOneId, chatId: 1});
-    socketTwo.emit('joinRoom', {username: socketTwoId, chatId: 1});
-
+  it('should receive previously sent messages by other user', async () => {
+    const socketOneId = '5ca4bbc7a2dd94ee5816238c';
+    const socketTwoId = '5ca4bbc7a2dd94ee5816238d';
     const testMessage = {
       username: socketOneId,
       message: socketOneId,
-      date: '1',
+      date: '11/11/2021 06:27 PM',
     };
 
-    return Promise.all([
-      new Promise((resolve, _reject) => {
-        socketOne.emit('sendMsg', {msgObj: testMessage, chatId: 1});
+    const {id} = await Chat.create({
+      name: 'test',
+      latestEvent: '',
+      users: [socketOneId, socketTwoId],
+      messages: [],
+    });
+
+    const socketOne = makeSocket(socketOneId);
+    const socketTwo = makeSocket(socketTwoId);
+
+    await new Promise((resolve, _reject) => {
+      socketOne.emit('joinRoom', {username: socketOneId, chatId: id});
+      socketOne.emit('sendMsg', {msgObj: testMessage, chatId: id});
+      // need to set minimal timeout because writes to memory db take some time
+      setTimeout(resolve, 20);
+    });
+
+    await new Promise((resolve, _reject) => {
+      socketTwo.emit('joinRoom', {username: socketTwoId, chatId: id});
+      socketTwo.emit('retrieveMsgs', {chatId: id});
+      socketTwo.on('retrieveMsgs', (messages) => {
+        expect(messages).to.deep.equal([testMessage]);
         resolve();
-      }),
-      new Promise((resolve, _reject) => {
-        socketTwo.emit('retrieveMsgs', {chatId: 1});
-        socketTwo.on('retrieveMsgs', (msgs) => {
-          expect(msgs[0]).to.deep.equal(testMessage);
-          resolve();
-        });
-      }),
-    ]);
+      });
+    });
   });
 });
