@@ -3,7 +3,7 @@ const Chat = require('../models/Chat');
 
 const getChats = async (req, res) => {
   try {
-    const user = await User.findById(req.body.user.id);
+    const user = await User.findById(req.user.id);
     const chats = await Chat.find({_id: {$in: user.chats}});
     res.status(200).json(chats);
   } catch (e) {

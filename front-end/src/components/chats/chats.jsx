@@ -10,6 +10,8 @@ export const Chats = () => {
   const {showModal} = useModalContext();
   const [searchFilterWord, setSearchFilterWord] = useState('');
 
+  const areChatsEmpty = data.length === 0;
+
   const showCreateGroupChatModal = () => showModal('createGroupChat');
 
   const onSearchChange = (event) =>
@@ -42,8 +44,11 @@ export const Chats = () => {
         </button>
         <input className={styles.center} onChange={onSearchChange} />
       </div>
-
-      <ul className={styles.list}>{mapChats}</ul>
+      {areChatsEmpty ? (
+        <p>You are in no chats currently.</p>
+      ) : (
+        <ul className={styles.list}>{mapChats}</ul>
+      )}
     </>
   );
 };

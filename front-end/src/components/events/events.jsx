@@ -17,7 +17,9 @@ export const Events = () => {
       <div className={styles.box} key={id}>
         <p>Name: {title}</p>
         <p>Date/Time: {date}</p>
-        <Link to={`/chat/${id}`} ><button className={styles.goToChatButton}>Go to chat</button></Link>
+        <Link to={`/chat/${id}`}>
+          <button className={styles.goToChatButton}>Go to chat</button>
+        </Link>
       </div>
     ))
   );
