@@ -1,17 +1,14 @@
-const {request} = require('./axios');
-const {USERS: fakeUsers} = require('../mock-data/user');
+const User = require('../models/User');
 
-const getAllUsers = (_, res) =>
-  request()
-    .get('/members.json')
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((e) => {
-      console.error(e);
-      // mockaroo limit reached
-      res.send(fakeUsers);
-    });
+const getAllUsers = async (req, res) => {
+  const requestUserId = req.user.id;
+  const users = await User.find(
+    {_id: {$ne: requestUserId}},
+    {id: '$_id', username: 1, _id: 0}
+  );
+
+  res.status(200).json(users);
+};
 
 module.exports = {
   getAllUsers,

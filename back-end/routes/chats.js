@@ -8,12 +8,12 @@ const router = express.Router();
 router.get('/', passportAuthenticate(), chatsControllers.getChats);
 router.get(
   '/:id/members',
-  passportAuthenticate,
+  passportAuthenticate(),
   chatsControllers.getChatMembers
 );
 router.post(
   '/',
-  chatsValidators.validateCreateChat,
+  [passportAuthenticate(), chatsValidators.validateCreateChat],
   chatsControllers.createChat
 );
 
