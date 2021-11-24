@@ -5,6 +5,8 @@ const mongoMock = require('../utils/test/mongodb-mock');
 const eventsRoutes = require('./events');
 const User = require('../models/User');
 const Event = require('../models/Event');
+const sinon = require('sinon');
+const passport = require('passport');
 
 describe('events route', () => {
   let app;
@@ -134,6 +136,31 @@ describe('events route', () => {
 
   describe('GET /events', () => {
     it('should get accepted events from MongoDB', async () => {
+      const {eventId1} = await Event.create({
+        name: 'Exam 2',
+        date: Date(2021 - 12 - 10),
+        time: '8:00PM',
+        location: 'School',
+        description: 'The worst exam of my life',
+        chatId: '3',
+      });
+      const {eventId2} = await Event.create({
+        name: 'Exam 3',
+        date: Date(2021 - 12 - 20),
+        time: '4:00PM',
+        location: 'School',
+        description: 'Another exam',
+        chatId: '3',
+      });
+
+      const {eventId3} = await Event.create({
+        name: 'Restaurant hangout',
+        date: Date(2022 - 01 - 01),
+        time: '6:00PM',
+        location: 'NYC',
+        description: 'Having fun with the boiz',
+        chatId: '3',
+      });
       const {userId} = await User.create({
         username: 'farhan',
         password:
@@ -160,6 +187,31 @@ describe('events route', () => {
 
   describe('GET /events/pending', () => {
     it('should get pending events from MongoDB', async () => {
+      const {eventId1} = await Event.create({
+        name: 'Exam 2',
+        date: Date(2021 - 12 - 10),
+        time: '8:00PM',
+        location: 'School',
+        description: 'The worst exam of my life',
+        chatId: '3',
+      });
+      const {eventId2} = await Event.create({
+        name: 'Exam 3',
+        date: Date(2021 - 12 - 20),
+        time: '4:00PM',
+        location: 'School',
+        description: 'Another exam',
+        chatId: '3',
+      });
+
+      const {eventId3} = await Event.create({
+        name: 'Restaurant hangout',
+        date: Date(2022 - 01 - 01),
+        time: '6:00PM',
+        location: 'NYC',
+        description: 'Having fun with the boiz',
+        chatId: '3',
+      });
       const {userId} = await User.create({
         username: 'farhan',
         password:
