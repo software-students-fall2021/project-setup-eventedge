@@ -1,16 +1,29 @@
 const express = require('express');
 const eventsValidators = require('../middlewares/validate-event');
 const eventsControllers = require('../controllers/events');
+const {passportAuthenticate} = require('../middlewares/passport-authenticate');
 
 const router = express.Router();
 
-router.get('/', eventsControllers.getAllEvents);
-router.post('/pending/accept', eventsControllers.acceptPending);
-router.post('/pending/decline', eventsControllers.declinePending);
-router.get('/pending', eventsControllers.getPendingEvents);
+router.get('/', passportAuthenticate(), eventsControllers.getAllEvents);
+router.post(
+  '/pending/accept',
+  passportAuthenticate(),
+  eventsControllers.acceptPending
+);
+router.post(
+  '/pending/decline',
+  passportAuthenticate(),
+  eventsControllers.declinePending
+);
+router.get(
+  '/pending',
+  passportAuthenticate(),
+  eventsControllers.getPendingEvents
+);
 router.post(
   '/create',
-  eventsValidators.validateCreateEvent,
+  [passportAuthenticate(), eventsValidators.validateCreateEvent],
   eventsControllers.createEvent
 );
 

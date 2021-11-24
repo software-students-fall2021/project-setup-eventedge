@@ -17,9 +17,9 @@ export function eventService() {
         .withBody({id})
         .post(`/events/pending/${accept ? ACCEPT : DECLINE}`);
     },
-    createEvent({name, date, time, location, description}) {
+    createEvent({name, date, time, location, description, chatId}) {
       return request()
-        .withBody({name, date, time, location, description})
+        .withBody({name, date, time, location, description, chatId})
         .post('/events/create');
     },
   };
