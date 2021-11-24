@@ -9,10 +9,13 @@ const eventsRoutes = require('./routes/events');
 const chatsRoutes = require('./routes/chats');
 const usersRoutes = require('./routes/users');
 const createSocket = require('./routes/socket');
+const emailRoutes = require('./routes/email')
 
 require('./db');
 
 const app = express();
+
+app.use('/email', emailRoutes)
 
 // middlewares
 app.use(passport.initialize());
