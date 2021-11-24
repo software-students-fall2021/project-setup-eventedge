@@ -20,7 +20,7 @@ describe('events route', () => {
     app.use('/events', eventsRoutes);
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     await mongoMock.clearDatabase();
   });
 
@@ -34,7 +34,7 @@ describe('events route', () => {
         time: '8:00PM',
         location: 'School',
         description: 'The worst exam of my life',
-        chatId: '3'
+        chatId: '3',
       });
       const {eventId2} = await Event.create({
         name: 'Exam 3',
@@ -42,8 +42,8 @@ describe('events route', () => {
         time: '4:00PM',
         location: 'School',
         description: 'Another exam',
-        chatId: '3'
-      })
+        chatId: '3',
+      });
 
       const {eventId3} = await Event.create({
         name: 'Restaurant hangout',
@@ -51,21 +51,26 @@ describe('events route', () => {
         time: '6:00PM',
         location: 'NYC',
         description: 'Having fun with the boiz',
-        chatId: '3'
-      })
-  
+        chatId: '3',
+      });
+
       const {userId} = await User.create({
         username: 'farhan',
         password:
           '$2b$10$jvVvHoJg7n52K3Xic2yVueoBp9FhPLx8WdNEJ2pjjS3U3.nwaW2ii',
         chats: [],
         pendingEvents: [eventId1, eventId2],
-        acceptedEvents: [eventId3]
+        acceptedEvents: [eventId3],
       });
-
+      sinon
+        .stub(passport, 'authenticate')
+        .callsFake((strategy, options, callback) => {
+          callback(null, {username: userId}, null);
+          return (req, res, next) => {};
+        });
       const response = await request(app)
         .post('/events/pending/accept')
-        .send({eventId: eventId1});
+        .send({userId: userId, eventId: eventId1});
       expect(response.status).to.equal(200);
       expect(response.body).to.deep.equal({
         accepted: [eventId2],
@@ -82,7 +87,7 @@ describe('events route', () => {
         time: '8:00PM',
         location: 'School',
         description: 'The worst exam of my life',
-        chatId: '3'
+        chatId: '3',
       });
       const {eventId2} = await Event.create({
         name: 'Exam 3',
@@ -90,8 +95,8 @@ describe('events route', () => {
         time: '4:00PM',
         location: 'School',
         description: 'Another exam',
-        chatId: '3'
-      })
+        chatId: '3',
+      });
 
       const {eventId3} = await Event.create({
         name: 'Restaurant hangout',
@@ -99,18 +104,23 @@ describe('events route', () => {
         time: '6:00PM',
         location: 'NYC',
         description: 'Having fun with the boiz',
-        chatId: '3'
-      })
-  
+        chatId: '3',
+      });
+
       const {userId} = await User.create({
         username: 'farhan',
         password:
           '$2b$10$jvVvHoJg7n52K3Xic2yVueoBp9FhPLx8WdNEJ2pjjS3U3.nwaW2ii',
         chats: [],
         pendingEvents: [eventId1, eventId2],
-        acceptedEvents: [eventId3]
+        acceptedEvents: [eventId3],
       });
-
+      sinon
+        .stub(passport, 'authenticate')
+        .callsFake((strategy, options, callback) => {
+          callback(null, {username: userId}, null);
+          return (req, res, next) => {};
+        });
       const response = await request(app)
         .post('/events/pending/decline')
         .send({userId: userId, eventId: eventId1});
@@ -124,23 +134,53 @@ describe('events route', () => {
 
   describe('GET /events', () => {
     it('should get accepted events from MongoDB', async () => {
-      stubAxios(() => Promise.resolve({data: EVENTS}));
+      const {userId} = await User.create({
+        username: 'farhan',
+        password:
+          '$2b$10$jvVvHoJg7n52K3Xic2yVueoBp9FhPLx8WdNEJ2pjjS3U3.nwaW2ii',
+        chats: [],
+        pendingEvents: [eventId1, eventId2],
+        acceptedEvents: [eventId3],
+      });
 
-      const response = await request(app).get('/events');
-
-      expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal(EVENTS);
+      sinon
+        .stub(passport, 'authenticate')
+        .callsFake((strategy, options, callback) => {
+          callback(null, {username: userId}, null);
+          return (req, res, next) => {};
+        });
+      return request
+        .get('/events')
+        .expect(200)
+        .expect((res) => {
+          res.body.acceptedEvents.should.equal(userId.acceptedEvents);
+        });
     });
   });
 
   describe('GET /events/pending', () => {
     it('should get pending events from MongoDB', async () => {
-      stubAxios(() => Promise.resolve({data: EVENTS}));
+      const {userId} = await User.create({
+        username: 'farhan',
+        password:
+          '$2b$10$jvVvHoJg7n52K3Xic2yVueoBp9FhPLx8WdNEJ2pjjS3U3.nwaW2ii',
+        chats: [],
+        pendingEvents: [eventId1, eventId2],
+        acceptedEvents: [eventId3],
+      });
 
-      const response = await request(app).get('/events/pending');
-
-      expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal(EVENTS);
+      sinon
+        .stub(passport, 'authenticate')
+        .callsFake((strategy, options, callback) => {
+          callback(null, {username: userId}, null);
+          return (req, res, next) => {};
+        });
+      return request
+        .get('/events')
+        .expect(200)
+        .expect((res) => {
+          res.body.pendingEvents.should.equal(userId.pendingEvents);
+        });
     });
   });
 });
