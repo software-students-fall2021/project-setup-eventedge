@@ -17,14 +17,14 @@ require('./db');
 const app = express();
 
 // middlewares
+app.use(passport.initialize());
+passport.use(jwtStrategy);
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use('/email', emailRoutes);
-app.use(passport.initialize());
-passport.use(jwtStrategy);
 
 // routes
+app.use('/email', emailRoutes);
 app.use('/auth', authRoutes);
 app.use('/events', eventsRoutes);
 app.use('/chats', chatsRoutes);
