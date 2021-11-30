@@ -6,7 +6,7 @@ const send = (req, res) => {
     service: 'gmail',
     auth: {
       user: 'eventedge2023@gmail.com',
-      pass: 'abc123456!.',
+      pass: process.env.EMAILPASSWORD
     },
   });
   const mailOptions = {
