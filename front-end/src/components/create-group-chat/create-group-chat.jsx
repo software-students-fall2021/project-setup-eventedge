@@ -78,7 +78,7 @@ export const CreateGroupChat = ({dismissModal}) => {
 
     await post({
       chatName,
-      usersList: selectedUsers.map((user) => user.username),
+      usersList: selectedUsers.map((user) => user.id),
     });
   };
 

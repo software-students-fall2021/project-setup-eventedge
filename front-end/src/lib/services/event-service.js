@@ -1,5 +1,6 @@
 import {request} from './request-service';
 import {useGetService, usePostService} from './use-service';
+import {getAuthHeader} from './auth-service';
 
 const ACCEPT = 'accept';
 const DECLINE = 'decline';
@@ -7,19 +8,21 @@ const DECLINE = 'decline';
 export function eventService() {
   return {
     getMyEvents() {
-      return request().get('/events');
+      return request().withHeader(getAuthHeader()).get('/events');
     },
     getMyPendingEvents() {
-      return request().get('/events/pending');
+      return request().withHeader(getAuthHeader()).get('/events/pending');
     },
-    acceptEvent({id, accept}) {
+    acceptEvent({eventId, accept}) {
       return request()
-        .withBody({id})
+        .withBody({eventId})
+        .withHeader(getAuthHeader())
         .post(`/events/pending/${accept ? ACCEPT : DECLINE}`);
     },
-    createEvent({name, date, time, location, description}) {
+    createEvent({name, date, time, location, description, chatId}) {
       return request()
-        .withBody({name, date, time, location, description})
+        .withBody({name, date, time, location, description, chatId})
+        .withHeader(getAuthHeader())
         .post('/events/create');
     },
   };

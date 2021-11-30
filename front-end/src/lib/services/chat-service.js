@@ -1,16 +1,20 @@
+import {getAuthHeader} from './auth-service';
 import {request} from './request-service';
 import {useGetService, usePostService} from './use-service';
 
 export function chatService() {
   return {
     getChats() {
-      return request().get('/chats');
+      return request().withHeader(getAuthHeader()).get('/chats');
     },
     getChatMembers(id) {
-      return request().get(`/chats/${id}/members`);
+      return request().withHeader(getAuthHeader()).get(`/chats/${id}/members`);
     },
     createChat({chatName, usersList}) {
-      return request().withBody({chatName, usersList}).post('/chats');
+      return request()
+        .withHeader(getAuthHeader())
+        .withBody({chatName, usersList})
+        .post('/chats');
     },
   };
 }

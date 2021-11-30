@@ -2,6 +2,8 @@ import React from 'react';
 import {useEventService} from '../../lib/services/event-service';
 import styles from './events.module.css';
 import {useModalContext} from '../../lib/context/modal';
+import {Link} from 'react-router-dom';
+import {getDateString} from '../../lib/utils/get-date-string';
 
 export const Events = () => {
   const {showModal} = useModalContext();
@@ -12,10 +14,13 @@ export const Events = () => {
   const mapEvents = isLoading ? (
     <p>Loading...</p>
   ) : (
-    data?.map(({date, title, id}) => (
+    data?.map(({date, name, id, chatId}) => (
       <div className={styles.box} key={id}>
-        <p>Name: {title}</p>
-        <p>Date/Time: {date}</p>
+        <p>Name: {name}</p>
+        <p>Date/Time: {getDateString(date)}</p>
+        <Link to={`/chat/${chatId}`}>
+          <button className={styles.goToChatButton}>Go to chat</button>
+        </Link>
       </div>
     ))
   );
