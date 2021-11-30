@@ -9,20 +9,19 @@ const eventsRoutes = require('./routes/events');
 const chatsRoutes = require('./routes/chats');
 const usersRoutes = require('./routes/users');
 const createSocket = require('./routes/socket');
-const emailRoutes = require('./routes/email')
+const emailRoutes = require('./routes/email');
 
 require('./db');
 
 const app = express();
 
-app.use('/email', emailRoutes)
-
 // middlewares
-app.use(passport.initialize());
-passport.use(jwtStrategy);
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use('/email', emailRoutes);
+app.use(passport.initialize());
+passport.use(jwtStrategy);
 
 // routes
 app.use('/auth', authRoutes);
