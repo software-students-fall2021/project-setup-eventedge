@@ -25,8 +25,7 @@ export const LandingPage = () => {
   };
 
   return (
-    <>
-      <div style={{height: '100%'}}>
+      <div>
         <div className={styles.container}>
           <h1 className={styles.title}>Plan Your Next Event</h1>
           <img className={styles.gif} src={landingGif} />
@@ -97,6 +96,5 @@ export const LandingPage = () => {
           well. For any further assistance, email eventedge@gmail.com.
         </marquee>
       </div>
-    </>
   );
 };
