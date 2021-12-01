@@ -10,6 +10,7 @@ const eventsRoutes = require('./routes/events');
 const chatsRoutes = require('./routes/chats');
 const usersRoutes = require('./routes/users');
 const createSocket = require('./routes/socket');
+const emailRoutes = require('./routes/email');
 
 require('./db');
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 // routes
+app.use('/email', emailRoutes);
 app.use('/auth', authRoutes);
 app.use('/events', eventsRoutes);
 app.use('/chats', chatsRoutes);
