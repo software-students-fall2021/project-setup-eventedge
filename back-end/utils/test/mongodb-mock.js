@@ -3,16 +3,24 @@ const {MongoMemoryServer} = require('mongodb-memory-server');
 
 let mongoDb;
 
-const connectToDatabase = async (opts = {}) => {
+const getMemoryServerUri = async (opts = {}) => {
   mongoDb = await MongoMemoryServer.create(opts);
-  const uri = await mongoDb.getUri();
+  const uri = mongoDb.getUri();
+  return uri;
+};
+
+const connectToDatabase = async (opts = {}) => {
+  const uri = await getMemoryServerUri(opts);
   await mongoose.connect(uri);
 };
 
 const closeDatabase = async () => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
-  await mongoDb.stop();
+
+  if (mongoDb) {
+    await mongoDb.stop();
+  }
 };
 
 const clearDatabase = async () => {
@@ -28,4 +36,5 @@ module.exports = {
   connectToDatabase,
   closeDatabase,
   clearDatabase,
+  getMemoryServerUri,
 };
