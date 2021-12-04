@@ -19,7 +19,10 @@ describe('Chats routes', () => {
   });
 
   beforeEach(async () => {
-    const {id} = await User.create({username: authUsername, password: authPassword});
+    const {id} = await User.create({
+      username: authUsername,
+      password: authPassword,
+    });
     const res = await request
       .post('/auth/login')
       .send({username: authUsername, password: authPassword});
@@ -38,9 +41,7 @@ describe('Chats routes', () => {
 
   describe('GET /chats', () => {
     it('should return empty response if user has no chats', async () => {
-      const response = await request
-        .get('/chats')
-        .set(authHeader);
+      const response = await request.get('/chats').set(authHeader);
 
       expect(response.status).to.equal(200);
       expect(response.body).to.deep.equal([]);
@@ -50,16 +51,26 @@ describe('Chats routes', () => {
       const firstChatTitle = 'firstChatTitle';
       const secondChatTitle = 'secondChatTitle';
 
-      const firstChat = await Chat.create({name: firstChatTitle, users: [authUserId]});
-      const secondChat = await Chat.create({name: secondChatTitle, users: [authUserId]});
-      await User.updateOne({_id: authUserId}, {chats: [firstChat.id, secondChat.id]});
+      const firstChat = await Chat.create({
+        name: firstChatTitle,
+        users: [authUserId],
+      });
+      const secondChat = await Chat.create({
+        name: secondChatTitle,
+        users: [authUserId],
+      });
+      await User.updateOne(
+        {_id: authUserId},
+        {chats: [firstChat.id, secondChat.id]}
+      );
 
-      const response = await request
-        .get('/chats')
-        .set(authHeader);
+      const response = await request.get('/chats').set(authHeader);
 
       expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal([{name: secondChatTitle, id: secondChat.id}, {name: firstChatTitle, id: firstChat.id}]);
+      expect(response.body).to.deep.equal([
+        {name: secondChatTitle, id: secondChat.id},
+        {name: firstChatTitle, id: firstChat.id},
+      ]);
     });
   });
 
@@ -73,7 +84,9 @@ describe('Chats routes', () => {
         .set(authHeader);
 
       expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal([{username: authUsername, id: authUserId}]);
+      expect(response.body).to.deep.equal([
+        {username: authUsername, id: authUserId},
+      ]);
     });
 
     it('should return unauthorized error if endpoint is accessed by user who is not in the chat', async () => {
@@ -99,7 +112,7 @@ describe('Chats routes', () => {
         .set(authHeader);
 
       const authUser = await User.findById(authUserId);
-      
+
       expect(response.status).to.equal(200);
       expect(response.body.chatName).to.equal(chatName);
       expect(response.body.users).to.deep.equal([authUserId]);
@@ -111,7 +124,7 @@ describe('Chats routes', () => {
         .post('/chats')
         .send({usersList: []})
         .set(authHeader);
-      
+
       expect(response.status).to.equal(400);
     });
 
@@ -120,7 +133,7 @@ describe('Chats routes', () => {
         .post('/chats')
         .send({chatName: 'a', usersList: []})
         .set(authHeader);
-      
+
       expect(response.status).to.equal(400);
     });
 
@@ -130,7 +143,7 @@ describe('Chats routes', () => {
         .post('/chats')
         .send({chatName, usersList: []})
         .set(authHeader);
-      
+
       expect(response.status).to.equal(400);
     });
 
@@ -139,7 +152,7 @@ describe('Chats routes', () => {
         .post('/chats')
         .send({chatName: 'chatName'})
         .set(authHeader);
-      
+
       expect(response.status).to.equal(400);
     });
 
@@ -148,9 +161,11 @@ describe('Chats routes', () => {
         .post('/chats')
         .send({chatName: 'chatName', usersList: [generateMongoObjectId()]})
         .set(authHeader);
-      
+
       expect(response.status).to.equal(400);
-      expect(response.body).to.deep.equal({error: 'Provided users do not exist!'});
+      expect(response.body).to.deep.equal({
+        error: 'Provided users do not exist!',
+      });
     });
   });
 });
