@@ -3,14 +3,13 @@ const Chat = require('../models/Chat');
 const getUniqueIds = require('../utils/get-unique-ids');
 
 const getChats = async (req, res) => {
-  const user = await User.findById(req.user.id);
   const chats = await Chat.find(
-    {_id: {$in: user.chats}},
+    {_id: {$in: req.user.chats}},
     {_id: 0, name: 1, id: '$_id'},
     {sort: '-createdAt'}
   );
 
-  res.status(200).json(chats);
+  return res.status(200).json(chats);
 };
 
 const getChatMembers = async (req, res) => {
