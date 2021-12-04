@@ -10,15 +10,17 @@ describe('Users routes', () => {
   before(async () => {
     process.env.JWT_SECRET = 'secret';
     process.env.URI = await mongoDbMock.getMemoryServerUri();
-  })
+  });
 
   beforeEach(async () => {
-    const res = await request.post('/auth/register').send({username: 'test1', password: 'test1'});
+    const res = await request
+      .post('/auth/register')
+      .send({username: 'test1', password: 'test1'});
     token = res.body.token;
   });
 
   afterEach(async () => {
-    await mongoDbMock.clearDatabase()
+    await mongoDbMock.clearDatabase();
   });
 
   after(async () => {
@@ -27,7 +29,9 @@ describe('Users routes', () => {
 
   describe('GET /users', () => {
     it('should return empty response if the single registered user makes request', async () => {
-      const response = await request.get('/users').set('Authorization', `Bearer ${token}`);
+      const response = await request
+        .get('/users')
+        .set('Authorization', `Bearer ${token}`);
 
       expect(response.body).to.deep.equal([]);
     });
@@ -36,9 +40,11 @@ describe('Users routes', () => {
       const username = 'testusername';
       const {id} = await User.create({username, password: 'test1'});
 
-      const response = await request.get('/users').set('Authorization', `Bearer ${token}`);
+      const response = await request
+        .get('/users')
+        .set('Authorization', `Bearer ${token}`);
 
       expect(response.body).to.deep.equal([{username, id}]);
-    })
-  })
-})
+    });
+  });
+});
