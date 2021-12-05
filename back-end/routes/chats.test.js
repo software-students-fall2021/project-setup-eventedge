@@ -1,7 +1,6 @@
 const app = require('../app');
 const request = require('supertest')(app);
 const {expect} = require('chai');
-const mongoDbMock = require('../utils/test/mongodb-mock');
 const User = require('../models/User');
 const Chat = require('../models/Chat');
 const generateMongoObjectId = require('../utils/test/generate-mongo-object-id');
@@ -12,11 +11,6 @@ const authPassword = 'test2';
 describe('Chats routes', () => {
   let authHeader;
   let authUserId;
-
-  before(async () => {
-    process.env.JWT_SECRET = 'secret';
-    process.env.URI = await mongoDbMock.getMemoryServerUri();
-  });
 
   beforeEach(async () => {
     const {id} = await User.create({
@@ -29,14 +23,6 @@ describe('Chats routes', () => {
 
     authUserId = id;
     authHeader = {Authorization: `Bearer ${res.body.token}`};
-  });
-
-  afterEach(async () => {
-    await mongoDbMock.clearDatabase();
-  });
-
-  after(async () => {
-    await mongoDbMock.closeDatabase();
   });
 
   describe('GET /chats', () => {
