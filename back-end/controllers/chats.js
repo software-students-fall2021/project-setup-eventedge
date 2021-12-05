@@ -53,7 +53,7 @@ const leaveChat = async (req, res) => {
   const {chatId} = req.params;
   const chat = await Chat.findById(chatId);
 
-  if (!chat.users.includes(userId) || !req.user.chats.includes(chatId)) {
+  if (!chat?.users.includes(userId) || !req.user.chats?.includes(chatId)) {
     return res.status(401).json({error: 'Bad request'});
   }
 
