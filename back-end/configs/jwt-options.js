@@ -1,3 +1,4 @@
+require('dotenv').config();
 const {ExtractJwt} = require('passport-jwt');
 
 const jwtOptions = {
