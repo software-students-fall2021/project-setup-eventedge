@@ -17,7 +17,7 @@ router.post(
   chatsControllers.createChat
 );
 router.post(
-  '/leave/:chatId',
+  '/:chatId/leave',
   passportAuthenticate(),
   chatsControllers.leaveChat
 );

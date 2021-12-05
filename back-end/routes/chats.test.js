@@ -155,7 +155,7 @@ describe('Chats routes', () => {
     });
   });
 
-  describe('POST /chats/leave/:chatId', () => {
+  describe('POST /chats/:chatId/leave', () => {
     it('should leave chat without exception', async () => {
       const chat = await Chat.create({
         name: 'chatName',
@@ -165,7 +165,7 @@ describe('Chats routes', () => {
       await User.updateOne({_id: authUserId}, {chats: [chat.id]});
 
       const response = await request
-        .post(`/chats/leave/${chat.id}`)
+        .post(`/chats/${chat.id}/leave`)
         .set(authHeader);
 
       expect(response.status).to.equal(200);
@@ -179,7 +179,7 @@ describe('Chats routes', () => {
       });
 
       const response = await request
-        .post(`/chats/leave/${chat.id}`)
+        .post(`/chats/${chat.id}/leave`)
         .set(authHeader);
 
       expect(response.status).to.equal(401);
@@ -188,7 +188,7 @@ describe('Chats routes', () => {
 
     it('should respond with bad request if chat does not exist', async () => {
       const response = await request
-        .post(`/chats/leave/${generateMongoObjectId()}`)
+        .post(`/chats/${generateMongoObjectId()}/leave`)
         .set(authHeader);
 
       expect(response.status).to.equal(401);
