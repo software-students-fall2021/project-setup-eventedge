@@ -48,8 +48,24 @@ const createChat = async (req, res) => {
   });
 };
 
+const leaveChat = async (req, res) => {
+  const userId = req.user.id;
+  const {chatId} = req.params;
+  const chat = await Chat.findById(chatId);
+
+  if (!chat.users.includes(userId) || !req.user.chats.includes(chatId)) {
+    return res.status(401).json({error: 'Bad request'});
+  }
+
+  await User.updateOne({_id: userId}, {$pull: {chats: chatId}});
+  await Chat.updateOne({_id: chatId}, {$pull: {users: userId}});
+
+  return res.status(200).json({chatId});
+};
+
 module.exports = {
   getChats,
   getChatMembers,
   createChat,
+  leaveChat,
 };

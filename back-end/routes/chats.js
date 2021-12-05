@@ -16,5 +16,6 @@ router.post(
   [passportAuthenticate(), chatsValidators.validateCreateChat],
   chatsControllers.createChat
 );
+router.post('/:chatId', passportAuthenticate(), chatsControllers.leaveChat);
 
 module.exports = router;
