@@ -1,16 +1,10 @@
+const {expect} = require('chai');
+const User = require('../models/User');
 const app = require('../app');
 const request = require('supertest')(app);
-const {expect} = require('chai');
-const mongoDbMock = require('../utils/test/mongodb-mock');
-const User = require('../models/User');
 
 describe('Users routes', () => {
   let authHeader;
-
-  before(async () => {
-    process.env.JWT_SECRET = 'secret';
-    process.env.URI = await mongoDbMock.getMemoryServerUri();
-  });
 
   beforeEach(async () => {
     const res = await request
@@ -20,18 +14,11 @@ describe('Users routes', () => {
     authHeader = {Authorization: `Bearer ${res.body.token}`};
   });
 
-  afterEach(async () => {
-    await mongoDbMock.clearDatabase();
-  });
-
-  after(async () => {
-    await mongoDbMock.closeDatabase();
-  });
-
   describe('GET /users', () => {
     it('should return empty response if the single registered user makes request', async () => {
       const response = await request.get('/users').set(authHeader);
 
+      expect(response.status).to.equal(200);
       expect(response.body).to.deep.equal([]);
     });
 
@@ -41,6 +28,7 @@ describe('Users routes', () => {
 
       const response = await request.get('/users').set(authHeader);
 
+      expect(response.status).to.equal(200);
       expect(response.body).to.deep.equal([{username, id}]);
     });
   });
