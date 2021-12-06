@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha **/*.test.js",
+    "test-single": "mocha -R list -w",
     "coverage": "nyc npm test",
     "start": "node ./server.js",
     "dev": "nodemon ./server.js",
