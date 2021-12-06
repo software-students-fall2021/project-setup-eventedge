@@ -18,6 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-prod": "BUILD_PATH='../../../../usr/share/nginx' react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.+(js|jsx|json|css)\""
