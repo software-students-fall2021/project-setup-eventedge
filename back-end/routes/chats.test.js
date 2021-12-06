@@ -154,4 +154,45 @@ describe('Chats routes', () => {
       });
     });
   });
+
+  describe('POST /chats/:chatId/leave', () => {
+    it('should leave chat without exception', async () => {
+      const chat = await Chat.create({
+        name: 'chatName',
+        users: [authUserId],
+      });
+
+      await User.updateOne({_id: authUserId}, {chats: [chat.id]});
+
+      const response = await request
+        .post(`/chats/${chat.id}/leave`)
+        .set(authHeader);
+
+      expect(response.status).to.equal(200);
+      expect(response.body).to.deep.equal({chatId: chat.id});
+    });
+
+    it('should respond with bad request if user does not belong to chat', async () => {
+      const chat = await Chat.create({
+        name: 'chatName',
+        users: [],
+      });
+
+      const response = await request
+        .post(`/chats/${chat.id}/leave`)
+        .set(authHeader);
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.deep.equal({error: 'Bad request'});
+    });
+
+    it('should respond with bad request if chat does not exist', async () => {
+      const response = await request
+        .post(`/chats/${generateMongoObjectId()}/leave`)
+        .set(authHeader);
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.deep.equal({error: 'Bad request'});
+    });
+  });
 });

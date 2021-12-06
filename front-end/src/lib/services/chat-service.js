@@ -16,6 +16,9 @@ export function chatService() {
         .withBody({chatName, usersList})
         .post('/chats');
     },
+    leaveChat(id) {
+      return request().withHeader(getAuthHeader()).post(`/chats/${id}/leave`);
+    },
   };
 }
 
@@ -23,4 +26,5 @@ export const useChatService = {
   useChats: () => useGetService(chatService().getChats),
   useChatMembers: (id) => useGetService(() => chatService().getChatMembers(id)),
   useCreateChat: () => usePostService(chatService().createChat),
+  useLeaveChat: () => usePostService(chatService().leaveChat),
 };
