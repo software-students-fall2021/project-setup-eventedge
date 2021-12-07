@@ -1,139 +1,199 @@
-const express = require('express');
-const request = require('supertest');
-const {expect} = require('chai');
-const eventsRoutes = require('./events');
-const sinon = require('sinon');
-const axios = require('axios');
-const {EVENTS: FALLBACK_EVENTS} = require('../mock-data/events');
+const app = require('../app');
+const request = require('supertest')(app);
+const {expect, should} = require('chai');
+const User = require('../models/User');
+const Event = require('../models/Event');
+const generateMongoObjectId = require('../utils/test/generate-mongo-object-id');
+const Chance = require('chance');
 
-const EVENTS = [
-  {
-    id: 10,
-    chatId: 10,
-    name: 'Test Event',
-    date: '1999-01-01',
-    time: '10:00:00',
-    location: 'Moscow',
-    description: 'Testing',
-  },
-];
+const chance = new Chance();
 
-const eventId = 10;
+const authUsername = 'authUsername';
+const authPassword = 'authPassword';
 
-const stubAxios = (requestReturn) =>
-  sinon.stub(axios, 'create').returns({request: requestReturn});
+const generateRandomEventData = () => ({
+  name: chance.sentence({words: 2}),
+  date: chance.date({string: true}),
+  time: '10:00PM',
+  location: chance.city(),
+  description: chance.sentence({words: 10}),
+  chatId: generateMongoObjectId(),
+});
 
-describe('chat route', () => {
-  let app;
+describe('events route', () => {
+  let authHeader;
+  let authUserId;
 
-  beforeEach(() => {
-    app = express();
-    app.use(express.urlencoded({extended: true}));
-    app.use(express.json());
-    app.use('/events', eventsRoutes);
-  });
-
-  afterEach(() => {
-    sinon.restore();
-  });
-
-  describe('POST /events/pending/accept', () => {
-    it('should fetch Mockaroo', async () => {
-      stubAxios(() => Promise.resolve({data: FALLBACK_EVENTS[0]}));
-
-      const response = await request(app)
-        .post('/events/pending/accept')
-        .send({id: eventId});
-
-      expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal({
-        message: 'accepted',
-        event: {...FALLBACK_EVENTS[0], id: eventId},
-      });
+  beforeEach(async () => {
+    const {id} = await User.create({
+      username: authUsername,
+      password: authPassword,
     });
+    const res = await request
+      .post('/auth/login')
+      .send({username: authUsername, password: authPassword});
 
-    it('should return data from mock data if Mockaroo is unavailable', async () => {
-      stubAxios(() => Promise.reject('test error'));
-
-      const response = await request(app)
-        .post('/events/pending/accept')
-        .send({id: eventId});
-
-      expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal({
-        message: 'accepted',
-        event: {...FALLBACK_EVENTS[0], id: eventId},
-      });
-    });
-  });
-
-  describe('POST /events/pending/decline', () => {
-    it('should fetch Mockaroo', async () => {
-      stubAxios(() => Promise.resolve({data: FALLBACK_EVENTS[0]}));
-
-      const response = await request(app)
-        .post('/events/pending/decline')
-        .send({id: eventId});
-
-      expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal({
-        message: 'declined',
-        event: {...FALLBACK_EVENTS[0], id: eventId},
-      });
-    });
-
-    it('should return data from mock data if Mockaroo is unavailable', async () => {
-      stubAxios(() => Promise.reject('test error'));
-
-      const response = await request(app)
-        .post('/events/pending/decline')
-        .send({id: eventId});
-
-      expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal({
-        message: 'declined',
-        event: {...FALLBACK_EVENTS[0], id: eventId},
-      });
-    });
+    authUserId = id;
+    authHeader = {Authorization: `Bearer ${res.body.token}`};
   });
 
   describe('GET /events', () => {
-    it('should fetch Mockaroo', async () => {
-      stubAxios(() => Promise.resolve({data: EVENTS}));
-
-      const response = await request(app).get('/events');
+    it('should get empty accepted events if there are not any', async () => {
+      const response = await request.get('/events').set(authHeader);
 
       expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal(EVENTS);
+      expect(response.body).to.deep.equal([]);
     });
 
-    it('should return data from mock data if Mockaroo is unavailable', async () => {
-      stubAxios(() => Promise.reject('test error'));
+    it('should get accepted events in date descending order', async () => {
+      const firstEvent = await Event.create(generateRandomEventData());
+      const secondEvent = await Event.create(generateRandomEventData());
+      const thirdEvent = await Event.create(generateRandomEventData());
 
-      const response = await request(app).get('/events');
+      await User.updateOne(
+        {_id: authUserId},
+        {$push: {acceptedEvents: firstEvent.id, pendingEvents: secondEvent.id}}
+      );
+      await User.updateOne(
+        {_id: authUserId},
+        {$push: {acceptedEvents: thirdEvent.id}}
+      );
+
+      const response = await request.get('/events').set(authHeader);
 
       expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal(FALLBACK_EVENTS);
+      expect(response.body).to.deep.equal([
+        {
+          name: thirdEvent.name,
+          date: thirdEvent.date.toISOString(),
+          chatId: thirdEvent.chatId,
+          id: thirdEvent.id,
+        },
+        {
+          name: firstEvent.name,
+          date: firstEvent.date.toISOString(),
+          chatId: firstEvent.chatId,
+          id: firstEvent.id,
+        },
+      ]);
     });
   });
 
   describe('GET /events/pending', () => {
-    it('should fetch Mockaroo', async () => {
-      stubAxios(() => Promise.resolve({data: EVENTS}));
-
-      const response = await request(app).get('/events/pending');
+    it('should get empty pending events if there are not any', async () => {
+      const response = await request.get('/events/pending').set(authHeader);
 
       expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal(EVENTS);
+      expect(response.body).to.deep.equal([]);
     });
 
-    it('should return data from mock data if Mockaroo is unavailable', async () => {
-      stubAxios(() => Promise.reject('test error'));
+    it('should get pending events in date descending order', async () => {
+      const firstEvent = await Event.create(generateRandomEventData());
+      const secondEvent = await Event.create(generateRandomEventData());
+      const thirdEvent = await Event.create(generateRandomEventData());
 
-      const response = await request(app).get('/events/pending');
+      await User.updateOne(
+        {_id: authUserId},
+        {$push: {pendingEvents: firstEvent.id, acceptedEvents: secondEvent.id}}
+      );
+      await User.updateOne(
+        {_id: authUserId},
+        {$push: {pendingEvents: thirdEvent.id}}
+      );
+
+      const response = await request.get('/events/pending').set(authHeader);
 
       expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal(FALLBACK_EVENTS);
+      expect(response.body).to.deep.equal([
+        {
+          name: thirdEvent.name,
+          date: thirdEvent.date.toISOString(),
+          id: thirdEvent.id,
+        },
+        {
+          name: firstEvent.name,
+          date: firstEvent.date.toISOString(),
+          id: firstEvent.id,
+        },
+      ]);
+    });
+  });
+
+  describe('POST /events/pending/accept', () => {
+    it('should accept pending event', async () => {
+      const pendingEvent = await Event.create(generateRandomEventData());
+
+      await User.updateOne(
+        {_id: authUserId},
+        {$push: {pendingEvents: pendingEvent.id}}
+      );
+
+      const response = await request
+        .post('/events/pending/accept')
+        .set(authHeader)
+        .send({eventId: pendingEvent.id});
+
+      const updatedUser = await User.findById(authUserId);
+
+      expect(response.status).to.equal(200);
+      expect(response.body).to.deep.equal({
+        date: pendingEvent.date.toISOString(),
+        id: pendingEvent.id,
+        name: pendingEvent.name,
+      });
+      expect(updatedUser.acceptedEvents).to.deep.equal([pendingEvent.id]);
+      expect(updatedUser.pendingEvents).to.deep.equal([]);
+    });
+
+    it('should return unauthorized error if user is not invited to event', async () => {
+      const pendingEvent = await Event.create(generateRandomEventData());
+
+      const response = await request
+        .post('/events/pending/accept')
+        .set(authHeader)
+        .send({eventId: pendingEvent.id});
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.deep.equal({error: 'Unauthorized'});
+    });
+  });
+
+  describe('POST /events/pending/decline', () => {
+    it('should decline pending event', async () => {
+      const pendingEvent = await Event.create(generateRandomEventData());
+
+      await User.updateOne(
+        {_id: authUserId},
+        {$push: {pendingEvents: pendingEvent.id}}
+      );
+
+      const response = await request
+        .post('/events/pending/decline')
+        .set(authHeader)
+        .send({eventId: pendingEvent.id});
+
+      const updatedUser = await User.findById(authUserId);
+
+      expect(response.status).to.equal(200);
+      expect(response.body).to.deep.equal({
+        date: pendingEvent.date.toISOString(),
+        id: pendingEvent.id,
+        name: pendingEvent.name,
+      });
+      expect(updatedUser.acceptedEvents).to.deep.equal([]);
+      expect(updatedUser.pendingEvents).to.deep.equal([]);
+    });
+
+    it('should return unauthorized error if user is not invited to event', async () => {
+      const pendingEvent = await Event.create(generateRandomEventData());
+
+      const response = await request
+        .post('/events/pending/decline')
+        .set(authHeader)
+        .send({eventId: pendingEvent.id});
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.deep.equal({error: 'Unauthorized'});
     });
   });
 });
