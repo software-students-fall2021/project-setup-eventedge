@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import styles from './pending-events.module.css';
 import {useEventService} from '../../lib/services/event-service';
+import {getDateString} from '../../lib/utils/get-date-string';
 
 export const PendingEvents = () => {
   const {data: eventData, post} = useEventService.useAcceptEvent();
@@ -10,7 +11,7 @@ export const PendingEvents = () => {
   useEffect(() => {
     if (data && eventData) {
       setData((prevData) =>
-        prevData.filter((event) => event.id !== eventData.event.id)
+        prevData.filter((event) => event.id !== eventData.id)
       );
     }
   }, [eventData]);
@@ -18,15 +19,15 @@ export const PendingEvents = () => {
   const acceptEvent =
     (id, accept = true) =>
     async () =>
-      await post({id, accept});
+      await post({eventId: id, accept});
 
   const mapPendingEvents = isLoading ? (
     <p>Loading...</p>
   ) : (
-    data?.map(({date, title, id}) => (
+    data?.map(({date, name, id}) => (
       <div className={styles.box} key={id}>
-        <p>Name: {title}</p>
-        <p>Date/Time: {date}</p>
+        <p>Name: {name}</p>
+        <p>Date/Time: {getDateString(date)}</p>
         <button className={styles.acceptButton} onClick={acceptEvent(id)}>
           Accept
         </button>

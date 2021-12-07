@@ -48,7 +48,8 @@ const getPendingEvents = async (req, res) => {
   try {
     const events = await Event.find(
       {_id: {$in: req.user.pendingEvents}},
-      {_id: 0, id: '$_id', date: 1, name: 1}
+      {_id: 0, id: '$_id', date: 1, name: 1},
+      {sort: '-createdAt'}
     );
 
     res.status(200).json(events);
@@ -61,7 +62,8 @@ const getAllEvents = async (req, res) => {
   try {
     const events = await Event.find(
       {_id: {$in: req.user.acceptedEvents}},
-      {_id: 0, id: '$_id', date: 1, name: 1}
+      {_id: 0, id: '$_id', date: 1, name: 1, chatId: 1},
+      {sort: '-createdAt'}
     );
 
     res.status(200).json(events);
