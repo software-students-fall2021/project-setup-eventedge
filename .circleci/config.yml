@@ -20,7 +20,6 @@ jobs:
       - run: |
           cd back-end
           npm install # install all dependencies listed in package.json
-          echo "JWT_SECRET=test" > .env
           npm test # run all unit tests
   build-react-js:
     docker:
