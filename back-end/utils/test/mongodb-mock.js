@@ -4,7 +4,6 @@ const {MongoMemoryServer} = require('mongodb-memory-server');
 let mongoDb;
 
 const createServerInstance = async (opts = {}) => {
-  console.log(process.env.NODE_ENV);
   mongoDb = await MongoMemoryServer.create({
     binary: {version: 'latest'},
     ...opts,
