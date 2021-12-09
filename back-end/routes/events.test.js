@@ -1,3 +1,52 @@
+// const {expect} = require('chai');
+// const mongoMock = require('../utils/test/mongodb-mock');
+// const Event = require('../models/Event');
+// const User = require('../models/User');
+// const Chat = require('../models/Chat');
+
+
+// describe('Event querys test', () => {
+
+//   before(async () => {
+//     await mongoMock.connectToDatabase();
+//   });
+
+//   afterEach(async () => {
+
+//     await mongoMock.clearDatabase();
+//   });
+
+//   after(async () => await mongoMock.closeDatabase());
+
+//   it('should receive previously sent messages by other user', async () => {
+//    const {chatId} = await Chat.create({
+//       name: 'chat-1',
+//       users: [],
+//       messages: [],
+//     });
+    
+//     const {user1Id} = await User.create({
+//       username: 'user-1',
+//       password: 'user-1-password',
+//       chats: [chatId],
+//       pendingEvents: [],
+//       acceptedEvents: [],
+//     });
+//     await User.create({
+//       username: 'user-2',
+//       password: 'user-2-password',
+//       chats: [],
+//       pendingEvents: [],
+//       acceptedEvents: [],
+//     });
+//     await Chat.updateOne(
+//       {_id: {chatId}},
+//       {$push: {users: user1Id}}
+//     );
+//     expect.equal();
+//   });
+// });
+
 const app = require('../app');
 const request = require('supertest')(app);
 const {expect, should} = require('chai');
@@ -194,6 +243,37 @@ describe('events route', () => {
 
       expect(response.status).to.equal(401);
       expect(response.body).to.deep.equal({error: 'Unauthorized'});
+    });
+  });
+  describe('POST /events/create', () => {
+    it('should create an event and update users events', async() =>{
+      const {chatId} = await Chat.create({
+        name: 'chat-1',
+        users: [authUserId],
+        messages: [],
+      });
+      const {user2Id} = await User.create({
+        username: 'user-2',
+        password: 'user-2-password',
+        chats: [],
+        pendingEvents: [],
+        acceptedEvents: [],
+      });
+      await User.updateOne({
+        _id: {authUserId}},
+        {$push: {chats: chatId},
+      });
+      const response = await request
+        .post('/events/create')
+        .send({"randomEventName", "1995-12-17", "03:24:00", "randomLocation", "random Description of the a random event", chatId})
+        .set(authHeader);
+      
+      const authUser = await User.findById(authUserId);
+      const user2 = await User.findById(user2Id);
+
+      expect(response.status).to.equal(200);
+      expect(authUser.pendingEvents).to.deep.equal([response.body.eventId]);
+      expect(user2.pendingEvents).to.deep.equal([]);
     });
   });
 });
