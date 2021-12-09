@@ -8,6 +8,8 @@ const createServerInstance = async (opts = {}) => {
     binary: {version: 'latest'},
     ...opts,
   });
+  // maybe need to clear db?
+  await clearDatabase();
 };
 
 const getUri = () => {
