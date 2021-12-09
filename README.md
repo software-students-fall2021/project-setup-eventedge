@@ -1,5 +1,7 @@
 # Project Repository
 
+The project can be accessed live by the following address: http://192.34.61.148/
+
 ## Product Vision Statement:
 
 ### MVP
