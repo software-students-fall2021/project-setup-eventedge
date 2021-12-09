@@ -19,6 +19,7 @@ const getUri = () => {
 };
 
 const stopServer = async () => {
+  await mongoose.connection.close();
   await mongoDb.stop();
 };
 
