@@ -10,6 +10,9 @@ const createServerInstance = async (opts = {}) => {
   });
   // maybe need to clear db?
   await clearDatabase();
+  // for some reaosn process env uri is not set in CI
+  process.env.URI = mongoDb.getUri();
+  console.log(process.env.URI, 'did it st?');
 };
 
 const getUri = () => {
