@@ -87,7 +87,7 @@ const createEvent = async (req, res) => {
     {$push: {pendingEvents: event.id}}
   );
 
-  return res.status(200).json({...req.body});
+  return res.status(200).json({...req.body, eventId: event.id});
 };
 
 module.exports = {
