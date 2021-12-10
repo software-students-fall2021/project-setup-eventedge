@@ -1,5 +1,4 @@
-const app = require('../app');
-const request = require('supertest')(app);
+const superTestRequest = require('supertest');
 const {expect} = require('chai');
 const User = require('../models/User');
 const Chat = require('../models/Chat');
@@ -11,6 +10,13 @@ const authPassword = 'test2';
 describe('Chats routes', () => {
   let authHeader;
   let authUserId;
+  let request;
+
+  before(() => {
+    request = superTestRequest(
+      require('../app')({connectionUri: process.env.URI})
+    );
+  });
 
   beforeEach(async () => {
     const {id} = await User.create({
