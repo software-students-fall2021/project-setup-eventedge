@@ -10,7 +10,7 @@ import {useAuthContext} from '../../lib/context/auth';
 export const Chat = () => {
   const {loggedInUsername} = useAuthContext();
   const socket = socketIOClient(API_BASE_URL, {
-    transport: ['websocket', 'polling', 'flashsocket'],
+    transport: ['websocket', 'polling'],
   });
 
   const {chatId} = useParams();
