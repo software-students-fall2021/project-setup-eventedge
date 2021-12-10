@@ -6,6 +6,7 @@ const createSocket = (server) => {
     cors: {
       origin: '*',
       methods: ['GET', 'POST'],
+      transports: ['websocket', 'polling'],
     },
   });
 
