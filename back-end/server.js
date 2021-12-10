@@ -1,4 +1,6 @@
-const app = require('./app');
+require('dotenv').config();
+
+const app = require('./app')({connectionUri: process.env.URI});
 
 const port = 8000;
 

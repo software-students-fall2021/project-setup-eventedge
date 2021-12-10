@@ -4,7 +4,7 @@
   "description": "back-end for EventEdge",
   "main": "server.js",
   "scripts": {
-    "test": "mocha **/*.test.js",
+    "test": "mocha **/*.test.js --timeout 60000",
     "test-single": "mocha -R list -w",
     "coverage": "nyc npm test",
     "start": "node ./server.js",

@@ -4,7 +4,12 @@ const {MongoMemoryServer} = require('mongodb-memory-server');
 let mongoDb;
 
 const createServerInstance = async (opts = {}) => {
-  mongoDb = await MongoMemoryServer.create(opts);
+  mongoDb = await MongoMemoryServer.create({
+    binary: {version: 'latest'},
+    ...opts,
+  });
+
+  process.env.URI = mongoDb.getUri();
 };
 
 const getUri = () => {
@@ -16,6 +21,7 @@ const getUri = () => {
 };
 
 const stopServer = async () => {
+  await mongoose.connection.close();
   await mongoDb.stop();
 };
 

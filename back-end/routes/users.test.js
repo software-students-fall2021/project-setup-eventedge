@@ -1,10 +1,16 @@
 const {expect} = require('chai');
 const User = require('../models/User');
-const app = require('../app');
-const request = require('supertest')(app);
+const superTestRequest = require('supertest');
 
 describe('Users routes', () => {
   let authHeader;
+  let request;
+
+  before(() => {
+    request = superTestRequest(
+      require('../app')({connectionUri: process.env.URI})
+    );
+  });
 
   beforeEach(async () => {
     const res = await request

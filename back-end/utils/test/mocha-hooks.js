@@ -4,6 +4,7 @@ exports.mochaHooks = {
   async beforeAll() {
     await mongoMemoryServer.createServerInstance();
 
+    // setting test env variables before test starts
     process.env.JWT_SECRET = 'secret';
     process.env.URI = mongoMemoryServer.getUri();
   },
