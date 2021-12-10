@@ -8,11 +8,13 @@ const createServerInstance = async (opts = {}) => {
     binary: {version: 'latest'},
     ...opts,
   });
+
   process.env.URI = mongoDb.getUri();
+
   console.log(process.env.URI, 'did it st?');
   console.log(mongoDb.getUri(), 'mongo get uri');
   // maybe need to clear db?
-  await clearDatabase();
+  // await clearDatabase();
 };
 
 const getUri = () => {
