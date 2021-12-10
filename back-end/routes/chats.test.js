@@ -13,8 +13,6 @@ describe('Chats routes', () => {
   let authUserId;
 
   beforeEach(async () => {
-    const users = await User.find({});
-    console.log(users, 'users');
     const {id} = await User.create({
       username: authUsername,
       password: authPassword,

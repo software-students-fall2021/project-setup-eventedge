@@ -5,7 +5,7 @@ let mongoDb;
 
 const createServerInstance = async (opts = {}) => {
   mongoDb = await MongoMemoryServer.create({
-    binary: {version: 'latest'},
+    binary: {version: '7.4.3'},
     ...opts,
   });
 
