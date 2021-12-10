@@ -16,16 +16,19 @@ import {NotFound} from '../not-found';
 import styles from './app.module.css';
 import {ModalContextProvider} from '../../lib/context/modal';
 import {AuthContextProvider} from '../../lib/context/auth';
+import {ToastContextProvider} from '../../lib/context/toast';
 import {ModalRegistry} from '../modal-registry';
-import {ModalsTest} from '../modals-test';
+import {ToastRegistry} from '../toast-registry';
 import {Events} from '../events';
 import {PrivateComponent} from './private-component';
 import {PublicOnlyComponent} from './public-only-component';
 
 export const App = () => (
   <AuthContextProvider>
+  <ToastContextProvider>
     <ModalContextProvider>
       <Router>
+        <ToastRegistry />
         <ModalRegistry />
         <Navigation />
         <div className={styles.mainContainer}>
@@ -50,9 +53,6 @@ export const App = () => (
                 <Login />
               </PublicOnlyComponent>
             </Route>
-            <Route path="/modals-test" exact>
-              <ModalsTest />
-            </Route>
             <Route path="/chat/:chatId" exact>
               <PrivateComponent>
                 <Chat />
@@ -72,5 +72,6 @@ export const App = () => (
         <Footer />
       </Router>
     </ModalContextProvider>
+    </ToastContextProvider>
   </AuthContextProvider>
 );
