@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import {useToastContext} from '../context/toast';
 
 const usePromiseStates = (initialLoading, initialError, initialData) => {
   const [isLoading, setIsLoading] = useState(initialLoading);
@@ -9,6 +10,7 @@ const usePromiseStates = (initialLoading, initialError, initialData) => {
 };
 
 export const usePostService = (promise) => {
+  const {showErrorToast} = useToastContext();
   const {isLoading, isError, data, setIsLoading, setIsError, setData} =
     usePromiseStates(false, false, null);
 
@@ -20,6 +22,7 @@ export const usePostService = (promise) => {
       setIsLoading(false);
     } catch (e) {
       setIsError(true);
+      showErrorToast('An unexpected error occurred!');
       throw e;
     } finally {
       setIsLoading(false);

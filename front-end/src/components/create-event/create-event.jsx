@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {Button} from '../button';
 import {useEventService} from '../../lib/services/event-service';
+import {useToastContext} from '../../lib/context/toast';
 
 export const CreateEvent = ({dismissModal, chatId}) => {
+  const {showSuccessToast} = useToastContext();
   const {isLoading, isError, post} = useEventService.useCreateEvent();
 
   const [name, setName] = useState('');
@@ -17,6 +19,7 @@ export const CreateEvent = ({dismissModal, chatId}) => {
     }
 
     await post({name, time, date, location, description, chatId}).then(() => {
+      showSuccessToast('Successfully created an event!');
       dismissModal();
     });
   };

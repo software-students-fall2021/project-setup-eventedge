@@ -2,8 +2,10 @@ import React, {useEffect} from 'react';
 import styles from './pending-events.module.css';
 import {useEventService} from '../../lib/services/event-service';
 import {getDateString} from '../../lib/utils/get-date-string';
+import {useToastContext} from '../../lib/context/toast';
 
 export const PendingEvents = () => {
+  const {showSuccessToast} = useToastContext();
   const {data: eventData, post} = useEventService.useAcceptEvent();
   const {isLoading, isError, data, setData} =
     useEventService.useMyPendingEvents();
@@ -18,8 +20,10 @@ export const PendingEvents = () => {
 
   const acceptEvent =
     (id, accept = true) =>
-    async () =>
+    async () => {
       await post({eventId: id, accept});
+      showSuccessToast('Accepted a pending event!');
+    };
 
   const mapPendingEvents = isLoading ? (
     <p>Loading...</p>

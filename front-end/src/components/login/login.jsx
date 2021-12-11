@@ -2,9 +2,11 @@ import React, {useState} from 'react';
 import styles from './login.module.css';
 import {Link} from 'react-router-dom';
 import {useAuthContext} from '../../lib/context/auth';
+import {useToastContext} from '../../lib/context/toast';
 
 export const Login = () => {
   const {login} = useAuthContext();
+  const {showErrorToast} = useToastContext();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -25,6 +27,7 @@ export const Login = () => {
       await login({username, password});
     } catch (e) {
       setIsError(true);
+      showErrorToast('An error occurred while trying to login!');
     } finally {
       setIsLoading(false);
     }

@@ -1,9 +1,13 @@
 import React, {createContext, useState, useContext, useEffect} from 'react';
 import {authService} from '../services/auth-service';
+import {useModalContext} from './modal';
+import {useToastContext} from './toast';
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
+  const {dismissAllModals} = useModalContext();
+  const {dismissAllToasts} = useToastContext();
   const [loggedInUser, setLoggedInUser] = useState(null);
   const isUserLoggedIn = !!loggedInUser;
   const loggedInUsername = loggedInUser?.username;
@@ -17,6 +21,8 @@ export const AuthContextProvider = ({children}) => {
   }, []);
 
   const logout = () => {
+    dismissAllModals();
+    dismissAllToasts();
     authService().logout();
     setLoggedInUser(null);
   };
