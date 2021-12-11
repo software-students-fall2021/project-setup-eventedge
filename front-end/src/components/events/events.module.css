@@ -1,25 +1,29 @@
 .pendingButton {
   width: 100%;
-  padding: 15px 32px;
-}
-
-.container {
-  text-align: center;
+  margin-top: 10px;
+  border-radius: 3px;
+  font-size: 14px;
 }
 
 .box {
-  border: black 1px solid;
+  background-color: #ecf0f1;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.box > p {
+  margin: 0px 0px 10px 0px;
 }
 
 .goToChatButton {
   cursor: pointer;
-  padding: 10px;
+  padding: 8px;
   border-radius: 3px;
-  background-color: #34495e;
+  background-color: #2980b9;
   outline: none;
   border: none;
   color: white;
   font-size: 14px;
   text-align: center;
-  margin: 10px;
 }
