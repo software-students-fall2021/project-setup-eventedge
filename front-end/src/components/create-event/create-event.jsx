@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button} from '../button';
 import {useEventService} from '../../lib/services/event-service';
 import {useToastContext} from '../../lib/context/toast';
+import styles from './create-event.module.css';
 
 export const CreateEvent = ({dismissModal, chatId}) => {
   const {showSuccessToast} = useToastContext();
@@ -27,40 +28,41 @@ export const CreateEvent = ({dismissModal, chatId}) => {
   return (
     <>
       <form>
-        <h1>Event Name:</h1>
+        <span className={styles.inputTitle}>Event Name:</span>
         <input
+          className={styles.regularInput}
           placeholder="Event name"
           name="eventName"
           onChange={(e) => setName(e.target.value)}
         />
-        <hr></hr>
-        <h1>Event Time:</h1>
+        <span className={styles.inputTitle}>Event Time:</span>
         <input
+          className={styles.regularInput}
           name="mdy"
           type="date"
           onChange={(e) => setDate(e.target.value)}
         />
         <input
+          className={styles.regularInput}
           name="eventTime"
           type="time"
           onChange={(e) => setTime(e.target.value)}
         />
-        <hr></hr>
-        <h1>Location:</h1>
+        <span className={styles.inputTitle}>Location:</span>
         <input
+          className={styles.regularInput}
           name="locationSearch"
           type="search"
           placeholder="Search for location"
           onChange={(e) => setLocation(e.target.value)}
         ></input>
-        <hr></hr>
-        <h1>Description</h1>
+        <span className={styles.inputTitle}>Description</span>
         <textarea
+          className={styles.descriptionTextArea}
           name="eventDescription"
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
       </form>
-      <hr></hr>
       {isError && <p>An error occured</p>}
       {isLoading ? (
         <p>Loading...</p>
