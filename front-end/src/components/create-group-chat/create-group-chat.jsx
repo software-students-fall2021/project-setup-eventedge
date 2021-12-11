@@ -6,9 +6,11 @@ import {useChatService} from '../../lib/services/chat-service';
 import {Button} from '../button';
 import {useHistory} from 'react-router-dom';
 import styles from './create-group-chat.module.css';
+import {useToastContext} from '../../lib/context/toast';
 
 export const CreateGroupChat = ({dismissModal}) => {
   const history = useHistory();
+  const {showSuccessToast} = useToastContext();
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [searchFilterWord, setSearchFilterWord] = useState('');
   const [chatName, setChatName] = useState('');
@@ -80,6 +82,7 @@ export const CreateGroupChat = ({dismissModal}) => {
       chatName,
       usersList: selectedUsers.map((user) => user.id),
     });
+    showSuccessToast('Successfully created a chat!');
   };
 
   return (

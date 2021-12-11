@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './toast.module.css';
+import closeIcon from '../../../assets/close.svg';
 
 const TOAST_CLASSNAMES = {
   error: styles.error,
@@ -10,7 +11,7 @@ const getToastClassName = (type) => `${styles.toast} ${TOAST_CLASSNAMES[type]}`;
 
 export const Toast = ({type, message, onClose}) => (
   <div className={getToastClassName(type)}>
-    {message}
-    <button onClick={onClose}>Close</button>
+    <span>{message}</span>
+    <img src={closeIcon} alt="" onClick={onClose} />
   </div>
 );

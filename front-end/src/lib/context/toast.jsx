@@ -12,6 +12,10 @@ export const ToastContextProvider = ({children}) => {
       {id: uuidv4(), type, message},
     ]);
 
+  const showSuccessToast = (message) => showToast('success', message);
+
+  const showErrorToast = (message) => showToast('error', message);
+
   const hideToast = (toastId) =>
     setVisibleToasts((prevVisibleToasts) =>
       prevVisibleToasts.filter(({id}) => id !== toastId)
@@ -21,7 +25,13 @@ export const ToastContextProvider = ({children}) => {
 
   return (
     <ToastContext.Provider
-      value={{showToast, hideToast, dismissAllToasts, visibleToasts}}
+      value={{
+        hideToast,
+        dismissAllToasts,
+        visibleToasts,
+        showSuccessToast,
+        showErrorToast,
+      }}
     >
       {children}
     </ToastContext.Provider>

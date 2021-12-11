@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styles from './landing-page.module.css';
 import {Link} from 'react-router-dom';
-import landingGif from './assets/calendar.gif';
+import landingGif from '../../assets/calendar.gif';
 import {request} from '../../lib/services/request-service';
 
 export const LandingPage = () => {

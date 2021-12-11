@@ -1,0 +1,41 @@
+.toast {
+  border-radius: 3px;
+  background-color: grey;
+  padding: 7px;
+  margin: 10px 10px 0px 10px;
+  font-size: 12px;
+  font-weight: bolder;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeInFromNone 0.2s ease-out;
+}
+
+.success {
+  background-color: #dcf8e7;
+  color: #039e59;
+  box-shadow: 0 0 0 1px #039e59;
+}
+
+.error {
+  background-color: #ffe4e4;
+  color: #e05c58;
+  box-shadow: 0 0 0 1px #e05c58;
+}
+
+@keyframes fadeInFromNone {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  1% {
+    display: flex;
+    opacity: 0;
+  }
+
+  100% {
+    display: flex;
+    opacity: 1;
+  }
+}

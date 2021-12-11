@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import styles from './register.module.css';
 import {useAuthContext} from '../../lib/context/auth';
+import {useToastContext} from '../../lib/context/toast';
 
 export const Register = () => {
+  const {showErrorToast} = useToastContext();
   const {register} = useAuthContext();
   const [isLoading, setLoading] = useState(false);
   const [isError, setError] = useState(false);
@@ -32,6 +34,7 @@ export const Register = () => {
       await register({username, password});
     } catch (e) {
       setError(true);
+      showErrorToast('An error occurred while trying to register!');
     } finally {
       setLoading(false);
     }
