@@ -4,36 +4,49 @@ import styles from './events.module.css';
 import {useModalContext} from '../../lib/context/modal';
 import {Link} from 'react-router-dom';
 import {getDateString} from '../../lib/utils/get-date-string';
+import {Button} from '../button';
+import {Loader} from '../loader';
 
 export const Events = () => {
   const {showModal} = useModalContext();
-  const {isLoading, isError, data} = useEventService.useMyEvents();
+  const {isLoading, isError, data, setData} = useEventService.useMyEvents();
 
-  const showPendingEventsModal = () => showModal('pendingEvents');
+  const showPendingEventsModal = () =>
+    showModal('pendingEvents', {setEventsData: setData});
 
   const mapEvents = isLoading ? (
-    <p>Loading...</p>
+    <Loader />
   ) : (
     data?.map(({date, name, id, chatId}) => (
       <div className={styles.box} key={id}>
-        <p>Name: {name}</p>
-        <p>Date/Time: {getDateString(date)}</p>
+        <p>
+          <strong>Name:</strong> {name}
+        </p>
+        <p>
+          <strong>Date/Time:</strong> {getDateString(date)}
+        </p>
         <Link to={`/chat/${chatId}`}>
-          <button className={styles.goToChatButton}>Go to chat</button>
+          <button
+            className={styles.goToChatButton}
+          >{`Go to event's chat`}</button>
         </Link>
       </div>
     ))
   );
 
+  const areThereNoEvents = data?.length === 0;
+
   return (
     <>
-      <button className={styles.pendingButton} onClick={showPendingEventsModal}>
-        Pending Events
-      </button>
+      <Button className={styles.pendingButton} onClick={showPendingEventsModal}>
+        View my pending events
+      </Button>
       {isError ? (
         <p>An error occured</p>
+      ) : areThereNoEvents ? (
+        <p>You currently have no events lined up.</p>
       ) : (
-        <div className={styles.container}>{mapEvents}</div>
+        mapEvents
       )}
     </>
   );

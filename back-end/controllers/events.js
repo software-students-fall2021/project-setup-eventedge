@@ -23,7 +23,7 @@ const acceptPending = async (req, res) => {
     }
   );
 
-  return res.status(200).json(event);
+  return res.status(200).json({...event._doc, accepted: true});
 };
 
 const declinePending = async (req, res) => {
@@ -41,7 +41,7 @@ const declinePending = async (req, res) => {
 
   await User.updateOne({_id: user.id}, {$pull: {pendingEvents: eventId}});
 
-  return res.status(200).json(event);
+  return res.status(200).json({...event._doc, accepted: false});
 };
 
 const getPendingEvents = async (req, res) => {

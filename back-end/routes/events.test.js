@@ -143,6 +143,7 @@ describe('events route', () => {
 
       expect(response.status).to.equal(200);
       expect(response.body).to.deep.equal({
+        accepted: true,
         date: pendingEvent.date.toISOString(),
         id: pendingEvent.id,
         name: pendingEvent.name,
@@ -182,6 +183,7 @@ describe('events route', () => {
 
       expect(response.status).to.equal(200);
       expect(response.body).to.deep.equal({
+        accepted: false,
         date: pendingEvent.date.toISOString(),
         id: pendingEvent.id,
         name: pendingEvent.name,
