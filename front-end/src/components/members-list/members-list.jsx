@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useChatService} from '../../lib/services/chat-service';
 import styles from './members-list.module.css';
+import {Loader} from '../loader';
 
 export const MembersList = ({id}) => {
   const {isLoading, data} = useChatService.useChatMembers(id);
@@ -23,7 +24,7 @@ export const MembersList = ({id}) => {
   return (
     <>
       {isLoading ? (
-        <p>Loading...</p>
+        <Loader />
       ) : (
         <ul className={styles.membersList}>{mapUsers}</ul>
       )}

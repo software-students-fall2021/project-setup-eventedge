@@ -78,11 +78,18 @@ export const Chat = () => {
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatHeader}>
-        <button onClick={showCreateEventModal}>Create Event</button>
+        <button
+          className={`${styles.chatOptionsButton} ${styles.createEventButton}`}
+          onClick={showCreateEventModal}
+        >
+          Create Event
+        </button>
         <Link to="/events">
-          <button>Events</button>
+          <button className={styles.chatOptionsButton}>Events</button>
         </Link>
-        <button onClick={showMembersModal}>Members</button>
+        <button className={styles.chatOptionsButton} onClick={showMembersModal}>
+          Members
+        </button>
       </div>
       <div className={styles.messageList}>
         {isLoadingMessages ? (
@@ -95,7 +102,12 @@ export const Chat = () => {
         )}
       </div>
       <div className={styles.chatHeader}>
-        <button onClick={showSendMessageModal}>Send message</button>
+        <button
+          className={styles.composeMessageButton}
+          onClick={showSendMessageModal}
+        >
+          Compose a message...
+        </button>
       </div>
     </div>
   );
