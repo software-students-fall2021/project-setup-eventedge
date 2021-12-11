@@ -6,6 +6,8 @@ import {Link} from 'react-router-dom';
 import socketIOClient from 'socket.io-client';
 import {API_BASE_URL} from '../../lib/constants';
 import {useAuthContext} from '../../lib/context/auth';
+import {Loader} from '../loader';
+import {ChatMessage} from './chat-message';
 
 export const Chat = () => {
   const {loggedInUsername} = useAuthContext();
@@ -23,6 +25,7 @@ export const Chat = () => {
   const showCreateEventModal = () => showModal('createEvent', {chatId: chatId});
 
   const [messages, setMessages] = useState([]);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(true);
 
   const messagesHandler = (msgObj) => {
     setMessages((prevArr) => {
@@ -36,7 +39,8 @@ export const Chat = () => {
     socket.emit('retrieveMsgs', {chatId});
 
     socket.on('retrieveMsgs', (msgs) => {
-      console.log(msgs);
+      setIsLoadingMessages(false);
+
       if (msgs !== null) {
         setMessages(msgs);
       } else {
@@ -49,18 +53,18 @@ export const Chat = () => {
     });
   }, []);
 
-  const mapChatMessages = messages.map(({username, message, date}, index) => (
-    <p
-      key={index}
-      className={
-        username === loggedInUsername
-          ? `${styles.self} ${styles.text}`
-          : styles.text
-      }
-    >
-      <strong>{username}</strong> : {message} ({date}){' '}
-    </p>
-  ));
+  const mapChatMessages = messages.map(
+    ({username, message, date}, index, data) => (
+      <ChatMessage
+        key={index}
+        username={username}
+        isAuthor={username === loggedInUsername}
+        message={message}
+        date={date}
+        showUsername={username !== data[index + 1]?.username}
+      />
+    )
+  );
 
   return (
     <div className={styles.chatContainer}>
@@ -71,7 +75,9 @@ export const Chat = () => {
         </Link>
         <button onClick={showMembersModal}>Members</button>
       </div>
-      <div className={styles.messageList}>{mapChatMessages}</div>
+      <div className={styles.messageList}>
+        {isLoadingMessages ? <Loader /> : mapChatMessages}
+      </div>
       <div className={styles.chatHeader}>
         <button onClick={showSendMessageModal}>Send message</button>
       </div>
