@@ -3,6 +3,7 @@ import styles from './login.module.css';
 import {Link} from 'react-router-dom';
 import {useAuthContext} from '../../lib/context/auth';
 import {useToastContext} from '../../lib/context/toast';
+import {Button} from '../button';
 
 export const Login = () => {
   const {login} = useAuthContext();
@@ -41,7 +42,7 @@ export const Login = () => {
 
   return (
     <div className={styles.form}>
-      <h1>Login</h1>
+      <p>Login to EventEdge</p>
       <input
         type="text"
         className={styles.input}
@@ -58,15 +59,19 @@ export const Login = () => {
         onKeyPress={onEnterPress}
       />
       {isError && <p>Incorrect username or password</p>}
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <button onClick={onSubmit}>Login</button>
-      )}
-      <h6>Not a member?</h6>
-      <Link to="/register">
-        <button>Register</button>
-      </Link>
+      <div className={styles.loginAndRegisterButtons}>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <Button className={styles.authButton} onClick={onSubmit}>
+            Login
+          </Button>
+        )}
+        <span className={styles.notMember}>Not a member?</span>
+        <Link to="/register">
+          <Button className={styles.authButton}>Register</Button>
+        </Link>
+      </div>
     </div>
   );
 };

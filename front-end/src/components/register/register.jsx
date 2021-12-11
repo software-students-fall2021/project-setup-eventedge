@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styles from './register.module.css';
 import {useAuthContext} from '../../lib/context/auth';
 import {useToastContext} from '../../lib/context/toast';
+import {Button} from '../button';
 
 export const Register = () => {
   const {showErrorToast} = useToastContext();
@@ -42,7 +43,7 @@ export const Register = () => {
 
   return (
     <div>
-      <h1>Register </h1>
+      <p>Registration to EventEdge</p>
       <form>
         <input
           onChange={onUsernameChange}
@@ -69,9 +70,9 @@ export const Register = () => {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <button onClick={onFormSubmit} className={styles.registerButton}>
+          <Button onClick={onFormSubmit} className={styles.registerButton}>
             Register
-          </button>
+          </Button>
         )}
       </form>
     </div>

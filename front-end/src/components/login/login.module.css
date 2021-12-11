@@ -1,9 +1,26 @@
-.form {
+.input {
+  width: 100%;
+  border: none;
+  padding: 10px;
+  background-color: #ecf0f1;
+  outline: none;
+  border-radius: 3px;
+  display: block;
+  margin: 10px auto;
+}
+
+.loginAndRegisterButtons {
   text-align: center;
 }
 
-.input {
-  width: 50%;
+.authButton {
+  background-color: #3498db;
+  border-radius: 3px;
+}
+
+.notMember {
   display: block;
-  margin: 10px auto;
+  margin: 5px 0px 10px 0px;
+  font-weight: bold;
+  color: #2c3e50;
 }

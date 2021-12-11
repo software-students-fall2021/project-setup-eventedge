@@ -1,11 +1,15 @@
 .input {
-  display: block;
   width: 100%;
+  border: none;
   padding: 10px;
-  margin-bottom: 10px;
+  background-color: #ecf0f1;
+  outline: none;
+  border-radius: 3px;
+  display: block;
+  margin: 10px auto;
 }
 
 .registerButton {
   display: block;
-  margin: 10px auto;
+  border-radius: 3px;
 }
