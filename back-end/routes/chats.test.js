@@ -49,7 +49,7 @@ describe('Chats routes', () => {
       });
       const secondChat = await Chat.create({
         name: secondChatTitle,
-        users: [authUserId],
+        users: [authUserId, generateMongoObjectId()],
       });
       await User.updateOne(
         {_id: authUserId},
@@ -60,8 +60,8 @@ describe('Chats routes', () => {
 
       expect(response.status).to.equal(200);
       expect(response.body).to.deep.equal([
-        {name: secondChatTitle, id: secondChat.id},
-        {name: firstChatTitle, id: firstChat.id},
+        {name: secondChatTitle, id: secondChat.id, usersCount: 2},
+        {name: firstChatTitle, id: firstChat.id, usersCount: 1},
       ]);
     });
   });

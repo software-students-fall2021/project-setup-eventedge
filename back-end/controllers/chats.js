@@ -5,7 +5,7 @@ const getUniqueIds = require('../utils/get-unique-ids');
 const getChats = async (req, res) => {
   const chats = await Chat.find(
     {_id: {$in: req.user.chats}},
-    {_id: 0, name: 1, id: '$_id'},
+    {_id: 0, name: 1, id: '$_id', usersCount: {$size: '$users'}},
     {sort: '-createdAt'}
   );
 
