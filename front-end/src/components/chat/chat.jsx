@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import styles from './chat.module.css';
 import {useParams} from 'react-router-dom';
 import {useModalContext} from '../../lib/context/modal';
@@ -14,6 +14,9 @@ export const Chat = () => {
   const socket = socketIOClient(API_BASE_URL, {
     transport: ['websocket', 'polling'],
   });
+
+  const scrollRef = useRef(null);
+  const scrollLastElementIntoView = () => scrollRef.current.scrollIntoView();
 
   const {chatId} = useParams();
   const {showModal} = useModalContext();
@@ -32,6 +35,12 @@ export const Chat = () => {
       return [...prevArr, msgObj];
     });
   };
+
+  useEffect(() => {
+    if (messages.length !== 0) {
+      scrollLastElementIntoView();
+    }
+  }, [messages]);
 
   useEffect(() => {
     socket.emit('joinRoom', {username: loggedInUsername, chatId});
@@ -76,7 +85,14 @@ export const Chat = () => {
         <button onClick={showMembersModal}>Members</button>
       </div>
       <div className={styles.messageList}>
-        {isLoadingMessages ? <Loader /> : mapChatMessages}
+        {isLoadingMessages ? (
+          <Loader />
+        ) : (
+          <>
+            {mapChatMessages}
+            <div ref={scrollRef} />
+          </>
+        )}
       </div>
       <div className={styles.chatHeader}>
         <button onClick={showSendMessageModal}>Send message</button>
