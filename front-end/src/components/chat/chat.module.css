@@ -1,0 +1,79 @@
+.self {
+  text-align: right;
+}
+
+.text {
+  word-wrap: break-word;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.button {
+  display: block;
+  margin: 10px auto;
+}
+
+.chatContainer {
+  width: calc(100% + 20px);
+  margin-bottom: -10px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.chatHeader {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background-color: #ecf0f1;
+  padding: 10px;
+}
+
+.composeMessageButton {
+  cursor: pointer;
+  background-color: white;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  padding: 8px;
+  border-radius: 10px;
+  width: 100%;
+  text-align: left;
+  color: #95a5a6;
+}
+
+.chatOptionsButton {
+  cursor: pointer;
+  background-color: #34495e;
+  color: white;
+  border-radius: 3px;
+  padding: 8px 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  margin-right: 10px;
+  transition: 0.2s;
+}
+
+.createEventButton {
+  background-color: #3498db;
+  font-weight: bold;
+}
+
+.chatOptionsButton:hover {
+  opacity: 0.7;
+  transition: 0.2s;
+}
+
+.messageList {
+  scroll-behavior: smooth;
+  padding: 10px;
+  width: 100%;
+  height: calc(100vh - 200px);
+  overflow-y: scroll;
+}

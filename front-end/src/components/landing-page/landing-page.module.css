@@ -1,0 +1,101 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.title {
+  background-color: blue;
+  animation: motion 4s linear infinite;
+}
+
+@keyframes motion {
+  0% {
+    opacity: 30%;
+  }
+  50% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 30%;
+  }
+}
+
+.video {
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.buttons {
+  width: 35%;
+  display: flex;
+  justify-content: space-between;
+  margin: 5vh auto;
+}
+
+.button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  border-radius: 8px;
+  border-style: none;
+  background-color: black;
+  color: white;
+}
+
+.arrow {
+  height: 50px;
+  position: absolute;
+
+  left: 50%;
+  transform: translate(-50%);
+  animation: arrowMotion 3s linear infinite;
+}
+
+@keyframes arrowMotion {
+  0% {
+    bottom: 20px;
+  }
+  50% {
+    bottom: 0;
+  }
+  100% {
+    bottom: 20px;
+  }
+}
+
+.link {
+  text-decoration: none;
+}
+
+.container {
+  color: white;
+  text-align: center;
+  margin-left: -10px;
+  margin-right: -10px;
+  height: 100vh;
+}
+
+.gif {
+  margin-top: 10vh;
+  border-radius: 30px;
+}
+
+h4 {
+  text-align: left;
+}
+
+.secondSection {
+  margin-top: -50px;
+}

@@ -1,0 +1,75 @@
+.header {
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.createChatButton {
+  cursor: pointer;
+  width: 100%;
+  background-color: #2c3e50;
+  border-radius: 3px;
+  font-weight: bold;
+  color: white;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 10px;
+  transition: 0.2s;
+  margin-bottom: 10px;
+}
+
+.searchCurrentChatsInput {
+  background-color: #ecf0f1;
+  outline: none;
+  border: none;
+  padding: 8px;
+  border-radius: 3px;
+  width: 100%;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.noChatsText {
+  color: #7f8c8d;
+}
+
+.createChatButton:hover {
+  background-color: #295886;
+  transition: 0.2s;
+}
+
+.chatLink {
+  text-decoration: none;
+}
+
+.list {
+  list-style-type: none;
+  width: 100%;
+  padding-inline-start: 0;
+}
+
+.listItem {
+  cursor: pointer;
+  color: #34495e;
+  font-weight: 500;
+  text-decoration: none;
+  border-width: 1px;
+  padding: 12px;
+  border-radius: 3px;
+  background-color: #bdc3c7;
+  transition: 0.2s;
+  margin-bottom: 10px;
+}
+
+.listItem > span {
+  display: block;
+  font-size: 12px;
+}
+
+.listItem:hover {
+  background-color: #95a5a6;
+  transition: 0.2s;
+}

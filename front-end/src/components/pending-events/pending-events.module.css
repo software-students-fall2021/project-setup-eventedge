@@ -1,0 +1,43 @@
+.acceptanceButtons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.acceptanceButton {
+  flex: 1;
+  padding: 8px;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.2s;
+  margin: 0px 5px;
+}
+
+.acceptanceButton:hover {
+  opacity: 0.7;
+  transition: 0.2s;
+}
+
+.accept {
+  background-color: rgb(4, 150, 4);
+}
+
+.decline {
+  background-color: rgb(180, 36, 36);
+}
+
+.box {
+  background-color: white;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.box > p {
+  margin: 0px 0px 10px 0px;
+}

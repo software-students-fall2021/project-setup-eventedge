@@ -1,0 +1,63 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ecf0f1;
+  z-index: 2000;
+  animation: fadeIn 0.2s;
+}
+
+.modalContainer {
+  padding: 10px;
+  overflow: scroll;
+  height: calc(100vh - 50px);
+}
+
+.modalHeader {
+  height: 50px;
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.closeButton {
+  cursor: pointer;
+  background: none;
+  outline: none;
+  font-size: 26px;
+  color: #34495e;
+  margin-bottom: 10px;
+  padding-top: 12px;
+  border: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
